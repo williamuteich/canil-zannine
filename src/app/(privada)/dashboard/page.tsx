@@ -3,7 +3,7 @@
 export default async function DashboardPage() {
   
   return (
-    <div >
+    <div className="flex flex-col min-h-screen">
         teste
     </div>
   );

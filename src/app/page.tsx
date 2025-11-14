@@ -1,10 +1,12 @@
-import { Header } from "./components/header"
+import { Footer } from "./home/footer/footer";
+import { Header } from "./home/header/header"
 
 export default function Home() {
   return (
     <main>
       <Header />
-      <div>Hello world!</div>
+      <div className="mt-32">Conteudo Princial</div>
+      <Footer />
     </main>
   );
 }
