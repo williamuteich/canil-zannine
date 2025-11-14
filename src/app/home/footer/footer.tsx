@@ -1,10 +1,11 @@
 import { Phone, Mail, ArrowRight, Globe2, Camera, Share2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
-    
+
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-pink-300 to-cyan-300 rounded-full blur-3xl" />
         <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full blur-3xl" />
@@ -12,22 +13,19 @@ export function Footer() {
         <div className="absolute bottom-1/3 left-1/4 w-32 h-32 bg-gradient-to-br from-blue-300 to-cyan-200 rounded-full blur-2xl" />
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-4 py-20 relative z-10">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12 mb-16">
-      
+      <div className="max-w-[1400px] mx-auto px-4 py-12 relative z-10">
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-10 md:gap-12 mb-16">
+
           <div className="lg:col-span-2">
-            <div className="flex items-center space-x-4 mb-8">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-300 via-purple-300 to-cyan-300 flex items-center justify-center border-2 border-white/20 shadow-2xl">
-                <span className="text-3xl">🐾</span>
-              </div>
-              <div>
-                <h3 className="text-3xl font-bold text-white">Canil Zannine</h3>
-                <p className="text-sm text-white/70 font-medium mt-1 tracking-wide">
-                  Filhotes com Amor & Qualidade
-                </p>
-              </div>
+            <div className="flex items-center space-x-4 mb-8 justify-center md:justify-start">
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                width={70}
+                height={70}
+              />
             </div>
-            <p className="text-white/80 leading-relaxed mb-8 max-w-lg">
+            <p className="text-white/80 leading-relaxed mb-8 max-w-sm sm:max-w-md lg:max-w-lg">
               Especializados em criar filhotes saudáveis, vacinados e socializados em ambiente familiar. Cada filhote recebe amor e cuidados individuais desde o nascimento.
             </p>
             <div className="flex items-center space-x-3">
@@ -118,12 +116,12 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/60 text-sm"> 2024 Canil Zannine. Todos os direitos reservados.</p>
-            <p className="text-white/60 text-sm"> Feito com <span className="text-red-500">❤️</span> para conectar famílias e filhotes</p>
-            <p className="text-white/60 text-sm">© 2024 Canil Zannine. Todos os direitos reservados.</p>
-            <p className="text-white/60 text-sm flex items-center gap-2">
-              Feito com <span className="text-red-500">❤️</span> para conectar famílias e filhotes
+          <div className="flex flex-col w-full gap-4 text-center md:flex-row md:items-center md:justify-between md:text-left">
+            <p className="text-white/60 text-sm">&copy; 2024 Canil Zannine. Todos os direitos reservados.</p>
+            <p className="text-white/60 text-sm flex items-center justify-center gap-2 md:justify-end">
+              <span>Feito com</span>
+              <span className="text-red-500" aria-hidden>&#10084;</span>
+              <span>para conectar famílias e filhotes</span>
             </p>
           </div>
         </div>

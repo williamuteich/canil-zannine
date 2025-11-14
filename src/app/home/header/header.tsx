@@ -4,8 +4,8 @@ import { HeaderLinks } from "./component/headerLinks";
 
 export function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray/80 backdrop-blur-md border-b border-[hsl(333,95%,89%)]/30 shadow-md">
-      <div className="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-50 backdrop-blur-md border-b border-[hsl(333,95%,89%)]/30 shadow-md">
+      <div className="max-w-[1400px] mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Image
             src="/logo.png"

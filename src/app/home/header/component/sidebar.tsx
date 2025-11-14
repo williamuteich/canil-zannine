@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Menu, Home, Heart, MessageCircle, Info, PawPrint, ChevronRight } from "lucide-react";
+import { Menu, Home, Heart, MessageCircle, Info, ChevronRight } from "lucide-react";
 import {
   Sheet,
   SheetClose,
@@ -10,6 +10,12 @@ import {
 import Image from "next/image";
 
 export function MobileSidebar() {
+  const navigationLinks = [
+    { href: "/", label: "Página Inicial", icon: Home },
+    { href: "/filhotes", label: "Nossos Filhotes", icon: Heart },
+    { href: "/sobre", label: "Sobre Nós", icon: Info },
+  ];
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -19,17 +25,18 @@ export function MobileSidebar() {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-[320px] sm:w-[360px] bg-white border-l border-gray-200 p-0 flex flex-col h-full"
+        className="w-[300px] sm:w-[340px] bg-white border-l border-gray-200 p-0 flex flex-col h-full max-h-screen overflow-y-auto overscroll-contain"
       >
-        <div className="px-6 py-5 bg-white border-b border-gray-200 shadow-sm">
+        <div className="px-6 py-5 bg-white border-b border-gray-200">
           <SheetTitle className="sr-only">Menu de navegação do Canil Zannine</SheetTitle>
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-100 to-pink-200 flex items-center justify-center shadow-md border border-pink-200">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-pink-100 to-pink-200 flex items-center justify-center shadow-md border border-pink-200">
               <Image 
                 src="/logo.png"
                 alt="Logo"
-                width={100}
-                height={100}
+                width={48}
+                height={48}
+                className="rounded-full"
               />
             </div>
             <div className="flex-1">
@@ -40,101 +47,50 @@ export function MobileSidebar() {
                 Filhotes com Amor & Qualidade
               </p>
             </div>
-            <div className="w-1 h-8 bg-gradient-to-b from-pink-300 to-pink-400 rounded-full"></div>
           </div>
         </div>
 
         <nav className="flex-1 py-1 px-4 flex flex-col">
-          <ul className="flex-1 flex flex-col gap-2">
-            <li className="w-full">
-              <SheetClose asChild>
-                <Link
-                  href="/"
-                  className="group w-full flex items-center justify-between px-4 py-4 rounded-xl text-gray-800 bg-white border border-gray-100 hover:border-pink-200 hover:bg-gradient-to-r hover:from-pink-50 hover:to-pink-25 transition-all duration-300 font-medium shadow-sm hover:shadow-lg hover:scale-[1.02]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-pink-100 flex items-center justify-center group-hover:bg-white transition-colors duration-300">
-                      <Home className="w-5 h-5 text-pink-600 group-hover:text-pink-500 transition-colors duration-300" />
-                    </div>
-                    <span className="font-semibold text-gray-800 group-hover:text-pink-700 transition-colors duration-300">
-                      Página Inicial
-                    </span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-pink-500 group-hover:translate-x-1 transition-all duration-300" />
-                </Link>
-              </SheetClose>
-            </li>
-
-            <li className="w-full">
-              <SheetClose asChild>
-                <Link
-                  href="/filhotes"
-                  className="group w-full flex items-center justify-between px-4 py-4 rounded-xl text-gray-800 bg-white border border-gray-100 hover:border-pink-200 hover:bg-gradient-to-r hover:from-pink-50 hover:to-pink-25 transition-all duration-300 font-medium shadow-sm hover:shadow-lg hover:scale-[1.02]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-pink-100 flex items-center justify-center group-hover:bg-white transition-colors duration-300">
-                      <Heart className="w-5 h-5 text-pink-600 group-hover:text-pink-500 transition-colors duration-300" fill="currentColor" />
-                    </div>
-                    <span className="font-semibold text-gray-800 group-hover:text-pink-700 transition-colors duration-300">
-                      Nossos Filhotes
-                    </span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-pink-500 group-hover:translate-x-1 transition-all duration-300" />
-                </Link>
-              </SheetClose>
-            </li>
-
-            <li className="w-full">
-              <SheetClose asChild>
-                <Link
-                  href="/contato"
-                  className="group w-full flex items-center justify-between px-4 py-4 rounded-xl text-gray-800 bg-white border border-gray-100 hover:border-pink-200 hover:bg-gradient-to-r hover:from-pink-50 hover:to-pink-25 transition-all duration-300 font-medium shadow-sm hover:shadow-lg hover:scale-[1.02]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-pink-100 flex items-center justify-center group-hover:bg-white transition-colors duration-300">
-                      <MessageCircle className="w-5 h-5 text-pink-600 group-hover:text-pink-500 transition-colors duration-300" />
-                    </div>
-                    <span className="font-semibold text-gray-800 group-hover:text-pink-700 transition-colors duration-300">
-                      Contato
-                    </span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-pink-500 group-hover:translate-x-1 transition-all duration-300" />
-                </Link>
-              </SheetClose>
-            </li>
-
-            <li className="w-full">
-              <SheetClose asChild>
-                <Link
-                  href="/sobre"
-                  className="group w-full flex items-center justify-between px-4 py-4 rounded-xl text-gray-800 bg-white border border-gray-100 hover:border-pink-200 hover:bg-gradient-to-r hover:from-pink-50 hover:to-pink-25 transition-all duration-300 font-medium shadow-sm hover:shadow-lg hover:scale-[1.02]"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-pink-100 flex items-center justify-center group-hover:bg-white transition-colors duration-300">
-                      <Info className="w-5 h-5 text-pink-600 group-hover:text-pink-500 transition-colors duration-300" />
-                    </div>
-                    <span className="font-semibold text-gray-800 group-hover:text-pink-700 transition-colors duration-300">
-                      Sobre Nós
-                    </span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-pink-500 group-hover:translate-x-1 transition-all duration-300" />
-                </Link>
-              </SheetClose>
-            </li>
+          <ul className="flex-1 flex flex-col gap-3">
+            {navigationLinks.map((item) => {
+              const Icon = item.icon;
+              return (
+                <li key={item.href} className="w-full">
+                  <SheetClose asChild>
+                    <Link
+                      href={item.href}
+                      className="group w-full flex items-center gap-3 rounded-md px-2 py-1.5 transition-all duration-200 hover:bg-pink-50 hover:shadow-sm border border-transparent hover:border-pink-100"
+                    >
+                      <div className="h-10 w-10 rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center transition-all duration-200 group-hover:bg-white group-hover:scale-105">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="font-semibold text-gray-800 text-sm block truncate">
+                          {item.label}
+                        </span>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-gray-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-pink-500 flex-shrink-0" />
+                    </Link>
+                  </SheetClose>
+                </li>
+              );
+            })}
           </ul>
 
-          <div className="mt-8 p-4 bg-gradient-to-r from-pink-50 to-pink-25 rounded-xl border border-pink-100">
-            <h3 className="text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-              <MessageCircle className="w-4 h-4 text-pink-500" />
-              Fale Conosco
-            </h3>
-            <p className="text-xs text-gray-600 mb-3">
-              Pronto para conhecer seu novo companheiro?
-            </p>
+          <div className="mt-8 p-4 bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl border border-pink-100">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="h-8 w-8 rounded-full bg-pink-100 flex items-center justify-center">
+                <MessageCircle className="h-4 w-4 text-pink-600" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-800">Fale Conosco</h3>
+                <p className="text-xs text-gray-600">Pronto para conhecer seu novo companheiro?</p>
+              </div>
+            </div>
             <SheetClose asChild>
               <Link
                 href="/contato"
-                className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-95 text-sm"
+                className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-md text-sm shadow-sm"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Entrar em Contato
@@ -143,38 +99,30 @@ export function MobileSidebar() {
           </div>
         </nav>
 
-        <div className="w-full px-6 py-5 bg-gray-50 border-t border-gray-300 mt-auto">
-          <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center flex-shrink-0 border border-pink-200">
-              <Heart className="w-5 h-5 text-pink-600" fill="currentColor" />
+        <div className="px-5 py-4 bg-gradient-to-b from-gray-50 to-white border-t border-gray-200">
+          <div className="text-center mb-3">
+            <div className="flex justify-center gap-6 mb-3">
+              <div className="text-center">
+                <div className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider">FILHOTES</div>
+                <div className="text-xs font-bold text-pink-600 mt-1">Saudáveis</div>
+              </div>
+              <div className="text-center">
+                <div className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider">VACINAS</div>
+                <div className="text-xs font-bold text-pink-600 mt-1">Em Dia</div>
+              </div>
+              <div className="text-center">
+                <div className="text-[10px] font-semibold text-gray-600 uppercase tracking-wider">AMOR</div>
+                <div className="text-xs font-bold text-pink-600 mt-1">Garantido</div>
+              </div>
             </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-800 mb-2">
-                Amor e Dedicação
-              </h3>
-              <p className="text-xs text-gray-700 leading-relaxed">
-                Criamos nossos filhotes com carinho e responsabilidade. 
-                Fale conosco para conhecer nossos bebês disponíveis!
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
-            <div className="flex-1 text-center">
-              <div className="text-[10px] font-semibold text-gray-600 uppercase tracking-wide">FILHOTES</div>
-              <div className="text-xs font-bold text-pink-600 mt-1">Saudáveis</div>
-            </div>
-            <div className="flex-1 text-center">
-              <div className="text-[10px] font-semibold text-gray-600 uppercase tracking-wide">VACINAS</div>
-              <div className="text-xs font-bold text-pink-600 mt-1">Em Dia</div>
-            </div>
-            <div className="flex-1 text-center">
-              <div className="text-[10px] font-semibold text-gray-600 uppercase tracking-wide">AMOR</div>
-              <div className="text-xs font-bold text-pink-600 mt-1">Garantido</div>
+            
+            <div className="flex items-center justify-center gap-2 text-xs text-gray-600">
+              <Heart className="w-3 h-3 text-pink-500" fill="currentColor" />
+              <span>Criados com carinho e responsabilidade</span>
             </div>
           </div>
         </div>
       </SheetContent>
     </Sheet>
   );
-}
+}    
