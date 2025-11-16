@@ -25,7 +25,7 @@ export function Banner() {
   };
 
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#FFF7F0] via-[#F9D7EB] to-[#B6F1FF]">
+    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-linear-to-br from-[#FFF7F0] via-[#F9D7EB] to-[#B6F1FF]">
       <div className="absolute inset-0 z-0">
         <Image
           src="/imageBanner.jpg"
@@ -34,7 +34,7 @@ export function Banner() {
           priority
           className="object-cover opacity-45"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FFF7F0]/80 via-[#F9D7EB]/85 to-[#B6F1FF]/80" />
+        <div className="absolute inset-0 bg-linear-to-br from-[#FFF7F0]/80 via-[#F9D7EB]/85 to-[#B6F1FF]/80" />
       </div>
 
       <div className="relative z-10 w-full px-4 pt-28 pb-24 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-[calc(12rem+6vh)] xl:pt-40 xl:pb-[calc(14rem+8vh)] 2xl:pt-44 2xl:pb-[calc(16rem+2vh)]">
@@ -56,7 +56,7 @@ export function Banner() {
               variants={fadeUp}
               className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight text-gray-900"
             >
-              Encontre seu <span className="bg-gradient-to-r from-pink-500 via-pink-400 to-sky-400 bg-clip-text text-transparent">melhor amigo</span>
+              Encontre seu <span className="bg-linear-to-r from-pink-500 via-pink-400 to-sky-400 bg-clip-text text-transparent">melhor amigo</span>
             </motion.h1>
             <motion.p
               variants={fadeUp}

@@ -15,7 +15,7 @@ export function Header() {
           />
 
           <div className="flex flex-col">
-            <span className="text-2xl font-bold text-transparent bg-gradient-to-r from-pink-300 via-pink-300 to-sky-300 bg-clip-text drop-shadow-sm">
+            <span className="text-2xl font-bold text-transparent bg-linear-to-r from-pink-300 via-pink-300 to-sky-300 bg-clip-text drop-shadow-sm">
               Canil Zannine
             </span>
             <p className="text-sm text-gray-600 font-medium tracking-wide">Filhotes Com Amor</p>

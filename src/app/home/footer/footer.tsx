@@ -4,13 +4,14 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+    <footer className="bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
 
       <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-pink-300 to-cyan-300 rounded-full blur-3xl" />
-        <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-cyan-300 to-pink-300 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 left-1/4 w-32 h-32 bg-gradient-to-br from-blue-300 to-cyan-200 rounded-full blur-2xl" />
+        <div className="absolute top-0 left-0 w-72 h-72 bg-linear-to-br from-pink-300 to-cyan-300 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-linear-to-br from-purple-300 to-pink-300 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-linear-to-br from-cyan-300 to-pink-300 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 left-1/4 w-32 h-32 bg-linear-to-br from-blue-300 to-cyan-200 rounded-full blur-2xl" />
+
       </div>
 
       <div className="max-w-[1400px] mx-auto px-4 py-12 relative z-10">
