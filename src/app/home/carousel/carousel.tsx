@@ -264,7 +264,7 @@ export function PuppiesCarousel() {
             transition={{ duration: 0.5, delay: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-gray-500 text-xs sm:text-sm">
+            <p className="text-gray-500 text-xs sm:text-sm xl:hidden">
               Deslize para ver mais filhotes disponíveis
             </p>
           </motion.div>

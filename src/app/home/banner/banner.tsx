@@ -37,7 +37,7 @@ export function Banner() {
         <div className="absolute inset-0 bg-linear-to-br from-[#FFF7F0]/80 via-[#F9D7EB]/85 to-[#B6F1FF]/80" />
       </div>
 
-      <div className="relative z-10 w-full px-4 pt-28 pb-24 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-[calc(12rem+6vh)] xl:pt-40 xl:pb-[calc(14rem+8vh)] 2xl:pt-44 2xl:pb-[calc(16rem+2vh)]">
+      <div className="relative z-10 w-full px-8 pt-28 pb-24 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-[calc(12rem+6vh)] xl:pt-40 xl:pb-[calc(14rem+8vh)] 2xl:pt-44 2xl:pb-[calc(16rem+2vh)]">
         <motion.div
           className="max-w-5xl mx-auto text-center space-y-8"
           variants={containerVariants}

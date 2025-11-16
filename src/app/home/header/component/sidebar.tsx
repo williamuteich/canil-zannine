@@ -30,7 +30,7 @@ export function MobileSidebar() {
         <div className="px-6 py-5 bg-white border-b border-gray-200">
           <SheetTitle className="sr-only">Menu de navegação do Canil Zannine</SheetTitle>
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-pink-100 to-pink-200 flex items-center justify-center shadow-md border border-pink-200">
+            <div className="w-14 h-14 rounded-full bg-linear-to-br from-pink-100 to-pink-200 flex items-center justify-center shadow-md border border-pink-200">
               <Image 
                 src="/logo.png"
                 alt="Logo"
@@ -69,7 +69,7 @@ export function MobileSidebar() {
                           {item.label}
                         </span>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-gray-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-pink-500 flex-shrink-0" />
+                      <ChevronRight className="h-4 w-4 text-gray-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-pink-500 shrink-0" />
                     </Link>
                   </SheetClose>
                 </li>
@@ -77,7 +77,7 @@ export function MobileSidebar() {
             })}
           </ul>
 
-          <div className="mt-8 p-4 bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl border border-pink-100">
+          <div className="mt-8 p-4 bg-linear-to-br from-pink-50 to-rose-50 rounded-xl border border-pink-100">
             <div className="flex items-center gap-3 mb-3">
               <div className="h-8 w-8 rounded-full bg-pink-100 flex items-center justify-center">
                 <MessageCircle className="h-4 w-4 text-pink-600" />
@@ -90,7 +90,7 @@ export function MobileSidebar() {
             <SheetClose asChild>
               <Link
                 href="/contato"
-                className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-md text-sm shadow-sm"
+                className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-linear-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-md text-sm shadow-sm"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Entrar em Contato
@@ -99,7 +99,7 @@ export function MobileSidebar() {
           </div>
         </nav>
 
-        <div className="px-5 py-4 bg-gradient-to-b from-gray-50 to-white border-t border-gray-200">
+        <div className="px-5 py-4 bg-linear-to-b from-gray-50 to-white border-t border-gray-200">
           <div className="text-center mb-3">
             <div className="flex justify-center gap-6 mb-3">
               <div className="text-center">

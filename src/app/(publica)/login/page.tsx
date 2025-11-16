@@ -30,7 +30,7 @@ export default function Login() {
     <main>
       <Header />
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-linear-to-br from-[#FFF7F0] via-[#F9D7EB] to-[#B6F1FF]">
-        <div className="relative z-10 w-full px-4 pt-28 pb-24 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-36">
+        <div className="relative z-10 w-full px-8 pt-28 pb-24 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-36">
           <div className="max-w-[1400px] mx-auto">
             <div className="mx-auto max-w-md sm:max-w-lg">
               <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/60 p-6 sm:p-8">
@@ -58,7 +58,7 @@ export default function Login() {
                   <div className="flex items-center justify-end">
                     <Link href="/recuperar-senha" className="text-sm font-semibold text-pink-600 hover:text-pink-700">Esqueci minha senha</Link>
                   </div>
-                  <button type="submit" disabled={loading} className="inline-flex cursor-pointer w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-pink-500 via-pink-400 to-sky-400 text-white font-semibold px-4 py-3 shadow-lg shadow-pink-400/30 hover:scale-[1.01] transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-pink-400 disabled:opacity-60 disabled:cursor-not-allowed">
+                  <button type="submit" disabled={loading} className="inline-flex cursor-pointer w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-pink-500 via-pink-400/80 to-sky-400/80 text-white font-semibold px-4 py-3 shadow-lg shadow-pink-400/20 hover:scale-[1.01] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-pink-400/50 disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-pink-400/30">
                     <LogIn className="h-5 w-5" aria-hidden />
                     {loading ? "Entrando..." : "Entrar"}
                   </button>
