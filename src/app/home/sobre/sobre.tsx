@@ -1,23 +1,28 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+
 import { Heart, Shield, Award, Home } from "lucide-react";
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.2,
     },
   },
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
@@ -74,7 +79,7 @@ export function HomeSobre() {
           className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.1 }}
           variants={containerVariants}
         >
           <motion.div 

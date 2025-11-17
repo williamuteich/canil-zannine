@@ -8,6 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { motion, type Variants } from "framer-motion";
+import Link from "next/link";
 
 const puppies = [
   {
@@ -92,10 +93,6 @@ const fadeUp: Variants = {
 };
 
 export function PuppiesCarousel() {
-  const handleViewDetails = (puppyName: string) => {
-    // removed console.log
-  };
-
   return (
     <section id="filhotes" className="py-12 md:py-16 bg-linear-to-b from-white via-gray-50/30 to-white">
       <div className="container mx-auto px-3 sm:px-6 lg:px-12 xl:px-10 max-w-[1400px]">
@@ -216,15 +213,10 @@ export function PuppiesCarousel() {
                           </motion.div>
                         </div>
 
-                        <motion.button
-                          onClick={() => handleViewDetails(puppy.name)}
+                        <Link
+                          href={`/filhote/${puppy.id}`}
                           className="w-full bg-linear-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 mt-auto text-sm sm:text-base relative overflow-hidden group"
                           aria-label={`Ver detalhes do filhote ${puppy.name}`}
-                          whileHover={{
-                            scale: 1.02,
-                            y: -2,
-                          }}
-                          whileTap={{ scale: 0.98 }}
                         >
                           <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
@@ -244,8 +236,8 @@ export function PuppiesCarousel() {
                             <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                           </motion.svg>
-                          Ver Detalhes
-                        </motion.button>
+                          Ver Detalhes  
+                        </Link>
                       </div>
                     </div>
                   </motion.div>
