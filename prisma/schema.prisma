@@ -24,8 +24,37 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Product {
+  id Int @id @default(autoincrement())
+
+  name      String
+  breed     String
+  gender    String
+  color     String?
+  ageMonths Int?
+  weight    Float?
+
+  pedigree   Boolean @default(false)
+  vaccinated Boolean @default(false)
+  dewormed   Boolean @default(false)
+
+  primaryImage String
+  images       ProductImage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductImage {
+  id  Int    @id @default(autoincrement())
+  url String
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+}
+
 model InstaEmbed {
-  id       Int    @id @default(autoincrement())
-  title    String
-  link     String
+  id    Int    @id @default(autoincrement())
+  title String
+  link  String
 }

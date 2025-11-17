@@ -11,9 +11,10 @@ import Image from "next/image";
 
 export function MobileSidebar() {
   const navigationLinks = [
-    { href: "/", label: "Página Inicial", icon: Home },
-    { href: "/filhotes", label: "Nossos Filhotes", icon: Heart },
-    { href: "/sobre", label: "Sobre Nós", icon: Info },
+    { href: "/#inicio", label: "Inicio", icon: Home },
+    { href: "/#filhotes", label: "Nossos Filhotes", icon: Heart },
+    { href: "/#contato", label: "Contato", icon: MessageCircle },
+    { href: "/#sobre", label: "Sobre", icon: Info },
   ];
 
   return (
@@ -89,7 +90,7 @@ export function MobileSidebar() {
             </div>
             <SheetClose asChild>
               <Link
-                href="/contato"
+                href="/#contato"
                 className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-linear-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-md text-sm shadow-sm"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />

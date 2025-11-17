@@ -1,0 +1,168 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { MessageCircle, MapPin, Phone, Mail } from "lucide-react";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+  },
+};
+
+const contactInfo = [
+  {
+    icon: MapPin,
+    title: "Localização",
+    content: "São Paulo, SP",
+    description: "Atendemos toda região"
+  },
+  {
+    icon: Phone,
+    title: "Telefone",
+    content: "(11) 99999-9999",
+    description: "Horário comercial"
+  },
+  {
+    icon: Mail,
+    title: "Email",
+    content: "contato@canilzannine.com.br",
+    description: "Respondemos rapidamente"
+  },
+];
+
+export function Contato() {
+  const handleWhatsAppClick = () => {
+    const message = "Olá! Gostaria de mais informações sobre os filhotes.";
+    const phoneNumber = "5511999999999";
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
+
+  return (
+    <section id="contato" className="relative py-16 md:py-24 bg-white overflow-hidden">
+      <div className="absolute top-0 left-0 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-50" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          className="max-w-4xl mx-auto"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={containerVariants}
+        >
+          <motion.div 
+            className="text-center mb-12"
+            variants={fadeUp}
+          >
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-linear-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
+              Entre em Contato
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Estamos prontos para ajudar você a encontrar seu novo melhor amigo!
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="bg-linear-to-br from-white to-gray-50 rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-gray-100 mb-8"
+            variants={scaleIn}
+          >
+            <div className="text-center mb-6">
+              <motion.div 
+                className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
+                <MessageCircle className="h-8 w-8 text-white" />
+              </motion.div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+                Atendimento via WhatsApp
+              </h3>
+              <p className="text-gray-600">
+                Tire suas dúvidas, veja mais fotos dos filhotes e agende sua visita!
+              </p>
+            </div>
+            
+            <motion.button 
+              onClick={handleWhatsAppClick}
+              className="w-full bg-green-500 hover:bg-green-600 text-white text-lg font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group"
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <MessageCircle className="h-6 w-6" />
+              Chamar no WhatsApp Agora
+            </motion.button>
+          </motion.div>
+
+          <motion.div 
+            className="grid md:grid-cols-3 gap-6"
+            variants={containerVariants}
+          >
+            {contactInfo.map((item, index) => (
+              <motion.div
+                key={item.title}
+                variants={fadeUp}
+                className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 group"
+                whileHover={{ y: -5 }}
+              >
+                <motion.div 
+                  className="w-12 h-12 bg-linear-to-br from-pink-500 to-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
+                  whileHover={{ rotate: 5 }}
+                >
+                  <item.icon className="h-6 w-6 text-white" />
+                </motion.div>
+                <h4 className="font-semibold text-gray-900 text-center mb-2">
+                  {item.title}
+                </h4>
+                <p className="text-gray-900 text-center font-medium text-lg mb-1">
+                  {item.content}
+                </p>
+                <p className="text-gray-500 text-sm text-center">
+                  {item.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
+
+      <motion.button 
+        onClick={handleWhatsAppClick}
+        className="fixed bottom-6 right-6 z-50 md:hidden bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl w-16 h-16 flex items-center justify-center"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        animate={{ 
+          scale: [1, 1.05, 1],
+          boxShadow: ["0 20px 25px -5px rgba(0, 0, 0, 0.1)", "0 25px 50px -12px rgba(0, 0, 0, 0.25)", "0 20px 25px -5px rgba(0, 0, 0, 0.1)"]
+        }}
+        transition={{ 
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      >
+        <MessageCircle className="h-8 w-8" />
+      </motion.button>
+    </section>
+  );
+}

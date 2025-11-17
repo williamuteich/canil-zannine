@@ -44,7 +44,7 @@ export function Footer() {
               <li>
                 <Link href="/" className="text-white/70 hover:text-white transition-all duration-300 flex items-center group text-sm">
                   <ArrowRight className="mr-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-                  Página Inicial
+                  Inicio
                 </Link>
               </li>
               <li>

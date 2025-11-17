@@ -7,15 +7,15 @@ export function HeaderLinks() {
                 <li>
                     <Link
                         className="px-4 py-3 rounded-md transition-all duration-300 text-gray-600 hover:text-pink-400 hover:bg-pink-100"
-                        href="/"
+                        href="/#inicio"
                     >
-                        Página Inicial
+                        Inicio
                     </Link>
                 </li>
                 <li>
                     <Link
                         className="px-4 py-3 rounded-md transition-all duration-300 text-gray-600 hover:text-pink-400 hover:bg-pink-100"
-                        href="/"
+                        href="/#filhotes"
                     >
                         Nossos Filhotes
                     </Link>
@@ -23,7 +23,7 @@ export function HeaderLinks() {
                 <li>
                     <Link
                         className="px-4 py-3 rounded-md transition-all duration-300 text-gray-600 hover:text-pink-400 hover:bg-pink-100"
-                        href="/"
+                        href="/#contato"
                     >
                         Contato
                     </Link>
@@ -31,7 +31,7 @@ export function HeaderLinks() {
                 <li>
                     <Link
                         className="px-4 py-3 rounded-md transition-all duration-300 text-gray-600 hover:text-pink-400 hover:bg-pink-100"
-                        href="/"
+                        href="/#sobre"
                     >
                         Sobre
                     </Link>
