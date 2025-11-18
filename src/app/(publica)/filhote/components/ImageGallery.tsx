@@ -29,7 +29,7 @@ export function ImageGallery({ images, name }: ImageGalleryProps) {
 
       {images.length > 1 && (
         <div className="overflow-x-auto">
-          <div className="flex gap-3 pb-2 min-w-max">
+          <div className="flex gap-3 pb-2 min-w-max justify-center">
             {images.map((img, index) => (
               <motion.button
                 key={index}

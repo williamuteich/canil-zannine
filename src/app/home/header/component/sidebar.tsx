@@ -40,14 +40,14 @@ export function MobileSidebar() {
                 className="rounded-full"
               />
             </div>
-            <div className="flex-1">
+            <Link href="/" className="flex-1">
               <h2 className="text-lg font-bold text-gray-900">
                 Canil Zannine
               </h2>
               <p className="text-sm text-gray-600 font-medium mt-0.5">
                 Filhotes com Amor & Qualidade
               </p>
-            </div>
+            </Link>
           </div>
         </div>
 
