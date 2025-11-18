@@ -19,14 +19,13 @@ export function Footer() {
         <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-linear-to-br from-purple-300 to-pink-300 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-linear-to-br from-cyan-300 to-pink-300 rounded-full blur-3xl" />
         <div className="absolute bottom-1/3 left-1/4 w-32 h-32 bg-linear-to-br from-blue-300 to-cyan-200 rounded-full blur-2xl" />
-
       </div>
 
       <div className="max-w-[1400px] mx-auto px-8 py-12 relative z-10">
-        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-10 md:gap-12 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-10 md:gap-12 mb-10">
 
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-4 mb-8 justify-center md:justify-start">
+          <div className="lg:col-span-2 flex flex-col justify-center items-center md:block">
+            <div className="flex items-center space-x-4 mb-4 justify-center md:justify-start">
               <Image
                 src="/logo.png"
                 alt="Logo"
@@ -34,12 +33,12 @@ export function Footer() {
                 height={70}
               />
             </div>
-            <p className="text-white/80 leading-relaxed mb-8 max-w-sm sm:max-w-md lg:max-w-lg">
+            <p className="text-white/80 text-justify leading-relaxed mb-4 max-w-sm sm:max-w-md lg:max-w-lg">
               Especializados em criar filhotes saudáveis, vacinados e socializados em ambiente familiar. Cada filhote recebe amor e cuidados individuais desde o nascimento.
             </p>
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-white/70">Criando com amor desde 2020</span>
+              <span className="text-white/70">Criando com amor desde 2018</span>
             </div>
           </div>
 
@@ -122,15 +121,29 @@ export function Footer() {
               </Link>
             </div>
           </div>
+
+          <div>
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center">
+              <span className="w-1 h-6 bg-white rounded-full mr-3" />
+              Dados da Empresa
+            </h3>
+            <div className="space-y-3 text-sm text-white/70">
+              <p className="leading-relaxed">Razão Social: Zannine Pets LTDA</p>
+              {/* CNPJ removido daqui */}
+              <p className="leading-relaxed">Endereço: Rua Exemplo, 123 - Bairro, São Paulo/SP</p>
+              <p className="leading-relaxed">Horário: Seg–Sáb 08:00–20:00</p>
+            </div>
+          </div>
         </div>
 
         <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col w-full gap-4 text-center md:flex-row md:items-center md:justify-between md:text-left">
-            <p className="text-white/60 text-sm">&copy; 2024 Canil Zannine. Todos os direitos reservados.</p>
-            <p className="text-white/60 text-sm flex items-center justify-center gap-2 md:justify-end">
-              <span>Feito com</span>
-              <span className="text-red-500" aria-hidden>&#10084;</span>
-              <span>para conectar famílias e filhotes</span>
+            <p className="text-white/60 text-sm">
+              &copy; 2024 Canil Zannine. Todos os direitos reservados.
+            </p>
+
+            <p className="text-white/60 text-sm">
+              CNPJ: 00.000.000/0001-00
             </p>
           </div>
         </div>

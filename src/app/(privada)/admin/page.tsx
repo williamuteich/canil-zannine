@@ -9,7 +9,7 @@ const quickActions = [
   {
     title: "Cadastrar Filhote",
     description: "Adicione um novo filhote ao catálogo",
-    href: "/admin/filhotes/novo",
+    href: "/admin/filhotes",
     icon: PawPrint,
     iconBg: "bg-blue-100",
     iconColor: "text-blue-600"
@@ -35,14 +35,14 @@ const quickActions = [
 export default function AdminPage() {
   return (
     <div className="space-y-8">
-      <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-8 text-white shadow-lg">
+      <div className="bg-linear-to-r from-slate-800 to-slate-900 rounded-2xl p-8 text-white shadow-lg">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-white/10 rounded-xl backdrop-blur-sm">
                 <PawPrint className="h-8 w-8 text-white" />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-white to-blue-100 bg-clip-text text-transparent">
                 Bem-vindo de Volta!
               </h1>
             </div>
@@ -62,7 +62,7 @@ export default function AdminPage() {
 
           <div className="hidden lg:flex items-center justify-center mt-6 md:mt-0">
             <div className="relative">
-              <div className="w-32 h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-2xl">
+              <div className="w-32 h-32 bg-linear-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-2xl">
                 <PawPrint className="h-16 w-16 text-white" />
               </div>
               <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
@@ -105,7 +105,7 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200">
+      <Card className="bg-linear-to-r from-blue-50 to-indigo-50 border border-blue-200">
         <CardContent className="p-6">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-blue-100 rounded-full">

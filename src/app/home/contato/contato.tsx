@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { MessageCircle, MapPin, Phone, Mail } from "lucide-react";
+import { IconWhatsapp } from "./components/iconWhatsapp";
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -146,23 +148,7 @@ export function Contato() {
         </motion.div>
       </div>
 
-      <motion.button 
-        onClick={handleWhatsAppClick}
-        className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl w-16 h-16 flex items-center justify-center"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        animate={{ 
-          scale: [1, 1.05, 1],
-          boxShadow: ["0 20px 25px -5px rgba(0, 0, 0, 0.1)", "0 25px 50px -12px rgba(0, 0, 0, 0.25)", "0 20px 25px -5px rgba(0, 0, 0, 0.1)"]
-        }}
-        transition={{ 
-          duration: 2,
-          repeat: Infinity,
-          repeatType: "reverse"
-        }}
-      >
-        <MessageCircle className="h-8 w-8" />
-      </motion.button>
+      <IconWhatsapp onClick={handleWhatsAppClick} />
     </section>
   );
 }

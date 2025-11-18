@@ -7,6 +7,9 @@ export const auth: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
+  jwt: {
+    maxAge: 2 * 60 * 60, // 2 horas
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
