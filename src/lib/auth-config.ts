@@ -26,24 +26,27 @@ export const auth: NextAuthOptions = {
       },
     }),
   ],
-callbacks: {
-  async jwt({ token, user }) {
+  callbacks: {
+    async jwt({ token, user }) {
 
-    if (user) {
-      token.id = user.id;
-      token.name = user.name;
-      token.email = user.email;
-    }
-    return token;
-  },
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+      }
+      return token;
+    },
 
-  async session({ session, token }) {
-    if (session.user) {
-      session.user.id = token.id;
-      session.user.name = token.name;
-      session.user.email = token.email;
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.email = token.email;
+      }
+      return session;
+    },
+    async redirect() {
+      return "/admin";
     }
-    return session;
-  },
-}
+  }
 }
