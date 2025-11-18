@@ -53,7 +53,7 @@ export default function FilhotesPage() {
 
             <div className="mt-6 flex flex-col gap-3">
                 <div className="text-end">
-                    <button className="rounded-md mb-2 bg-slate-900 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800">
+                    <button className="rounded-md mb-2 bg-slate-900 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 cursor-pointer">
                         Adicionar Filhote
                     </button>
                 </div>

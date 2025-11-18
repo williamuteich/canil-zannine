@@ -35,7 +35,7 @@ const AccordionItem = ({
   <div className="border border-gray-200 rounded-lg overflow-hidden">
     <button
       onClick={onToggle}
-      className="w-full px-4 py-4 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors text-left"
+      className="w-full px-4 py-4 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors text-left cursor-pointer"
     >
       <div className="flex items-center gap-3">
         <Icon className="h-5 w-5 text-blue-600" />

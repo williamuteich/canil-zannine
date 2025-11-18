@@ -5,7 +5,8 @@ import { z } from "zod";
 
 const instaEmbedPatchSchema = z.object({
   title: z.string().min(1, "O título é obrigatório").optional(),
-  link: z.string().optional(),
+  link: z.string().url("O link deve ser uma URL válida").optional(),
+  status: z.boolean().optional(),
 });
 
 const idSchema = z.string().min(1, "ID é obrigatório");
@@ -26,6 +27,7 @@ export async function PATCH(
     const dataToUpdate: any = {};
     if (parsed.title !== undefined) dataToUpdate.title = parsed.title;
     if (parsed.link !== undefined) dataToUpdate.link = parsed.link;
+    if (parsed.status !== undefined) dataToUpdate.status = parsed.status;
 
     if (Object.keys(dataToUpdate).length === 0) {
       return NextResponse.json(

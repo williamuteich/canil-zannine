@@ -6,12 +6,10 @@ import { NextRequest, NextResponse } from "next/server";
 const instaEmbedSchema = z.object({
   title: z.string().min(1, "O título é obrigatório"),
   link: z.string().url("O link deve ser uma URL válida"),
+  status: z.boolean().optional().default(true),
 });
 
 export async function GET(request: NextRequest) {
-  const auth = await verifyAuth(request);
-  if (!auth.success) return unauthorizedResponse();
-
   try {
     const instaEmbeds = await prisma.instaEmbed.findMany({
       orderBy: { createdAt: "desc" },
@@ -42,6 +40,7 @@ export async function POST(request: NextRequest) {
       data: {
         title: parsedBody.title,
         link: parsedBody.link,
+        status: parsedBody.status,
       },
     });
 
