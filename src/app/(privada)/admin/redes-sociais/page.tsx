@@ -1,40 +1,10 @@
-import { TableDemo } from "../../components/dataTable";
+import { AddButton } from "../../components/addButton";
+import { getData } from "@/services/get-data.service";
+import type { SocialMedia } from "@/types/models";
+import { RedesSociaisTable } from "./components/RedesSociaisTable";
 
-export default function RedesSociais() {
-	const tableHead = ["Id", "Plataforma", "Url", "Status", "Ação"];
-
-	const tableRows = [
-		{
-			id: "SOC001",
-			title: "Instagram Principal",
-			url: "https://instagram.com/canil",
-			status: true,
-		},
-		{
-			id: "SOC002",
-			title: "Facebook Página",
-			url: "https://facebook.com/canil",
-			status: true,
-		},
-		{
-			id: "SOC003",
-			title: "TikTok",
-			url: "https://tiktok.com/@canil",
-			status: false,
-		},
-		{
-			id: "SOC004",
-			title: "YouTube Canal",
-			url: "https://youtube.com/canil",
-			status: true,
-		},
-		{
-			id: "SOC005",
-			title: "X (Twitter)",
-			url: "https://x.com/canil",
-			status: false,
-		},
-	];
+export default async function RedesSociais() {
+	const socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");
 
 	return (
 		<div className="space-y-7">
@@ -45,13 +15,40 @@ export default function RedesSociais() {
 				</p>
 			</div>
 
-			<TableDemo tableHead={tableHead} rows={tableRows} />
+			<RedesSociaisTable socialMedia={socialMedia} />
 
 			<div className="mt-6 flex flex-col gap-3">
 				<div className="text-end">
-					<button className="rounded-md bg-slate-900 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 cursor-pointer">
-						Adicionar Link
-					</button>
+					<AddButton
+						title="Adicionar Rede Social"
+						description="Preencha os dados da nova rede social."
+						buttonLabel="Adicionar Rede Social"
+						apiUrl="/api/redes-sociais"
+						fields={[
+							{
+								name: "plataform",
+								label: "Plataforma",
+								type: "select",
+								required: true,
+								options: [
+									{ value: "instagram", label: "Instagram" },
+									{ value: "facebook", label: "Facebook" },
+									{ value: "tiktok", label: "TikTok" },
+									{ value: "youtube", label: "YouTube" },
+									{ value: "twitter", label: "X (Twitter)" },
+									{ value: "linkedin", label: "LinkedIn" },
+									{ value: "whatsapp", label: "WhatsApp" },
+								],
+							},
+							{
+								name: "link",
+								label: "Link",
+								type: "url",
+								required: true,
+								placeholder: "https://...",
+							}
+						]}
+					/>
 				</div>
 			</div>
 		</div>

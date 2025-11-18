@@ -49,7 +49,7 @@ export default function FilhotesPage() {
 
             <InstagramSearch />
 
-            <TableDemo tableHead={tableHead} rows={tableRows} />
+            <TableDemo tableHead={tableHead} rows={tableRows} apiUrl="/api/filhotes" />
 
             <div className="mt-6 flex flex-col gap-3">
                 <div className="text-end">

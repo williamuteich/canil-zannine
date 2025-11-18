@@ -6,20 +6,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-type InstagramRow = {
-  id: string
-  title: string
-  url: string
-  status: boolean
-}
+import { tableRow } from "@/types/models"
+import Link from "next/link"
+import { DeleteButton } from "./deleteButton"
 
 export function TableDemo({
   tableHead,
   rows,
+  apiUrl,
 }: {
   tableHead: string[]
-  rows: InstagramRow[]
+  rows: tableRow[]
+  apiUrl: string
 }) {
   return (
     <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
@@ -51,14 +49,14 @@ export function TableDemo({
                 {row.title}
               </TableCell>
               <TableCell className="py-3.5 px-4 text-sm text-slate-700">
-                <a
+                <Link
                   href={row.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
                 >
                   {row.url}
-                </a>
+                </Link>
               </TableCell>
               <TableCell className="py-3.5 px-4">
                 <span
@@ -76,9 +74,7 @@ export function TableDemo({
                   <button className="cursor-pointer rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-[11px] font-medium text-slate-700 hover:bg-slate-50">
                     Editar
                   </button>
-                  <button className="cursor-pointer rounded-md border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-[11px] font-medium text-rose-700 hover:bg-rose-100">
-                    Excluir
-                  </button>
+                  <DeleteButton id={row.id} apiUrl={apiUrl} />
                 </div>
               </TableCell>
             </TableRow>

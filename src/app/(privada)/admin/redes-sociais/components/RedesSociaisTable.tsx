@@ -1,14 +1,10 @@
 import { TableDemo } from "../../../components/dataTable";
-import type { InstaEmbed } from "@/types/models";
+import type { RedesSociaisTableProps } from "@/types/models";
 
-interface InstagramTableProps {
-  embeds: InstaEmbed[];
-}
+export function RedesSociaisTable({ socialMedia }: RedesSociaisTableProps) {
+  const tableHead = ["Id", "Plataforma", "Link", "Status", "Ação"];
 
-export function InstagramTable({ embeds }: InstagramTableProps) {
-  const tableHead = ["Id", "Title", "Url", "Status", "Ação"];
-
-  if (!embeds || embeds.length === 0) {
+  if (!socialMedia || socialMedia.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 px-4 border border-slate-200 rounded-lg bg-slate-50">
         <div className="text-center space-y-3">
@@ -30,19 +26,19 @@ export function InstagramTable({ embeds }: InstagramTableProps) {
             Nenhum registro encontrado
           </h3>
           <p className="text-sm text-slate-600">
-            Comece adicionando um novo post do Instagram.
+            Comece adicionando uma nova rede social.
           </p>
         </div>
       </div>
     );
   }
 
-  const tableRows = embeds.map((embed) => ({
-    id: embed.id,
-    title: embed.title,
-    url: embed.link,
-    status: embed.status,
+  const tableRows = socialMedia.map((item) => ({
+    id: item.id,
+    title: item.plataform,
+    url: item.link,
+    status: item.status,
   }));
 
-  return <TableDemo tableHead={tableHead} rows={tableRows} apiUrl="/api/instagram" />;
+  return <TableDemo tableHead={tableHead} rows={tableRows} apiUrl="/api/redes-sociais" />;
 }

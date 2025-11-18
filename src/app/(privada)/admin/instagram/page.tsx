@@ -2,6 +2,7 @@ import { InstagramSearch } from "../../components/searchItem";
 import { getData } from "@/services/get-data.service";
 import { InstagramTable } from "./components/InstagramTable";
 import type { InstaEmbed } from "@/types/models";
+import { AddButton } from "../../components/addButton";
 
 export default async function Instagram() {
   let embeds: InstaEmbed[] = [];
@@ -26,9 +27,28 @@ export default async function Instagram() {
       <InstagramTable embeds={embeds} />
 
       <div className="mt-6 flex justify-end">
-        <button className="rounded-md bg-slate-900 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 cursor-pointer">
-          Adicionar Post
-        </button>
+        <AddButton
+          title="Adicionar Post do Instagram"
+          description="Preencha os dados do novo post do Instagram."
+          buttonLabel="Adicionar Post"
+          apiUrl="/api/instagram"
+          fields={[
+            {
+              name: "title",
+              label: "Título",
+              type: "text",
+              required: true,
+              placeholder: "Ex: Novo filhote chegou!",
+            },
+            {
+              name: "link",
+              label: "Link do Instagram",
+              type: "url",
+              required: true,
+              placeholder: "https://instagram.com/p/...",
+            }
+          ]}
+        />
       </div>
     </div>
   );

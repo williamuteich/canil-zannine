@@ -7,6 +7,19 @@ export interface InstaEmbed {
   updatedAt: string;
 }
 
+export interface SocialMedia {
+  id: string;
+  plataform: string;
+  link: string;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RedesSociaisTableProps {
+  socialMedia: SocialMedia[];
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -25,4 +38,16 @@ export interface Product {
   primaryImage: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export type tableRow = {
+  id: string
+  title: string
+  url: string
+  status: boolean
+}
+
+export interface DeleteButtonProps {
+  id: string
+  apiUrl: string
 }
