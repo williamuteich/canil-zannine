@@ -15,7 +15,7 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id       String @id @default(uuid())
   name     String
   email    String @unique
   password String
@@ -25,7 +25,7 @@ model User {
 }
 
 model Product {
-  id Int @id @default(autoincrement())
+  id       String @id @default(uuid())
 
   name      String
   breed     String
@@ -34,9 +34,13 @@ model Product {
   ageMonths Int?
   weight    Float?
 
-  pedigree   Boolean @default(false)
   vaccinated Boolean @default(false)
   dewormed   Boolean @default(false)
+
+  about            String
+  characteristics  String?
+  careInstructions String?
+  history          String?
 
   primaryImage String
   images       ProductImage[]
@@ -46,15 +50,18 @@ model Product {
 }
 
 model ProductImage {
-  id  Int    @id @default(autoincrement())
+  id       String @id @default(uuid())
   url String
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
+  productId String
 }
 
 model InstaEmbed {
-  id    Int    @id @default(autoincrement())
+  id       String @id @default(uuid())
   title String
   link  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
