@@ -70,9 +70,9 @@ export async function POST(request: NextRequest) {
             data: {
                 ...parsedBody,
                 images: {
-                    create: parsedBody.images?.map(filename => ({ url: `/${filename}` })) || [],
+                    create: parsedBody.images?.map(filename => ({ url: `/filhote/${filename}` })) || [],
                 },
-                primaryImage: `/uploads/${parsedBody.primaryImage}`,
+                primaryImage: `/filhote/${parsedBody.primaryImage}`,
             },
         });
 
