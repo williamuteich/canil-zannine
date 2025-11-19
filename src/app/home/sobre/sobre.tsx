@@ -44,14 +44,14 @@ export function HomeSobre() {
   return (
     <section id="sobre" className="relative py-16 md:py-24 overflow-hidden">
 
-      {/* NOVO FUNDO IGUAL AO FOOTER */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-[#fcf6c2] via-[#fdc9df] to-[#c0f9f3] opacity-80" />
-      <div className="absolute inset-0 -z-30 bg-white/40" />
+      {/* Fundo Romano */}
+      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-[#fef9e7] via-[#ffe4de] to-[#e8ebe0] opacity-60" />
+      <div className="absolute inset-0 -z-30 bg-[#faf8f5]" />
 
-      {/* BLOBs IGUAIS AO FOOTER */}
-      <div className="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-[#fdc9df]/40 blur-3xl" />
-      <div className="absolute top-1/3 -right-12 w-60 h-60 rounded-full bg-[#c0f9f3]/40 blur-3xl" />
-      <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-[#fcf6c2]/40 blur-3xl" />
+      {/* BLOBs Romano */}
+      <div className="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-[#f9e79f]/30 blur-3xl" />
+      <div className="absolute top-1/3 -right-12 w-60 h-60 rounded-full bg-[#e67e66]/25 blur-3xl" />
+      <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-[#b5be9a]/25 blur-3xl" />
 
       <div className="container mx-auto px-4 max-w-6xl">
         <motion.div
@@ -83,7 +83,7 @@ export function HomeSobre() {
           <motion.div variants={slideInRight} className="space-y-6">
             <motion.div className="space-y-4" variants={containerVariants}>
               <motion.span
-                className="inline-block px-4 py-1.5 rounded-full bg-pink-100 text-pink-700 text-sm font-medium"
+                className="inline-block px-4 py-1.5 rounded-full bg-[#ffe4de] text-[#b03a1e] text-sm font-medium"
                 variants={fadeUp}
               >
                 Sobre Nós
@@ -91,18 +91,18 @@ export function HomeSobre() {
 
               <motion.h2
                 variants={fadeUp}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent"
+                className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent"
               >
                 MUNDO DOS CHIHUAHUA
               </motion.h2>
 
               <motion.div
-                className="h-1.5 w-20 bg-gradient-to-r from-pink-400 to-blue-400 rounded-full"
+                className="h-1.5 w-20 bg-gradient-to-r from-[#d4a017] to-[#e67e66] rounded-full"
                 variants={fadeUp}
               />
             </motion.div>
 
-            <motion.div variants={fadeUp} className="space-y-4 text-gray-700">
+            <motion.div variants={fadeUp} className="space-y-4 text-[#57534e]">
               <p className="leading-relaxed">
                 O mundo dos Chihuahua nasceu de um sonho. Tive a minha primeira Chihuahua e me apaixonei loucamente pela raça.
               </p>
@@ -112,7 +112,7 @@ export function HomeSobre() {
               </p>
 
               <p className="leading-relaxed">
-                O nosso canil se chama <span className="font-semibold text-pink-600">Canil Zannine</span>, que é um sobrenome da minha família.
+                O nosso canil se chama <span className="font-semibold text-[#d35836]">Canil Zannine</span>, que é um sobrenome da minha família.
                 Decidi passá-lo aos bebês com a intenção de dar um significado a cada bebê que nasce por aqui.
                 Zannine significa <span className="italic">"Enviado de Deus"</span>.
               </p>
@@ -125,7 +125,7 @@ export function HomeSobre() {
                 Nossos Chihuahuas têm um padrão de estética elevado, sempre priorizamos na nossa seleção o padrão CBKC.
               </p>
 
-              <p className="text-pink-600 font-medium mt-4">Bianca Cogo</p>
+              <p className="text-[#d35836] font-medium mt-4">Bianca Cogo</p>
             </motion.div>
 
             <motion.div className="grid grid-cols-1 sm:grid-cols-2 gap-4" variants={containerVariants}>
@@ -133,11 +133,11 @@ export function HomeSobre() {
                 <motion.div
                   key={feature.title}
                   variants={fadeUp}
-                  className="flex items-start p-4 rounded-xl bg-white/70 backdrop-blur-sm border border-white/50 hover:border-pink-200/50 hover:shadow-lg transition-all duration-300 group"
+                  className="flex items-start p-4 rounded-xl bg-[#faf8f5]/90 backdrop-blur-sm border border-[#ebe3d5] hover:border-[#d4a017]/40 hover:shadow-lg transition-all duration-300 group"
                   whileHover={{ y: -2 }}
                 >
                   <div className="shrink-0 mr-3">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500 to-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#d4a017] to-[#e67e66] flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
                       <feature.icon className="h-5 w-5 text-white" />
                     </div>
                   </div>

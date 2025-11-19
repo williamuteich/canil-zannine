@@ -61,9 +61,9 @@ export function Contato() {
   };
 
   return (
-    <section id="contato" className="relative py-16 md:py-24 bg-white overflow-hidden">
-      <div className="absolute top-0 left-0 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-50" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50" />
+    <section id="contato" className="relative py-16 md:py-24 bg-[#faf8f5] overflow-hidden">
+      <div className="absolute top-0 left-0 w-64 h-64 bg-[#f9e79f]/40 rounded-full blur-3xl opacity-50" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#e67e66]/30 rounded-full blur-3xl opacity-50" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -77,16 +77,16 @@ export function Contato() {
             className="text-center mb-12"
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-linear-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent">
               Entre em Contato
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-[#57534e] max-w-2xl mx-auto">
               Estamos prontos para ajudar você a encontrar seu novo melhor amigo!
             </p>
           </motion.div>
 
           <motion.div
-            className="bg-linear-to-br from-white to-gray-50 rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-gray-100 mb-8"
+            className="bg-gradient-to-br from-[#faf8f5] to-[#f5f0e8] rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-[#ebe3d5] mb-8"
             variants={scaleIn}
           >
             <div className="text-center mb-6">
@@ -107,7 +107,7 @@ export function Contato() {
 
             <motion.button
               onClick={handleWhatsAppClick}
-              className="w-full bg-green-500 hover:bg-green-600 text-white text-lg font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group"
+              className="w-full bg-green-500 hover:bg-green-600 text-white text-lg font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group cursor-pointer"
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -128,7 +128,7 @@ export function Contato() {
                 whileHover={{ y: -5 }}
               >
                 <motion.div
-                  className="w-12 h-12 bg-linear-to-br from-pink-500 to-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
+                  className="w-12 h-12 bg-gradient-to-br from-[#d4a017] to-[#e67e66] rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
                   whileHover={{ rotate: 5 }}
                 >
                   <item.icon className="h-6 w-6 text-white" />

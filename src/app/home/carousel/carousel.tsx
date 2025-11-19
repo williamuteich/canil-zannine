@@ -100,7 +100,7 @@ export function PuppiesCarousel() {
   );
 
   return (
-    <section id="filhotes" className="py-12 md:py-16 bg-linear-to-b from-white via-gray-50/30 to-white">
+    <section id="filhotes" className="py-12 md:py-16 bg-gradient-to-b from-[#faf8f5] via-[#f5f0e8] to-[#faf8f5]">
       <div className="container mx-auto px-3 sm:px-6 lg:px-12 xl:px-10 max-w-[1400px]">
         <motion.div
           className="text-center mb-12 md:mb-16"
@@ -111,14 +111,14 @@ export function PuppiesCarousel() {
         >
           <motion.h1
             variants={fadeUp}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 bg-linear-to-r from-primary to-pink-600 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent"
           >
             Nossos Filhotes Disponíveis
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
-            className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2"
+            className="text-base sm:text-lg text-[#57534e] max-w-2xl mx-auto px-2"
           >
             Conheça nossos adoráveis filhotes, todos vacinados, vermifugados e com garantia de saúde
           </motion.p>
@@ -143,7 +143,7 @@ export function PuppiesCarousel() {
                     variants={cardVariants}
                     custom={index}
                   >
-                    <div className="rounded-lg sm:rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-500 bg-white h-full group flex flex-col relative">
+                    <div className="rounded-lg sm:rounded-xl overflow-hidden border-2 border-[#f9e79f]/40 shadow-sm hover:shadow-xl hover:border-[#d4a017] transition-all duration-500 bg-white h-full group flex flex-col relative">
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
 
                       <div className="relative aspect-4/3 overflow-hidden shrink-0 z-10">
@@ -160,7 +160,7 @@ export function PuppiesCarousel() {
 
                         {puppy.available && (
                           <motion.div
-                            className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-green-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs font-semibold shadow-lg"
+                            className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-[#8a9468] text-white px-2 sm:px-3 py-1 rounded-full text-xs font-semibold shadow-lg"
                             whileHover={{ scale: 1.05 }}
                             transition={{ type: "spring", stiffness: 400, damping: 10 }}
                           >
@@ -222,7 +222,7 @@ export function PuppiesCarousel() {
 
                         <Link
                           href={`/filhote/${puppy.id}`}
-                          className="w-full bg-linear-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 mt-auto text-sm sm:text-base relative overflow-hidden group"
+                          className="w-full bg-gradient-to-r from-[#57534e] to-[#44403c] hover:from-[#44403c] hover:to-[#292524] text-white py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 mt-auto text-sm sm:text-base relative overflow-hidden group cursor-pointer"
                           aria-label={`Ver detalhes do filhote ${puppy.name}`}
                         >
                           <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -252,8 +252,12 @@ export function PuppiesCarousel() {
               ))}
             </CarouselContent>
 
-            <CarouselPrevious className="hidden cursor-pointer min-[1250px]:flex absolute rounded-full top-1/2 -translate-y-1/2 -left-16 w-12 h-12 bg-linear-to-br from-gray-800 to-gray-900 border-0 text-white hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110" />
-            <CarouselNext className="hidden cursor-pointer min-[1250px]:flex absolute rounded-full top-1/2 -translate-y-1/2 -right-16 w-12 h-12 bg-linear-to-br from-gray-800 to-gray-900 border-0 text-white hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110" />
+            <CarouselPrevious className="hidden min-[1250px]:flex absolute rounded-full top-1/2 -translate-y-1/2 -left-16 w-12 h-12 bg-gradient-to-br from-[#57534e] to-[#44403c] border-0 text-white hover:from-[#44403c] hover:to-[#292524] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
+              <span className="text-2xl font-bold">‹</span>
+            </CarouselPrevious>
+            <CarouselNext className="hidden min-[1250px]:flex absolute rounded-full top-1/2 -translate-y-1/2 -right-16 w-12 h-12 bg-gradient-to-br from-[#57534e] to-[#44403c] border-0 text-white hover:from-[#44403c] hover:to-[#292524] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
+              <span className="text-2xl font-bold">›</span>
+            </CarouselNext>
           </Carousel>
 
           <motion.div

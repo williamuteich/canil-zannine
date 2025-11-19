@@ -68,6 +68,7 @@ model SocialMedia {
   id        String  @id @default(uuid())
   plataform String
   link      String
+  value     String
   status    Boolean @default(true)
 
   createdAt DateTime @default(now())

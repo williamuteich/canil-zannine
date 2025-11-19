@@ -116,21 +116,21 @@ export default function ShowInstaEmbeds({ posts, instagramUrl }: ShowInstaEmbeds
                     {/* Setas nas laterais para mobile e médio (< 1280px) - 1 ou 2 embeds */}
                     <button
                         onClick={() => api?.scrollPrev()}
-                        className="xl:hidden absolute left-4 min-[850px]:left-2 top-[40%] -translate-y-1/2 w-12 h-12 rounded-full bg-white border border-gray-200 transition-all duration-200 hover:scale-110 hover:bg-gray-50 shadow-lg z-10 cursor-pointer flex items-center justify-center"
+                        className="xl:hidden absolute left-4 min-[850px]:left-2 top-[40%] -translate-y-1/2 w-12 h-12 rounded-full bg-[#f5f0e8] border border-[#d0c4ad] transition-all duration-200 hover:scale-110 hover:bg-[#ebe3d5] shadow-lg z-10 cursor-pointer flex items-center justify-center"
                     >
-                        <span className="text-3xl font-bold text-gray-700 leading-none">‹</span>
+                        <span className="text-3xl font-bold text-[#57534e] leading-none">‹</span>
                     </button>
                     <button
                         onClick={() => api?.scrollNext()}
-                        className="xl:hidden absolute right-4 min-[850px]:right-2 top-[40%] -translate-y-1/2 w-12 h-12 rounded-full bg-white border border-gray-200 transition-all duration-200 hover:scale-110 hover:bg-gray-50 shadow-lg z-10 cursor-pointer flex items-center justify-center"
+                        className="xl:hidden absolute right-4 min-[850px]:right-2 top-[40%] -translate-y-1/2 w-12 h-12 rounded-full bg-[#f5f0e8] border border-[#d0c4ad] transition-all duration-200 hover:scale-110 hover:bg-[#ebe3d5] shadow-lg z-10 cursor-pointer flex items-center justify-center"
                     >
-                        <span className="text-3xl font-bold text-gray-700 leading-none">›</span>
+                        <span className="text-3xl font-bold text-[#57534e] leading-none">›</span>
                     </button>
-
-                    <CarouselPrevious className="hidden xl:flex -left-16 w-12 h-12 rounded-full bg-linear-to-br from-gray-800 to-gray-900 border-0 text-white hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
+                    {/* Botões externos para telas grandes (≥ 1280px) - 3 embeds */}
+                    <CarouselPrevious className="hidden xl:flex -left-16 w-12 h-12 rounded-full bg-gradient-to-br from-[#57534e] to-[#44403c] border-0 text-white hover:from-[#44403c] hover:to-[#292524] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
                         <span className="text-2xl font-bold">‹</span>
                     </CarouselPrevious>
-                    <CarouselNext className="hidden xl:flex -right-16 w-12 h-12 rounded-full bg-linear-to-br from-gray-800 to-gray-900 border-0 text-white hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
+                    <CarouselNext className="hidden xl:flex -right-16 w-12 h-12 rounded-full bg-gradient-to-br from-[#57534e] to-[#44403c] border-0 text-white hover:from-[#44403c] hover:to-[#292524] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
                         <span className="text-2xl font-bold">›</span>
                     </CarouselNext>
                 </Carousel>
@@ -142,7 +142,7 @@ export default function ShowInstaEmbeds({ posts, instagramUrl }: ShowInstaEmbeds
                         href={instagramUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm lg:text-base px-8 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-[#b8860b] to-[#d35836] hover:from-[#d4a017] hover:to-[#e67e66] text-white font-semibold text-sm lg:text-base px-8 py-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
                     >
                         <span>Ver mais no Instagram</span>
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
