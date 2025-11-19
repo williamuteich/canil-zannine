@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react';
-import { URL_FRONT } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { Upload, X, DollarSign, FileText, Tag } from 'lucide-react';
 import Link from 'next/link';
@@ -32,16 +31,15 @@ export default function AdicionarFilhote() {
         setPreviewUrls(newPreviews);
     };
 
+    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/\D/g, '');
+        const numericValue = Number(value) / 100;
+        setPrice(numericValue.toFixed(2));
+    };
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setLoading(true);
-
-        // Validação de preço
-        if (Number(price) <= 0) {
-            alert('O preço deve ser um valor positivo maior que zero.');
-            setLoading(false);
-            return;
-        }
 
         const formData = new FormData();
         formData.append('name', nome);
@@ -58,11 +56,9 @@ export default function AdicionarFilhote() {
 
         try {
             await postMedia('/api/filhote', formData);
-            alert('Filhote adicionado com sucesso!');
             router.push('/admin/filhotes');
         } catch (error: any) {
-            console.error('Erro:', error);
-            alert(`Erro: ${error.message || 'Erro ao adicionar filhote'}`);
+            console.error('Erro ao adicionar filhote:', error);
         } finally {
             setLoading(false);
         }
@@ -120,16 +116,15 @@ export default function AdicionarFilhote() {
                             Preço (R$)
                         </label>
                         <input
-                            type="number"
+                            type="text"
                             id="preco"
                             name="preco"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
+                            value={price ? `R$ ${Number(price).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : ''}
+                            onChange={handlePriceChange}
                             required
                             min="0"
-                            step="0.01"
                             className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
-                            placeholder="0.00"
+                            placeholder="R$ 0,00"
                         />
                     </div>
 
@@ -169,8 +164,8 @@ export default function AdicionarFilhote() {
                                             <Image
                                                 src={url}
                                                 alt={`Preview ${index + 1}`}
-                                                className="w-full h-32 object-cover rounded-lg border-2 border-slate-200"
-                                                height={200}
+                                                className="w-full h-48 object-cover rounded-lg border-2 border-slate-200"
+                                                height={300}
                                                 width={200}
                                             />
                                             {index === 0 && (
@@ -197,7 +192,7 @@ export default function AdicionarFilhote() {
                     <Link href="/admin/filhotes">
                         <button
                             type="button"
-                            className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                            className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
                         >
                             Cancelar
                         </button>
@@ -205,7 +200,7 @@ export default function AdicionarFilhote() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     >
                         {loading ? 'Salvando...' : 'Salvar Filhote'}
                     </button>
