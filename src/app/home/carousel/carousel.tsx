@@ -7,8 +7,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 import { motion, type Variants } from "framer-motion";
 import Link from "next/link";
+import { useRef } from "react";
 
 const puppies = [
   {
@@ -93,6 +95,10 @@ const fadeUp: Variants = {
 };
 
 export function PuppiesCarousel() {
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
+
   return (
     <section id="filhotes" className="py-12 md:py-16 bg-linear-to-b from-white via-gray-50/30 to-white">
       <div className="container mx-auto px-3 sm:px-6 lg:px-12 xl:px-10 max-w-[1400px]">
@@ -120,6 +126,7 @@ export function PuppiesCarousel() {
 
         <div className="relative w-full mx-auto px-1 sm:px-2 md:px-4 lg:px-8 xl:px-16">
           <Carousel
+            plugins={[plugin.current]}
             opts={{
               align: "start",
             }}
@@ -236,7 +243,7 @@ export function PuppiesCarousel() {
                             <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                           </motion.svg>
-                          Ver Detalhes  
+                          Ver Detalhes
                         </Link>
                       </div>
                     </div>

@@ -27,12 +27,10 @@ export function Banner() {
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-linear-to-br from-[#FFF7F0] via-[#F9D7EB] to-[#B6F1FF]">
       <div className="absolute inset-0 z-0">
-        <Image
+        <img
           src="/imageBanner.jpg"
           alt="Filhotes adoráveis"
-          fill
-          priority
-          className="object-cover opacity-45"
+          className="w-full h-full object-cover opacity-45"
         />
         <div className="absolute inset-0 bg-linear-to-br from-[#FFF7F0]/80 via-[#F9D7EB]/85 to-[#B6F1FF]/80" />
       </div>

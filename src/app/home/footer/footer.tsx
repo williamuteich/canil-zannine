@@ -10,7 +10,7 @@ export function Footer() {
   if (pathname.startsWith("/admin")) {
     return null;
   }
-  
+
   return (
     <footer className="bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
 
@@ -26,7 +26,7 @@ export function Footer() {
 
           <div className="lg:col-span-2 flex flex-col justify-center items-center md:block">
             <div className="flex items-center space-x-4 mb-4 justify-center md:justify-start">
-              <Image
+              <img
                 src="/logo.png"
                 alt="Logo"
                 width={70}

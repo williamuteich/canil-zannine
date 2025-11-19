@@ -64,7 +64,7 @@ export function Contato() {
     <section id="contato" className="relative py-16 md:py-24 bg-white overflow-hidden">
       <div className="absolute top-0 left-0 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-50" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50" />
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           className="max-w-4xl mx-auto"
@@ -73,7 +73,7 @@ export function Contato() {
           viewport={{ once: true, amount: 0.3 }}
           variants={containerVariants}
         >
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             variants={fadeUp}
           >
@@ -85,12 +85,12 @@ export function Contato() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="bg-linear-to-br from-white to-gray-50 rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-gray-100 mb-8"
             variants={scaleIn}
           >
             <div className="text-center mb-6">
-              <motion.div 
+              <motion.div
                 className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400 }}
@@ -104,8 +104,8 @@ export function Contato() {
                 Tire suas dúvidas, veja mais fotos dos filhotes e agende sua visita!
               </p>
             </div>
-            
-            <motion.button 
+
+            <motion.button
               onClick={handleWhatsAppClick}
               className="w-full bg-green-500 hover:bg-green-600 text-white text-lg font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group"
               whileHover={{ scale: 1.02, y: -2 }}
@@ -116,7 +116,7 @@ export function Contato() {
             </motion.button>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="grid md:grid-cols-3 gap-6"
             variants={containerVariants}
           >
@@ -127,7 +127,7 @@ export function Contato() {
                 className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 group"
                 whileHover={{ y: -5 }}
               >
-                <motion.div 
+                <motion.div
                   className="w-12 h-12 bg-linear-to-br from-pink-500 to-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
                   whileHover={{ rotate: 5 }}
                 >
