@@ -64,18 +64,24 @@ export function TableDemo({
               <TableCell className="py-3.5 px-4 text-sm text-slate-900 font-medium">
                 {row.title}
               </TableCell>
-              <TableCell className="py-3.5 px-4 text-sm text-slate-700 max-w-[300px]">
+              <TableCell className="py-3.5 px-4 text-sm text-slate-600">
+                {row.age || '-'}
+              </TableCell>
+              <TableCell className="py-3.5 px-4 text-sm text-slate-600">
+                {row.weight || '-'}
+              </TableCell>
+              <TableCell className="py-3.5 px-4 text-sm text-slate-700 max-w-[200px]">
                 {row.url ? (
                   <Link
                     href={row.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline"
+                    className="text-blue-500 hover:underline truncate block"
                   >
                     {row.url}
                   </Link>
                 ) : row.description ? (
-                  <span className="line-clamp-2" title={row.description}>
+                  <span className="line-clamp-1 block" title={row.description}>
                     {row.description}
                   </span>
                 ) : (

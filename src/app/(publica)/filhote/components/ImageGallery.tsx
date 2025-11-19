@@ -14,8 +14,8 @@ export function ImageGallery({ images, name }: ImageGalleryProps) {
 
   return (
     <div className="space-y-4">
-      <div className="relative mx-auto max-w-md rounded-xl overflow-hidden bg-gray-50">
-        <div className="w-full h-72 sm:h-80 md:h-96 flex items-center justify-center">
+      <div className="relative w-full rounded-xl overflow-hidden bg-gray-50">
+        <div className="w-full h-96 sm:h-[500px] lg:h-[600px] flex items-center justify-center">
           <motion.img
             key={selectedImage}
             src={images[selectedImage]}

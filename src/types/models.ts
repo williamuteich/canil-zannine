@@ -44,6 +44,8 @@ export type tableRow = {
   id: string
   image?: string
   title: string
+  age?: string
+  weight?: string
   url?: string
   subtitle?: string
   description?: string

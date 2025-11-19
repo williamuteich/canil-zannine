@@ -200,9 +200,9 @@ export default function AdicionarFilhote() {
                                             <Image
                                                 src={url}
                                                 alt={`Preview ${index + 1}`}
-                                                className="w-full h-48 object-cover rounded-lg border-2 border-slate-200"
-                                                height={300}
-                                                width={200}
+                                                className="w-full max-h-64 object-contain rounded-lg border-2 border-slate-200 bg-gray-50"
+                                                height={400}
+                                                width={800}
                                             />
                                             {index === 0 && (
                                                 <span className="absolute top-2 left-2 bg-slate-900 text-white text-xs px-2 py-1 rounded">

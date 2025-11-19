@@ -204,23 +204,33 @@ export function PuppiesCarousel() {
                       </div>
 
                       <div className="p-5 flex-1 flex flex-col relative bg-white z-10">
-                        <div className="flex items-center justify-between mb-2">
-                          <h2 className="text-xl font-bold text-gray-800 group-hover:text-[#d35836] transition-colors duration-300">
-                            {puppy.name}
-                          </h2>
-                        </div>
+                        <h2 className="text-xl font-bold text-gray-800 group-hover:text-[#d35836] transition-colors duration-300 mb-3">
+                          {puppy.name}
+                        </h2>
 
                         {(puppy.age || puppy.weight) && (
-                          <div className="flex gap-2 mb-3 flex-wrap">
+                          <div className="flex flex-col gap-1">
                             {puppy.age && (
-                              <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full font-medium">
-                                {puppy.age}
-                              </span>
+                              <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 flex-shrink-0">
+                                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                                  <line x1="16" x2="16" y1="2" y2="6" />
+                                  <line x1="8" x2="8" y1="2" y2="6" />
+                                  <line x1="3" x2="21" y1="10" y2="10" />
+                                </svg>
+                                <span className="text-sm font-semibold text-blue-700">{puppy.age}</span>
+                              </div>
                             )}
                             {puppy.weight && (
-                              <span className="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded-full font-medium">
-                                {puppy.weight}
-                              </span>
+                              <div className="flex items-center gap-2 bg-purple-50 px-3 py-2 rounded-lg border border-purple-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600 shrink-0">
+                                  <circle cx="11" cy="4" r="2" />
+                                  <circle cx="18" cy="8" r="2" />
+                                  <circle cx="20" cy="16" r="2" />
+                                  <path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+                                </svg>
+                                <span className="text-sm font-semibold text-purple-700">{puppy.weight}</span>
+                              </div>
                             )}
                           </div>
                         )}

@@ -5,6 +5,8 @@ interface Filhote {
   name: string;
   description: string;
   price: number;
+  age?: string;
+  weight?: string;
   status: string;
   primaryImage: string;
 }
@@ -14,7 +16,7 @@ interface FilhotesTableProps {
 }
 
 export function FilhotesTable({ filhotes }: FilhotesTableProps) {
-  const tableHead = ["Imagem", "Nome", "Descrição", "Preço", "Status", "Ação"];
+  const tableHead = ["Imagem", "Nome", "Idade", "Peso", "Descrição", "Preço", "Status", "Ação"];
 
   if (!filhotes || filhotes.length === 0) {
     return (
@@ -49,6 +51,8 @@ export function FilhotesTable({ filhotes }: FilhotesTableProps) {
     id: filhote.id,
     image: filhote.primaryImage,
     title: filhote.name,
+    age: filhote.age,
+    weight: filhote.weight,
     description: filhote.description,
     price: filhote.price,
     status: filhote.status === 'ativo',

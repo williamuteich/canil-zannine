@@ -114,8 +114,9 @@ export async function POST(request: NextRequest) {
                 { status: 400 }
             );
         }
+        console.error("Erro ao criar filhote:", error);
         return NextResponse.json(
-            { error: "Falha ao criar o Link" },
+            { error: `Falha ao criar o filhote: ${error.message || 'Erro desconhecido'}` },
             { status: 500 }
         );
     }
