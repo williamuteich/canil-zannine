@@ -42,8 +42,12 @@ export interface Product {
 
 export type tableRow = {
   id: string
+  image?: string
   title: string
-  url: string
+  url?: string
+  subtitle?: string
+  description?: string
+  price?: number
   status: boolean
 }
 
@@ -53,6 +57,6 @@ export interface DeleteButtonProps {
 }
 
 export interface ShowInstaEmbedsProps {
-    posts: InstaEmbed[];
-    instagramUrl?: string;
+  posts: InstaEmbed[];
+  instagramUrl?: string;
 }

@@ -24,7 +24,6 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-//
 model Puppy {
   id          String @id @default(uuid())
   name        String
@@ -68,7 +67,7 @@ model SocialMedia {
   id        String  @id @default(uuid())
   plataform String
   link      String
-  value     String
+  value     String?
   status    Boolean @default(true)
 
   createdAt DateTime @default(now())

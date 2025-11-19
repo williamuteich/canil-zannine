@@ -32,7 +32,7 @@ export function MobileSidebar() {
           <SheetTitle className="sr-only">Menu de navegação do Canil Zannine</SheetTitle>
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-linear-to-br from-pink-100 to-pink-200 flex items-center justify-center shadow-md border border-pink-200">
-              <img
+              <Image
                 src="/logo.png"
                 alt="Logo"
                 width={48}

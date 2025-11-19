@@ -44,12 +44,9 @@ export function HomeSobre() {
   return (
     <section id="sobre" className="relative py-16 md:py-24 overflow-hidden">
 
-      {/* Fundo Romano */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-[#fef9e7] via-[#ffe4de] to-[#e8ebe0] opacity-60" />
+      <div className="absolute inset-0 -z-20 bg-linear-to-br from-[#fef9e7] via-[#ffe4de] to-[#e8ebe0] opacity-60" />
       <div className="absolute inset-0 -z-30 bg-[#faf8f5]" />
 
-      {/* BLOBs Romano */}
-      <div className="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-[#f9e79f]/30 blur-3xl" />
       <div className="absolute top-1/3 -right-12 w-60 h-60 rounded-full bg-[#e67e66]/25 blur-3xl" />
       <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-[#b5be9a]/25 blur-3xl" />
 
@@ -63,18 +60,18 @@ export function HomeSobre() {
         >
           <motion.div variants={slideInLeft} className="relative">
             <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 group">
-              <div className="aspect-3/4 w-full bg-gradient-to-br from-pink-100 to-blue-100">
+              <div className="aspect-3/4 w-full bg-linear-to-br from-pink-100 to-blue-100">
                 <img
                   src="https://static.wixstatic.com/media/0baaed_96c8e3a618934942b6053d08187d8d02~mv2.jpg/v1/fill/w_840,h_1080,al_c,q_85,usm_0.66_1.00_1,enc_auto/_DSC0476.jpg"
                   alt="Mundo dos Chihuahua - Canil Zannine"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent" />
             </div>
 
             <motion.div
-              className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-pink-300/30 to-blue-300/30 rounded-full -z-10"
+              className="absolute -bottom-4 -right-4 w-32 h-32 bg-linear-to-br from-pink-300/30 to-blue-300/30 rounded-full -z-10"
               animate={{ scale: [1, 1.05, 1], opacity: [0.1, 0.2, 0.1] }}
               transition={{ duration: 4, repeat: Infinity }}
             />
@@ -91,13 +88,13 @@ export function HomeSobre() {
 
               <motion.h2
                 variants={fadeUp}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent"
+                className="text-3xl md:text-4xl lg:text-5xl font-bold bg-linear-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent"
               >
                 MUNDO DOS CHIHUAHUA
               </motion.h2>
 
               <motion.div
-                className="h-1.5 w-20 bg-gradient-to-r from-[#d4a017] to-[#e67e66] rounded-full"
+                className="h-1.5 w-20 bg-linear-to-r from-[#d4a017] to-[#e67e66] rounded-full"
                 variants={fadeUp}
               />
             </motion.div>
@@ -137,7 +134,7 @@ export function HomeSobre() {
                   whileHover={{ y: -2 }}
                 >
                   <div className="shrink-0 mr-3">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#d4a017] to-[#e67e66] flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                    <div className="w-10 h-10 rounded-lg bg-linear-to-br from-[#d4a017] to-[#e67e66] flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
                       <feature.icon className="h-5 w-5 text-white" />
                     </div>
                   </div>

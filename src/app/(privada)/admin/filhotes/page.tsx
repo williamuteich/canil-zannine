@@ -1,43 +1,24 @@
-import { PaginationDemo } from "../../components/pagination";
-import { TableDemo } from "../../components/dataTable";
 import { InstagramSearch } from "../../components/searchItem";
+import { getData } from "@/services/get-data.service";
+import { FilhotesTable } from "./components/FilhotesTable";
 import Link from "next/link";
 
-export default function FilhotesPage() {
-    const tableHead = ["Id", "Nome", "Raça", "Status", "Ação"];
+interface Filhote {
+    id: string;
+    nome: string;
+    raca: string;
+    idade: string;
+    status: boolean;
+}
 
-    const tableRows = [
-        {
-            id: "DOG001",
-            title: "Golden Retriever - Fêmea",
-            url: "https://canil.com/filhotes/dog001",
-            status: true,
-        },
-        {
-            id: "DOG002",
-            title: "Labrador - Macho",
-            url: "https://canil.com/filhotes/dog002",
-            status: false,
-        },
-        {
-            id: "DOG003",
-            title: "Poodle Toy - Fêmea",
-            url: "https://canil.com/filhotes/dog003",
-            status: true,
-        },
-        {
-            id: "DOG004",
-            title: "Shih-tzu - Macho",
-            url: "https://canil.com/filhotes/dog004",
-            status: true,
-        },
-        {
-            id: "DOG005",
-            title: "Spitz Alemão - Fêmea",
-            url: "https://canil.com/filhotes/dog005",
-            status: false,
-        },
-    ];
+export default async function FilhotesPage() {
+    let filhotes: Filhote[] = [];
+
+    try {
+        filhotes = await getData<Filhote[]>('/api/filhote');
+    } catch (error) {
+        console.error('Erro ao carregar filhotes:', error);
+    }
 
     return (
         <div className="space-y-7">
@@ -50,17 +31,14 @@ export default function FilhotesPage() {
 
             <InstagramSearch />
 
-            <TableDemo tableHead={tableHead} rows={tableRows} apiUrl="/api/filhotes" />
+            <FilhotesTable filhotes={filhotes} />
 
-            <div className="mt-6 flex flex-col gap-3">
-                <div className="text-end">
-                    <Link href={`/admin/filhotes/add`}>
-                    <button className="rounded-md mb-2 bg-slate-900 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 cursor-pointer">
+            <div className="mt-6 flex justify-end">
+                <Link href="/admin/filhotes/add">
+                    <button className="rounded-md bg-slate-900 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 cursor-pointer transition-colors">
                         Adicionar Filhote
                     </button>
-                    </Link>
-                </div>
-                <PaginationDemo />
+                </Link>
             </div>
         </div>
     );

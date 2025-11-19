@@ -24,7 +24,7 @@ interface FieldConfig {
     type: FieldType
     required?: boolean
     placeholder?: string
-    options?: { value: string; label: string }[] // Para select
+    options?: { value: string; label: string }[]
 }
 
 interface AddButtonProps {
@@ -62,7 +62,7 @@ export function AddButton({ title, description, buttonLabel, fields, apiUrl }: A
             const response = await postData(apiUrl, data)
             e.currentTarget?.reset()
             setOpen(false)
-            
+
             if (response.status === 201 || response.status === 200) {
                 router.refresh()
             }

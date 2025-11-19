@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 
 interface ImageGalleryProps {
@@ -34,18 +35,19 @@ export function ImageGallery({ images, name }: ImageGalleryProps) {
               <motion.button
                 key={index}
                 onClick={() => setSelectedImage(index)}
-                className={`shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                  selectedImage === index
-                    ? "border-blue-500 shadow-md"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 cursor-pointer ${selectedImage === index
+                  ? "border-blue-500 shadow-md"
+                  : "border-gray-200 hover:border-gray-300"
+                  }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <img 
-                  src={img} 
-                  alt={`${name} ${index + 1}`} 
+                <Image
+                  src={img}
+                  alt={`${name} ${index + 1}`}
                   className="w-full h-full object-cover"
+                  height={80}
+                  width={80}
                 />
               </motion.button>
             ))}

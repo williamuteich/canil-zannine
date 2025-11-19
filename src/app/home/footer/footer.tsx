@@ -26,8 +26,8 @@ export function Footer() {
 
           <div className="lg:col-span-2 flex flex-col justify-center items-center md:block">
             <div className="flex items-center space-x-4 mb-4 justify-center md:justify-start">
-              <img
-                src="/logo.png"
+              <Image
+                src="/filhote/logo.png"
                 alt="Logo"
                 width={70}
                 height={70}
@@ -129,7 +129,6 @@ export function Footer() {
             </h3>
             <div className="space-y-3 text-sm text-white/70">
               <p className="leading-relaxed">Razão Social: Zannine Pets LTDA</p>
-              {/* CNPJ removido daqui */}
               <p className="leading-relaxed">Endereço: Rua Exemplo, 123 - Bairro, São Paulo/SP</p>
               <p className="leading-relaxed">Horário: Seg–Sáb 08:00–20:00</p>
             </div>

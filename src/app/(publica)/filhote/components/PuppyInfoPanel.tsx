@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, Dog, Heart, Phone, Shield, Award, ChevronDown } from "lucide-react";
+import { Calendar, Dog, Heart, Phone } from "lucide-react";
 import { useState } from "react";
 
 interface PuppyInfoPanelProps {
@@ -13,21 +13,17 @@ interface PuppyInfoPanelProps {
   weight: string;
   price: number;
   priceOld?: number;
-  fullDescription: string;
-  features: string;
-  healthInfo: string;
-  pedigree: boolean;
 }
 
-const AccordionItem = ({ 
-  title, 
-  content, 
+const AccordionItem = ({
+  title,
+  content,
   icon: Icon,
   isOpen,
-  onToggle 
-}: { 
-  title: string; 
-  content: string; 
+  onToggle
+}: {
+  title: string;
+  content: string;
   icon: any;
   isOpen: boolean;
   onToggle: () => void;
@@ -56,7 +52,7 @@ const AccordionItem = ({
         transition={{ duration: 0.3 }}
         className="px-4 pb-4"
       >
-        <div 
+        <div
           className="text-gray-700 leading-relaxed text-sm space-y-2"
           dangerouslySetInnerHTML={{ __html: content }}
         />
@@ -74,12 +70,7 @@ export function PuppyInfoPanel({
   weight,
   price,
   priceOld,
-  fullDescription,
-  features,
-  healthInfo,
-  pedigree,
 }: PuppyInfoPanelProps) {
-  const [openAccordion, setOpenAccordion] = useState<string>("about");
 
   const handleWhatsAppClick = (action: string) => {
     const message = `Olá! Tenho interesse no filhote ${name} (${action}). Poderia me dar mais informações?`;
@@ -87,27 +78,6 @@ export function PuppyInfoPanel({
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
-
-  const accordionItems = [
-    {
-      id: "about",
-      title: "Sobre o Filhote",
-      content: fullDescription,
-      icon: Heart
-    },
-    {
-      id: "features",
-      title: "Características",
-      content: features,
-      icon: Dog
-    },
-    {
-      id: "health",
-      title: "Saúde e Cuidados",
-      content: healthInfo,
-      icon: Shield
-    }
-  ];
 
   return (
     <div className="space-y-6">
@@ -123,12 +93,13 @@ export function PuppyInfoPanel({
         <div className="h-1 w-12 bg-linear-to-r from-blue-500 to-purple-500 rounded-full" />
       </div>
 
-      <div className="flex items-center gap-3">
-        <span className="text-2xl lg:text-3xl font-bold text-gray-900">
+      <div className="flex items-baseline gap-2">
+        <span className="text-sm text-gray-500 font-medium">Valor:</span>
+        <span className="text-xl font-semibold text-gray-800">
           R$ {price.toLocaleString("pt-BR")}
         </span>
         {priceOld && (
-          <span className="text-lg text-gray-500 line-through">
+          <span className="text-sm text-gray-400 line-through ml-2">
             R$ {priceOld.toLocaleString("pt-BR")}
           </span>
         )}
@@ -150,25 +121,9 @@ export function PuppyInfoPanel({
             <p className="text-sm font-semibold text-gray-900">{weight}</p>
           </div>
         </div>
-
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-green-50 border border-green-100">
-          <Award className="h-5 w-5 text-green-600" />
-          <div>
-            <p className="text-xs text-green-600 font-medium">Pedigree</p>
-            <p className="text-sm font-semibold text-gray-900">{pedigree ? "Sim" : "Não"}</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-orange-50 border border-orange-100">
-          <Shield className="h-5 w-5 text-orange-600" />
-          <div>
-            <p className="text-xs text-orange-600 font-medium">Garantia</p>
-            <p className="text-sm font-semibold text-gray-900">30 dias</p>
-          </div>
-        </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 pt-4">
         <motion.button
           onClick={() => handleWhatsAppClick("reserva")}
           className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
@@ -188,19 +143,6 @@ export function PuppyInfoPanel({
           <Phone className="h-5 w-5" />
           Falar sobre {name}
         </motion.button>
-      </div>
-
-      <div className="space-y-3">
-        {accordionItems.map((item) => (
-          <AccordionItem
-            key={item.id}
-            title={item.title}
-            content={item.content}
-            icon={item.icon}
-            isOpen={openAccordion === item.id}
-            onToggle={() => setOpenAccordion(openAccordion === item.id ? "" : item.id)}
-          />
-        ))}
       </div>
     </div>
   );

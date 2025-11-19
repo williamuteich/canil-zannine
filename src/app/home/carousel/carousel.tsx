@@ -10,7 +10,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { motion, type Variants } from "framer-motion";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const puppies = [
   {
@@ -95,12 +95,45 @@ const fadeUp: Variants = {
 };
 
 export function PuppiesCarousel() {
+  const [puppies, setPuppies] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const plugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true })
   );
 
+  useEffect(() => {
+    async function fetchPuppies() {
+      try {
+        const response = await fetch('/api/filhote');
+        if (response.ok) {
+          const result = await response.json();
+          const data = result.data || [];
+          setPuppies(data.filter((p: any) => p.status === 'ativo'));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar filhotes:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPuppies();
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="filhotes" className="py-12 md:py-16 min-h-[400px] flex items-center justify-center">
+        <div className="text-[#f2a3c0] animate-pulse">Carregando filhotes...</div>
+      </section>
+    );
+  }
+
+  if (puppies.length === 0) {
+    return null;
+  }
+
   return (
-    <section id="filhotes" className="py-12 md:py-16 bg-gradient-to-b from-[#faf8f5] via-[#f5f0e8] to-[#faf8f5]">
+    <section id="filhotes" className="py-12 md:py-16">
       <div className="container mx-auto px-3 sm:px-6 lg:px-12 xl:px-10 max-w-[1400px]">
         <motion.div
           className="text-center mb-12 md:mb-16"
@@ -111,7 +144,7 @@ export function PuppiesCarousel() {
         >
           <motion.h1
             variants={fadeUp}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 bg-linear-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent"
           >
             Nossos Filhotes Disponíveis
           </motion.h1>
@@ -134,7 +167,7 @@ export function PuppiesCarousel() {
           >
             <CarouselContent className="-ml-1 sm:-ml-2 md:-ml-4">
               {puppies.map((puppy, index) => (
-                <CarouselItem key={puppy.id} className="pl-1 sm:pl-2 md:pl-4 basis-1/2 lg:basis-1/3">
+                <CarouselItem key={puppy.id} className="pl-1 sm:pl-2 md:pl-4 basis-1/2 xl:basis-1/3">
                   <motion.div
                     className="p-1 sm:p-2 h-full"
                     initial="hidden"
@@ -143,107 +176,52 @@ export function PuppiesCarousel() {
                     variants={cardVariants}
                     custom={index}
                   >
-                    <div className="rounded-lg sm:rounded-xl overflow-hidden border-2 border-[#f9e79f]/40 shadow-sm hover:shadow-xl hover:border-[#d4a017] transition-all duration-500 bg-white h-full group flex flex-col relative">
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
+                    <div className="rounded-lg sm:rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-500 bg-white h-full group flex flex-col relative">
 
                       <div className="relative aspect-4/3 overflow-hidden shrink-0 z-10">
                         <motion.img
-                          src={puppy.image}
-                          alt={`Filhote ${puppy.name} - ${puppy.breed}`}
+                          src={puppy.primaryImage || '/placeholder-puppy.jpg'}
+                          alt={`Filhote ${puppy.name}`}
                           className="w-full h-full object-cover"
                           whileHover={{ scale: 1.1 }}
-                          transition={{ duration: 0.5, ease: "easeOut" }}
+                          transition={{ duration: 0.7, ease: "easeOut" }}
                           loading="lazy"
                         />
 
-                        <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
-                        {puppy.available && (
-                          <motion.div
-                            className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-[#8a9468] text-white px-2 sm:px-3 py-1 rounded-full text-xs font-semibold shadow-lg"
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                          >
+                        {puppy.status === 'ativo' && (
+                          <div className="absolute top-1 right-1 bg-[#3dc7c4]/90 backdrop-blur-sm text-white px-1.5 py-1 rounded-full text-[10px] font-bold shadow-lg uppercase tracking-wide">
                             Disponível
-                          </motion.div>
+                          </div>
                         )}
 
-                        <motion.div
-                          className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3"
-                          initial={{ y: 20, opacity: 0 }}
-                          whileHover={{ y: 0, opacity: 1 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <div className="bg-white/95 backdrop-blur-sm rounded px-2 sm:px-3 py-1 sm:py-2">
-                            <p className="text-xs text-gray-700 font-medium">
-                              {puppy.description}
-                            </p>
-                          </div>
-                        </motion.div>
+                        <div className="absolute inset-0 flex items-end justify-center p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out bg-black/40 backdrop-blur-[2px]">
+                          <p className="text-white text-sm text-center font-medium line-clamp-4 drop-shadow-md">
+                            {puppy.description}
+                          </p>
+                        </div>
                       </div>
 
-                      <div className="p-2 sm:p-3 md:p-4 flex-1 flex flex-col z-10">
-                        <div className="flex items-center justify-between mb-2 sm:mb-3">
-                          <motion.h2
-                            className="text-lg sm:text-xl font-semibold text-gray-900"
-                            whileHover={{ x: 5 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
+                      <div className="p-5 flex-1 flex flex-col relative bg-white z-10">
+                        <div className="flex items-center justify-between mb-2">
+                          <h2 className="text-xl font-bold text-gray-800 group-hover:text-[#d35836] transition-colors duration-300">
                             {puppy.name}
-                          </motion.h2>
-
-                          <motion.span
-                            className="text-lg sm:text-xl"
-                            aria-label="coração"
-                            whileHover={{ scale: 1.2, rotate: 10 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
-                            {puppy.emoji}
-                          </motion.span>
+                          </h2>
+                          <span className="text-2xl animate-pulse">❤️</span>
                         </div>
 
-                        <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4 flex-1">
-                          <motion.div
-                            className="flex items-center text-gray-700 bg-gray-50 rounded px-2 sm:px-3 py-1 sm:py-2"
-                            whileHover={{ x: 5 }}
-                          >
-                            <span className="mr-1 sm:mr-2 text-sm">📅</span>
-                            <span className="font-medium text-xs sm:text-sm">{puppy.age}</span>
-                          </motion.div>
-
-                          <motion.div
-                            className="flex items-center text-gray-700 bg-gray-50 rounded px-2 sm:px-3 py-1 sm:py-2"
-                            whileHover={{ x: 5 }}
-                          >
-                            <span className="mr-1 sm:mr-2 text-sm">🐕</span>
-                            <span className="font-medium text-xs sm:text-sm">{puppy.breed}</span>
-                          </motion.div>
-                        </div>
+                        <div className="w-full h-px bg-gray-100 my-3" />
 
                         <Link
                           href={`/filhote/${puppy.id}`}
-                          className="w-full bg-gradient-to-r from-[#57534e] to-[#44403c] hover:from-[#44403c] hover:to-[#292524] text-white py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 mt-auto text-sm sm:text-base relative overflow-hidden group cursor-pointer"
-                          aria-label={`Ver detalhes do filhote ${puppy.name}`}
+                          className="w-full bg-linear-to-r from-[#b8860b] to-[#d35836] hover:from-[#d4a017] hover:to-[#e67e66] text-white py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 mt-auto shadow-md hover:shadow-lg hover:-translate-y-0.5"
                         >
-                          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-
-                          <motion.svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="sm:w-4 sm:h-4"
-                            whileHover={{ rotate: 10 }}
-                          >
-                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </motion.svg>
-                          Ver Detalhes
+                          <span>Ver Detalhes</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                          </svg>
                         </Link>
                       </div>
                     </div>
@@ -252,10 +230,10 @@ export function PuppiesCarousel() {
               ))}
             </CarouselContent>
 
-            <CarouselPrevious className="hidden min-[1250px]:flex absolute rounded-full top-1/2 -translate-y-1/2 -left-16 w-12 h-12 bg-gradient-to-br from-[#57534e] to-[#44403c] border-0 text-white hover:from-[#44403c] hover:to-[#292524] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
+            <CarouselPrevious className="hidden min-[1250px]:flex absolute rounded-full top-1/2 -translate-y-1/2 -left-16 w-12 h-12 bg-linear-to-br from-[#57534e] to-[#44403c] border-0 text-white hover:from-[#44403c] hover:to-[#292524] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
               <span className="text-2xl font-bold">‹</span>
             </CarouselPrevious>
-            <CarouselNext className="hidden min-[1250px]:flex absolute rounded-full top-1/2 -translate-y-1/2 -right-16 w-12 h-12 bg-gradient-to-br from-[#57534e] to-[#44403c] border-0 text-white hover:from-[#44403c] hover:to-[#292524] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
+            <CarouselNext className="hidden min-[1250px]:flex absolute rounded-full top-1/2 -translate-y-1/2 -right-16 w-12 h-12 bg-linear-to-br from-[#57534e] to-[#44403c] border-0 text-white hover:from-[#44403c] hover:to-[#292524] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 cursor-pointer">
               <span className="text-2xl font-bold">›</span>
             </CarouselNext>
           </Carousel>

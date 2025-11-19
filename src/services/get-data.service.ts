@@ -20,7 +20,7 @@ export async function getData<T>(url: string): Promise<T> {
     }
 
     const result = await response.json();
-    
+
     if (result && typeof result === 'object' && 'data' in result) {
       return result.data;
     }
@@ -30,7 +30,7 @@ export async function getData<T>(url: string): Promise<T> {
     if (error instanceof TypeError) {
       throw new Error('Erro de conexão. Verifique sua internet ou se a API está rodando.');
     }
-    
+
     throw error;
   }
 }

@@ -1,119 +1,216 @@
 "use client"
-import { URL_FRONT } from '@/lib/utils';
-import React, { useState } from 'react';
 
-export default function Adcionar(){
+import { useState } from 'react';
+import { URL_FRONT } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
+import { Upload, X, DollarSign, FileText, Tag } from 'lucide-react';
+import Link from 'next/link';
+import { postMedia } from '@/services/post-media.service';
+import Image from 'next/image';
+
+export default function AdicionarFilhote() {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
     const [price, setPrice] = useState('');
-    const [imagens, setImagens] = useState([]);
+    const [imagens, setImagens] = useState<File[]>([]);
+    const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
-    const handleInputChange = (event: any) => {
-        const { name, value } = event.target;
-        if (name === 'nome') {
-            setNome(value);
-        } else if (name === 'descricao') {
-            setDescricao(value);
-        } else if(name === 'preco') {
-            setPrice(value)
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(event.target.files || []);
+        setImagens(files);
+
+        const urls = files.map(file => URL.createObjectURL(file));
+        setPreviewUrls(urls);
+    };
+
+    const removeImage = (index: number) => {
+        const newImagens = imagens.filter((_, i) => i !== index);
+        const newPreviews = previewUrls.filter((_, i) => i !== index);
+        setImagens(newImagens);
+        setPreviewUrls(newPreviews);
+    };
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setLoading(true);
+
+        // Validação de preço
+        if (Number(price) <= 0) {
+            alert('O preço deve ser um valor positivo maior que zero.');
+            setLoading(false);
+            return;
         }
-    };
 
-    const handleImageChange = (event: any) => {
-        setImagens(Array.from(event.target.files));
-    };
+        const formData = new FormData();
+        formData.append('name', nome);
+        formData.append('description', descricao);
+        formData.append('price', price);
 
-    const handleSubmit = async (event: any) => {
-    event.preventDefault(); 
+        if (imagens.length > 0) {
+            formData.append('primaryImage', imagens[0], imagens[0].name);
 
-    const formData = new FormData();
-    
-    formData.append('name', nome);
-    formData.append('description', descricao);
-    formData.append('price', price);
+            imagens.slice(1).forEach((imagem) => {
+                formData.append('images', imagem, imagem.name);
+            });
+        }
 
-    const primaryImageFile = imagens[0];
-    const secondaryImages = imagens.slice(1);
-
-    if (primaryImageFile) {
-        //@ts-ignore
-        formData.append('primaryImage', primaryImageFile, primaryImageFile.name);
-    }
-    
-    secondaryImages.forEach((imagem, index) => {
-        //@ts-ignore
-        formData.append(`images`, imagem, imagem.name);
-    });
-
-    try {
-        const response = await fetch(`${URL_FRONT}/filhote`, {
-            method: 'POST',
-            body: formData,
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            console.log('Envio bem-sucedido:', result);
+        try {
+            await postMedia('/api/filhote', formData);
             alert('Filhote adicionado com sucesso!');
-            setNome('');
-            setDescricao('');
-            setPrice('');
-            setImagens([]);
-        } else {
-            console.error('Erro no envio:', response.statusText);
-            alert('Erro ao adicionar filhote.');
+            router.push('/admin/filhotes');
+        } catch (error: any) {
+            console.error('Erro:', error);
+            alert(`Erro: ${error.message || 'Erro ao adicionar filhote'}`);
+        } finally {
+            setLoading(false);
         }
-    } catch (error) {
-        console.error('Erro de rede/servidor:', error);
-        alert('Erro de conexão com o servidor.');
-    }
     };
 
     return (
-        <>
-            <h1>Adiciona Filhote</h1>
-            <br />
-            <form onSubmit={handleSubmit}>
-                <input 
-                    type="text" 
-                    placeholder="Nome" 
-                    id="nome" 
-                    name="nome"
-                    value={nome}
-                    onChange={handleInputChange}
-                />
-                <input 
-                    type="text" 
-                    placeholder="Descrição" 
-                    id="descricao" 
-                    name="descricao"
-                    value={descricao}
-                    onChange={handleInputChange}
-                />
-                <input 
-                    type="number" 
-                    placeholder="Valor" 
-                    id="preco" 
-                    name="preco"
-                    value={price}
-                    onChange={handleInputChange}
-                />
-                
-                <input 
-                    type="file" 
-                    placeholder="Adcione imagens" 
-                    id="addImagem" 
-                    name="addImagem"
-                    accept="image/*"
-                    multiple 
-                    onChange={handleImageChange} 
-                />
-                <br/>
-                <small>{imagens.length} imagem(s) selecionada(s)</small>
-                <br/>
+        <div className="space-y-7">
+            <div className="space-y-1.5">
+                <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Adicionar Filhote</h1>
+                <p className="text-base text-slate-600">
+                    Preencha os dados do novo filhote para cadastrá-lo no sistema.
+                </p>
+            </div>
 
-                <input type="submit" value="Enviar" />
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 space-y-6">
+
+                    <div className="space-y-2">
+                        <label htmlFor="nome" className="block text-sm font-medium text-slate-700">
+                            <Tag className="inline h-4 w-4 mr-1" />
+                            Nome do Filhote
+                        </label>
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            value={nome}
+                            onChange={(e) => setNome(e.target.value)}
+                            required
+                            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+                            placeholder="Ex: Golden Retriever Fêmea"
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="descricao" className="block text-sm font-medium text-slate-700">
+                            <FileText className="inline h-4 w-4 mr-1" />
+                            Descrição
+                        </label>
+                        <textarea
+                            id="descricao"
+                            name="descricao"
+                            value={descricao}
+                            onChange={(e) => setDescricao(e.target.value)}
+                            required
+                            rows={4}
+                            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent resize-none"
+                            placeholder="Descreva as características do filhote..."
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="preco" className="block text-sm font-medium text-slate-700">
+                            <DollarSign className="inline h-4 w-4 mr-1" />
+                            Preço (R$)
+                        </label>
+                        <input
+                            type="number"
+                            id="preco"
+                            name="preco"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            required
+                            min="0"
+                            step="0.01"
+                            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+                            placeholder="0.00"
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label className="block text-sm font-medium text-slate-700">
+                            <Upload className="inline h-4 w-4 mr-1" />
+                            Imagens
+                        </label>
+                        <div className="flex items-center justify-center w-full">
+                            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-300 border-dashed rounded-lg cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
+                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <Upload className="w-8 h-8 mb-2 text-slate-500" />
+                                    <p className="mb-2 text-sm text-slate-500">
+                                        <span className="font-semibold">Clique para fazer upload</span> ou arraste as imagens
+                                    </p>
+                                    <p className="text-xs text-slate-500">A primeira imagem será a principal</p>
+                                </div>
+                                <input
+                                    type="file"
+                                    id="addImagem"
+                                    name="addImagem"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={handleImageChange}
+                                    className="hidden"
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        {previewUrls.length > 0 && (
+                            <div className="mt-4">
+                                <p className="text-sm text-slate-600 mb-2">{imagens.length} imagem(s) selecionada(s)</p>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {previewUrls.map((url, index) => (
+                                        <div key={index} className="relative group">
+                                            <Image
+                                                src={url}
+                                                alt={`Preview ${index + 1}`}
+                                                className="w-full h-32 object-cover rounded-lg border-2 border-slate-200"
+                                                height={200}
+                                                width={200}
+                                            />
+                                            {index === 0 && (
+                                                <span className="absolute top-2 left-2 bg-slate-900 text-white text-xs px-2 py-1 rounded">
+                                                    Principal
+                                                </span>
+                                            )}
+                                            <button
+                                                type="button"
+                                                onClick={() => removeImage(index)}
+                                                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-end gap-3">
+                    <Link href="/admin/filhotes">
+                        <button
+                            type="button"
+                            className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                        >
+                            Cancelar
+                        </button>
+                    </Link>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                        {loading ? 'Salvando...' : 'Salvar Filhote'}
+                    </button>
+                </div>
             </form>
-        </>
-    )
+        </div>
+    );
 }

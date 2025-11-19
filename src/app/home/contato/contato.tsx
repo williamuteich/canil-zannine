@@ -61,9 +61,12 @@ export function Contato() {
   };
 
   return (
-    <section id="contato" className="relative py-16 md:py-24 bg-[#faf8f5] overflow-hidden">
-      <div className="absolute top-0 left-0 w-64 h-64 bg-[#f9e79f]/40 rounded-full blur-3xl opacity-50" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#e67e66]/30 rounded-full blur-3xl opacity-50" />
+    <section id="contato" className="relative py-16 md:py-24 overflow-hidden">
+      <div className="absolute inset-0 -z-20 bg-linear-to-br from-[#fef9e7] via-[#ffe4de] to-[#e8ebe0] opacity-60" />
+      <div className="absolute inset-0 -z-30 bg-[#faf8f5]" />
+
+      <div className="absolute top-1/3 -right-12 w-60 h-60 rounded-full bg-[#e67e66]/25 blur-3xl" />
+      <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-[#b5be9a]/25 blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -77,7 +80,7 @@ export function Contato() {
             className="text-center mb-12"
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-linear-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent">
               Entre em Contato
             </h2>
             <p className="text-lg text-[#57534e] max-w-2xl mx-auto">
@@ -86,7 +89,7 @@ export function Contato() {
           </motion.div>
 
           <motion.div
-            className="bg-gradient-to-br from-[#faf8f5] to-[#f5f0e8] rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-[#ebe3d5] mb-8"
+            className="bg-linear-to-br from-[#faf8f5] to-[#f5f0e8] rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-[#ebe3d5] mb-8"
             variants={scaleIn}
           >
             <div className="text-center mb-6">
@@ -128,7 +131,7 @@ export function Contato() {
                 whileHover={{ y: -5 }}
               >
                 <motion.div
-                  className="w-12 h-12 bg-gradient-to-br from-[#d4a017] to-[#e67e66] rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
+                  className="w-12 h-12 bg-linear-to-br from-[#d4a017] to-[#e67e66] rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
                   whileHover={{ rotate: 5 }}
                 >
                   <item.icon className="h-6 w-6 text-white" />
