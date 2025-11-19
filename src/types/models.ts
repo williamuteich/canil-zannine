@@ -51,3 +51,8 @@ export interface DeleteButtonProps {
   id: string
   apiUrl: string
 }
+
+export interface ShowInstaEmbedsProps {
+    posts: InstaEmbed[];
+    instagramUrl?: string;
+}

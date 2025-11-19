@@ -1,9 +1,9 @@
 export async function deleteData(url: string): Promise<{ status: number }> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-  const fullUrl = `${baseUrl}${url}`;
-
-  const response = await fetch(fullUrl, {
+  const response = await fetch(url, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
     cache: "no-store",
   });
 
