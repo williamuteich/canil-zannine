@@ -2,14 +2,7 @@ import { InstagramSearch } from "../../components/searchItem";
 import { getData } from "@/services/get-data.service";
 import { FilhotesTable } from "./components/FilhotesTable";
 import Link from "next/link";
-
-interface Filhote {
-    id: string;
-    nome: string;
-    raca: string;
-    idade: string;
-    status: boolean;
-}
+import { Filhote } from "@/types/models";
 
 export default async function FilhotesPage() {
     let filhotes: Filhote[] = [];

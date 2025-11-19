@@ -1,13 +1,9 @@
 "use client";
 
+import { ImageGalleryProps } from "@/types/models";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-
-interface ImageGalleryProps {
-  images: string[];
-  name: string;
-}
 
 export function ImageGallery({ images, name }: ImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState(0);

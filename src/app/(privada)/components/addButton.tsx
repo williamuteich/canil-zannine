@@ -15,25 +15,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { postData } from "@/services/post-data.service"
 import { useRouter } from "next/navigation"
-
-type FieldType = "text" | "number" | "email" | "password" | "tel" | "date" | "url" | "select"
-
-interface FieldConfig {
-    name: string
-    label: string
-    type: FieldType
-    required?: boolean
-    placeholder?: string
-    options?: { value: string; label: string }[]
-}
-
-interface AddButtonProps {
-    title: string
-    description: string
-    buttonLabel: string
-    fields: FieldConfig[]
-    apiUrl: string
-}
+import { AddButtonProps } from "@/types/models"
 
 export function AddButton({ title, description, buttonLabel, fields, apiUrl }: AddButtonProps) {
     const [open, setOpen] = useState(false)

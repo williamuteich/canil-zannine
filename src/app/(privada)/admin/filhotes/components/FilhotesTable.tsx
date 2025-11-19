@@ -1,19 +1,5 @@
+import { FilhotesTableProps } from "@/types/models";
 import { TableDemo } from "../../../components/dataTable";
-
-interface Filhote {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  age?: string;
-  weight?: string;
-  status: string;
-  primaryImage: string;
-}
-
-interface FilhotesTableProps {
-  filhotes: Filhote[];
-}
 
 export function FilhotesTable({ filhotes }: FilhotesTableProps) {
   const tableHead = ["Imagem", "Nome", "Idade", "Peso", "Descrição", "Preço", "Status", "Ação"];

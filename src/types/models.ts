@@ -62,3 +62,60 @@ export interface ShowInstaEmbedsProps {
   posts: InstaEmbed[];
   instagramUrl?: string;
 }
+
+export interface PuppyInfoPanelProps {
+  name: string;
+  emoji: string;
+  age: string;
+  breed: string;
+  description: string;
+  weight: string;
+  price: number;
+  priceOld?: number;
+}
+
+export interface Puppy {
+  id: string;
+  name: string;
+  slug?: string;
+  description: string;
+  price: number;
+  age?: string;
+  weight?: string;
+  status: string;
+  primaryImage: string;
+  images?: { id: string; url: string }[];
+}
+
+export type Filhote = Puppy;
+
+export interface FilhotesTableProps {
+  filhotes: Puppy[];
+}
+
+export interface InstagramTableProps {
+  embeds: InstaEmbed[];
+}
+type FieldType = "text" | "number" | "email" | "password" | "tel" | "date" | "url" | "select"
+
+export interface FieldConfig {
+  name: string
+  label: string
+  type: FieldType
+  required?: boolean
+  placeholder?: string
+  options?: { value: string; label: string }[]
+}
+
+export interface AddButtonProps {
+  title: string
+  description: string
+  buttonLabel: string
+  fields: FieldConfig[]
+  apiUrl: string
+}
+
+export interface ImageGalleryProps {
+  images: string[];
+  name: string;
+}

@@ -1,19 +1,8 @@
 "use client";
 
+import { PuppyInfoPanelProps } from "@/types/models";
 import { motion } from "framer-motion";
-import { Calendar, Dog, Heart, Phone } from "lucide-react";
-import { useState } from "react";
-
-interface PuppyInfoPanelProps {
-  name: string;
-  emoji: string;
-  age: string;
-  breed: string;
-  description: string;
-  weight: string;
-  price: number;
-  priceOld?: number;
-}
+import { Calendar, ChevronDown, Dog, Heart, Phone } from "lucide-react";
 
 const AccordionItem = ({
   title,

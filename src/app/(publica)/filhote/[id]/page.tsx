@@ -2,19 +2,7 @@ import Link from "next/link";
 import { ImageGallery } from "../components/ImageGallery";
 import { PuppyInfoPanel } from "../components/PuppyInfoPanel";
 import { getData } from "@/services/get-data.service";
-
-interface Puppy {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  price: number;
-  age?: string;
-  weight?: string;
-  status: string;
-  primaryImage: string;
-  images: { id: string; url: string }[];
-}
+import { Puppy } from "@/types/models";
 
 export default async function FilhoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
   let puppy: Puppy | null = null;
@@ -46,8 +34,8 @@ export default async function FilhoteDetailPage({ params }: { params: Promise<{ 
   ].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-[#faf8ed]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-8 pt-32 pb-16">
+    <div className="bg-[#faf8ed]">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-8 pt-32 pb-10">
         {puppy.status !== 'ativo' && (
           <div className="mb-6 bg-red-50 border-2 border-red-200 rounded-xl p-4 text-center">
             <p className="text-red-800 font-bold text-lg">⚠️ Este filhote já foi adotado ou não está mais disponível</p>

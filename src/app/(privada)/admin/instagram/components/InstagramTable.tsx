@@ -1,9 +1,5 @@
 import { TableDemo } from "../../../components/dataTable";
-import type { InstaEmbed } from "@/types/models";
-
-interface InstagramTableProps {
-  embeds: InstaEmbed[];
-}
+import type { InstagramTableProps } from "@/types/models";
 
 export function InstagramTable({ embeds }: InstagramTableProps) {
   const tableHead = ["Id", "Title", "Url", "Status", "Ação"];
