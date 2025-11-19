@@ -208,8 +208,22 @@ export function PuppiesCarousel() {
                           <h2 className="text-xl font-bold text-gray-800 group-hover:text-[#d35836] transition-colors duration-300">
                             {puppy.name}
                           </h2>
-                          <span className="text-2xl animate-pulse">❤️</span>
                         </div>
+
+                        {(puppy.age || puppy.weight) && (
+                          <div className="flex gap-2 mb-3 flex-wrap">
+                            {puppy.age && (
+                              <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full font-medium">
+                                {puppy.age}
+                              </span>
+                            )}
+                            {puppy.weight && (
+                              <span className="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded-full font-medium">
+                                {puppy.weight}
+                              </span>
+                            )}
+                          </div>
+                        )}
 
                         <div className="w-full h-px bg-gray-100 my-3" />
 

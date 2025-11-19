@@ -6,8 +6,11 @@ import { getData } from "@/services/get-data.service";
 interface Puppy {
   id: string;
   name: string;
+  slug: string;
   description: string;
   price: number;
+  age?: string;
+  weight?: string;
   status: string;
   primaryImage: string;
   images: { id: string; url: string }[];
@@ -55,10 +58,10 @@ export default async function FilhoteDetailPage({ params }: { params: Promise<{ 
               <PuppyInfoPanel
                 name={puppy.name}
                 emoji="❤️"
-                age="Consultar"
+                age={puppy.age || "Consultar"}
                 breed="Chihuahua"
                 description={puppy.description}
-                weight="Consultar"
+                weight={puppy.weight || "Consultar"}
                 price={puppy.price}
               />
             </div>

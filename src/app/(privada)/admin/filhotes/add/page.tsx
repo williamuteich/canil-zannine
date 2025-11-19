@@ -13,6 +13,8 @@ export default function AdicionarFilhote() {
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
     const [price, setPrice] = useState('');
+    const [age, setAge] = useState('');
+    const [weight, setWeight] = useState('');
     const [imagens, setImagens] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
@@ -45,6 +47,8 @@ export default function AdicionarFilhote() {
         formData.append('name', nome);
         formData.append('description', descricao);
         formData.append('price', price);
+        if (age) formData.append('age', age);
+        if (weight) formData.append('weight', weight);
 
         if (imagens.length > 0) {
             formData.append('primaryImage', imagens[0], imagens[0].name);
@@ -110,21 +114,53 @@ export default function AdicionarFilhote() {
                         />
                     </div>
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <label htmlFor="preco" className="block text-sm font-medium text-slate-700">
+                                <DollarSign className="inline h-4 w-4 mr-1" />
+                                Preço (R$)
+                            </label>
+                            <input
+                                type="text"
+                                id="preco"
+                                name="preco"
+                                value={price ? `R$ ${Number(price).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : ''}
+                                onChange={handlePriceChange}
+                                required
+                                min="0"
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+                                placeholder="R$ 0,00"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label htmlFor="idade" className="block text-sm font-medium text-slate-700">
+                                Idade
+                            </label>
+                            <input
+                                type="text"
+                                id="idade"
+                                name="idade"
+                                value={age}
+                                onChange={(e) => setAge(e.target.value)}
+                                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
+                                placeholder="Ex: 3 meses"
+                            />
+                        </div>
+                    </div>
+
                     <div className="space-y-2">
-                        <label htmlFor="preco" className="block text-sm font-medium text-slate-700">
-                            <DollarSign className="inline h-4 w-4 mr-1" />
-                            Preço (R$)
+                        <label htmlFor="peso" className="block text-sm font-medium text-slate-700">
+                            Peso
                         </label>
                         <input
                             type="text"
-                            id="preco"
-                            name="preco"
-                            value={price ? `R$ ${Number(price).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : ''}
-                            onChange={handlePriceChange}
-                            required
-                            min="0"
+                            id="peso"
+                            name="peso"
+                            value={weight}
+                            onChange={(e) => setWeight(e.target.value)}
                             className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
-                            placeholder="R$ 0,00"
+                            placeholder="Ex: 2,5 kg"
                         />
                     </div>
 

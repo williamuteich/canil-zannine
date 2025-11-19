@@ -9,6 +9,8 @@ const puppySchema = z.object({
     name: z.string().min(1, "O título é obrigatório"),
     description: z.string().min(1, "A descrição é obrigatória"),
     price: z.number().min(0, "O preço deve ser um número positivo"),
+    age: z.string().optional(),
+    weight: z.string().optional(),
     status: z.enum(["pedding", "ativo", "inativo"]).optional().default("ativo"),
     primaryImage: z.string().min(1, "A imagem principal é obrigatória"),
     images: z.array(z.string().min(1, "A URL da imagem é obrigatória")).optional(),
@@ -43,16 +45,18 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const auth = await verifyAuth(request);
     if (!auth.success) return unauthorizedResponse();
-    
+
     try {
         const formData = await request.formData();
-       
+
         const name = formData.get('name')
         const description = formData.get('description')
         const price = Number(formData.get('price'))
+        const age = formData.get('age')
+        const weight = formData.get('weight')
         const primaryImage = formData.get('primaryImage')
-        const images =  formData.getAll('images')
-        
+        const images = formData.getAll('images')
+
         const primaryImageName = primaryImage instanceof File ? primaryImage.name : String(primaryImage)
         const imagesNames = images.map(img => img instanceof File ? img.name : String(img))
 
@@ -60,6 +64,8 @@ export async function POST(request: NextRequest) {
             name,
             description,
             price,
+            age: age ? String(age) : undefined,
+            weight: weight ? String(weight) : undefined,
             primaryImage: primaryImageName,
             images: imagesNames
         }
@@ -80,14 +86,14 @@ export async function POST(request: NextRequest) {
             await saveFile(primaryImage);
         }
 
-        if(images){
+        if (images) {
             for (const img of images) {
                 if (img instanceof File) {
                     await saveFile(img);
                 }
             }
         }
-        
+
         return NextResponse.json(
             {
                 message: "Filhote criado com sucesso",
