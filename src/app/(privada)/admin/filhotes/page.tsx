@@ -1,6 +1,7 @@
 import { PaginationDemo } from "../../components/pagination";
 import { TableDemo } from "../../components/dataTable";
 import { InstagramSearch } from "../../components/searchItem";
+import Link from "next/link";
 
 export default function FilhotesPage() {
     const tableHead = ["Id", "Nome", "Raça", "Status", "Ação"];
@@ -53,9 +54,11 @@ export default function FilhotesPage() {
 
             <div className="mt-6 flex flex-col gap-3">
                 <div className="text-end">
+                    <Link href={`/admin/filhotes/add`}>
                     <button className="rounded-md mb-2 bg-slate-900 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 cursor-pointer">
                         Adicionar Filhote
                     </button>
+                    </Link>
                 </div>
                 <PaginationDemo />
             </div>

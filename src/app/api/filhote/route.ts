@@ -2,6 +2,8 @@ import { z } from "zod";
 import { unauthorizedResponse, verifyAuth } from "@/lib/auth-utils";
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import path from "path";
+import { writeFile } from "fs/promises";
 
 const puppySchema = z.object({
     name: z.string().min(1, "O título é obrigatório"),
@@ -10,8 +12,14 @@ const puppySchema = z.object({
     status: z.enum(["pedding", "ativo", "inativo"]).optional().default("ativo"),
     primaryImage: z.string().min(1, "A imagem principal é obrigatória"),
     images: z.array(z.string().min(1, "A URL da imagem é obrigatória")).optional(),
-
 });
+
+const saveFile = async (file: File) => {
+    const UPLOAD_DIR = path.join(process.cwd(), 'public', 'filhote');
+    const buffer = await file.arrayBuffer();
+    const filePath = path.join(UPLOAD_DIR, file.name);
+    await writeFile(filePath, Buffer.from(buffer));
+};
 
 export async function GET(request: NextRequest) {
     try {
@@ -35,18 +43,51 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const auth = await verifyAuth(request);
     if (!auth.success) return unauthorizedResponse();
-
+    
     try {
-        const body = await request.json();
-        const parsedBody = puppySchema.parse(body);
+        const formData = await request.formData();
+       
+        const name = formData.get('name')
+        const description = formData.get('description')
+        const price = Number(formData.get('price'))
+        const primaryImage = formData.get('primaryImage')
+        const images =  formData.getAll('images')
+        
+        const primaryImageName = primaryImage instanceof File ? primaryImage.name : String(primaryImage)
+        const imagesNames = images.map(img => img instanceof File ? img.name : String(img))
+
+        const rawData = {
+            name,
+            description,
+            price,
+            primaryImage: primaryImageName,
+            images: imagesNames
+        }
+
+        const parsedBody = puppySchema.parse(rawData);
+
         const puppy = await prisma.puppy.create({
             data: {
                 ...parsedBody,
                 images: {
-                    create: parsedBody.images?.map(url => ({ url })) || [],
+                    create: parsedBody.images?.map(filename => ({ url: `/${filename}` })) || [],
                 },
+                primaryImage: `/uploads/${parsedBody.primaryImage}`,
             },
         });
+
+        if (primaryImage instanceof File) {
+            await saveFile(primaryImage);
+        }
+
+        if(images){
+            for (const img of images) {
+                if (img instanceof File) {
+                    await saveFile(img);
+                }
+            }
+        }
+        
         return NextResponse.json(
             {
                 message: "Filhote criado com sucesso",
