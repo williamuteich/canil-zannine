@@ -68,7 +68,7 @@ model InstaEmbed {
 model SocialMedia {
   id        String  @id @default(uuid())
   plataform String
-  link      String
+  link      String?
   value     String?
   status    Boolean @default(true)
 

@@ -59,12 +59,13 @@ export function PuppyInfoPanel({
   weight,
   price,
   priceOld,
-}: PuppyInfoPanelProps) {
+  whatsappLink,
+}: PuppyInfoPanelProps & { whatsappLink?: string }) {
 
   const handleWhatsAppClick = (action: string) => {
+    if (!whatsappLink) return;
     const message = `Olá! Tenho interesse no filhote ${name} (${action}). Poderia me dar mais informações?`;
-    const phoneNumber = "5511999999999";
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    const url = `${whatsappLink}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
 

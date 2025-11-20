@@ -3,7 +3,11 @@
 import { motion } from "framer-motion";
 import { MessageCircle, MapPin, Phone, Mail } from "lucide-react";
 import { IconWhatsapp } from "./components/iconWhatsapp";
+import type { SocialMedia } from "@/types/models";
 
+interface ContatoProps {
+  socialMedia: SocialMedia[];
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,33 +35,40 @@ const scaleIn = {
   },
 };
 
-const contactInfo = [
-  {
-    icon: MapPin,
-    title: "Localização",
-    content: "São Paulo, SP",
-    description: "Atendemos toda região"
-  },
-  {
-    icon: Phone,
-    title: "Telefone",
-    content: "(11) 99999-9999",
-    description: "Horário comercial"
-  },
-  {
-    icon: Mail,
-    title: "Email",
-    content: "contato@canilzannine.com.br",
-    description: "Respondemos rapidamente"
-  },
-];
+export function Contato({ socialMedia }: ContatoProps) {
+  const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
+  const telefone = socialMedia.find(sm => sm.plataform.toLowerCase() === 'telefone' && sm.status);
+  const email = socialMedia.find(sm => sm.plataform.toLowerCase() === 'email' && sm.status);
 
-export function Contato() {
+  const whatsappLink = whatsapp?.link || (whatsapp?.value ? `https://wa.me/${whatsapp.value.replace(/\D/g, '')}` : undefined);
+
+  const contactInfo = [
+    {
+      icon: MapPin,
+      title: "Localização",
+      content: "São Paulo, SP",
+      description: "Atendemos toda região"
+    },
+    ...(telefone?.value ? [{
+      icon: Phone,
+      title: "Telefone",
+      content: telefone.value,
+      description: "Horário comercial"
+    }] : []),
+    ...(email?.value ? [{
+      icon: Mail,
+      title: "Email",
+      content: email.value,
+      description: "Respondemos rapidamente"
+    }] : []),
+  ];
+
   const handleWhatsAppClick = () => {
-    const message = "Olá! Gostaria de mais informações sobre os filhotes.";
-    const phoneNumber = "5511999999999";
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    if (whatsappLink) {
+      const message = "Olá! Gostaria de mais informações sobre os filhotes.";
+      const url = `${whatsappLink}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
   };
 
   return (
@@ -80,44 +91,46 @@ export function Contato() {
             className="text-center mb-12"
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-linear-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 bg-linear-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent">
               Entre em Contato
             </h2>
-            <p className="text-lg text-[#57534e] max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-[#57534e] max-w-2xl mx-auto px-2">
               Estamos prontos para ajudar você a encontrar seu novo melhor amigo!
             </p>
           </motion.div>
 
-          <motion.div
-            className="bg-linear-to-br from-[#faf8f5] to-[#f5f0e8] rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-[#ebe3d5] mb-8"
-            variants={scaleIn}
-          >
-            <div className="text-center mb-6">
-              <motion.div
-                className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                <MessageCircle className="h-8 w-8 text-white" />
-              </motion.div>
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
-                Atendimento via WhatsApp
-              </h3>
-              <p className="text-gray-600">
-                Tire suas dúvidas, veja mais fotos dos filhotes e agende sua visita!
-              </p>
-            </div>
-
-            <motion.button
-              onClick={handleWhatsAppClick}
-              className="w-full bg-green-500 hover:bg-green-600 text-white text-lg font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group cursor-pointer"
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
+          {whatsapp && (
+            <motion.div
+              className="bg-linear-to-br from-[#faf8f5] to-[#f5f0e8] rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-[#ebe3d5] mb-8"
+              variants={scaleIn}
             >
-              <MessageCircle className="h-6 w-6" />
-              Chamar no WhatsApp Agora
-            </motion.button>
-          </motion.div>
+              <div className="text-center mb-6">
+                <motion.div
+                  className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <MessageCircle className="h-8 w-8 text-white" />
+                </motion.div>
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+                  Atendimento via WhatsApp
+                </h3>
+                <p className="text-gray-600">
+                  Tire suas dúvidas, veja mais fotos dos filhotes e agende sua visita!
+                </p>
+              </div>
+
+              <motion.button
+                onClick={handleWhatsAppClick}
+                className="w-full bg-green-500 hover:bg-green-600 text-white text-lg font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group cursor-pointer"
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <MessageCircle className="h-6 w-6" />
+                Chamar no WhatsApp Agora
+              </motion.button>
+            </motion.div>
+          )}
 
           <motion.div
             className="grid md:grid-cols-3 gap-6"
@@ -151,7 +164,7 @@ export function Contato() {
         </motion.div>
       </div>
 
-      <IconWhatsapp onClick={handleWhatsAppClick} />
+      {whatsapp && <IconWhatsapp onClick={handleWhatsAppClick} />}
     </section>
   );
 }

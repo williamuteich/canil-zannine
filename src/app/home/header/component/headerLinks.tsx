@@ -31,7 +31,7 @@ export function HeaderLinks() {
                 <li>
                     <Link
                         className="px-4 py-3 rounded-md transition-all duration-300 text-gray-600 hover:text-pink-400 hover:bg-pink-100"
-                        href="/#sobre"
+                        href="/sobre"
                     >
                         Sobre
                     </Link>

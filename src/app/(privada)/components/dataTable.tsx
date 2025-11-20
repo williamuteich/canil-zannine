@@ -16,7 +16,7 @@ export function TableDemo({
   rows,
   apiUrl,
   editUrl,
-  showPrice = false,
+  showPrice = true,
 }: {
   tableHead: string[]
   rows: tableRow[]
@@ -24,6 +24,85 @@ export function TableDemo({
   editUrl?: string
   showPrice?: boolean
 }) {
+  const renderCell = (row: tableRow, field: keyof tableRow) => {
+    const value = row[field];
+
+    if (field === 'id' && row.image) {
+      return (
+        <div className="h-12 w-12 overflow-hidden rounded-lg border border-slate-200">
+          <Image
+            src={row.image}
+            alt={row.title}
+            className="h-full w-full object-cover"
+            height={48}
+            width={48}
+          />
+        </div>
+      );
+    }
+
+    if (field === 'url' && value) {
+      return (
+        <Link
+          href={value as string}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline truncate block"
+        >
+          {value as string}
+        </Link>
+      );
+    }
+
+    if (field === 'description' && value) {
+      return (
+        <span className="line-clamp-1 block max-w-[250px]" title={value as string}>
+          {value as string}
+        </span>
+      );
+    }
+
+    if (field === 'price' && value !== undefined) {
+      return `R$ ${(value as number).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+    }
+
+    if (field === 'status') {
+      return (
+        <span
+          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium ${value ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
+            }`}
+        >
+          {value ? "Ativo" : "Inativo"}
+        </span>
+      );
+    }
+
+    return value !== undefined ? String(value) : '';
+  };
+
+  const getFieldsToDisplay = (): (keyof tableRow)[] => {
+    if (rows.length === 0) return [];
+
+    const firstRow = rows[0];
+    const fields: (keyof tableRow)[] = [];
+
+    fields.push('id');
+
+    if (firstRow.title !== undefined) fields.push('title');
+    if (firstRow.age !== undefined) fields.push('age');
+    if (firstRow.weight !== undefined) fields.push('weight');
+    if (firstRow.url !== undefined) fields.push('url');
+    if (firstRow.description !== undefined) fields.push('description');
+    if (firstRow.subtitle !== undefined) fields.push('subtitle');
+    if (firstRow.price !== undefined && showPrice) fields.push('price');
+
+    fields.push('status');
+
+    return fields;
+  };
+
+  const fieldsToDisplay = getFieldsToDisplay();
+
   return (
     <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
       <Table className="min-w-[900px]">
@@ -31,7 +110,7 @@ export function TableDemo({
           <TableRow className="border-b border-slate-800/60 hover:bg-transparent">
             {tableHead.map((head, index) => (
               <TableHead
-                key={head}
+                key={`${head}-${index}`}
                 className={`py-3.5 px-4 text-xs font-semibold uppercase tracking-wide ${index === tableHead.length - 1 ? "text-right" : "text-left"
                   }`}
               >
@@ -46,65 +125,18 @@ export function TableDemo({
               key={row.id}
               className="border-b border-slate-100/60 last:border-0 hover:bg-slate-50 transition-colors"
             >
-              <TableCell className="py-3.5 px-4 text-sm font-medium text-slate-900">
-                {row.image ? (
-                  <div className="h-12 w-12 overflow-hidden rounded-lg border border-slate-200">
-                    <Image
-                      src={row.image}
-                      alt={row.title}
-                      className="h-full w-full object-cover"
-                      height={48}
-                      width={48}
-                    />
-                  </div>
-                ) : (
-                  row.id
-                )}
-              </TableCell>
-              <TableCell className="py-3.5 px-4 text-sm text-slate-900 font-medium">
-                {row.title}
-              </TableCell>
-              <TableCell className="py-3.5 px-4 text-sm text-slate-600">
-                {row.age || '-'}
-              </TableCell>
-              <TableCell className="py-3.5 px-4 text-sm text-slate-600">
-                {row.weight || '-'}
-              </TableCell>
-              <TableCell className="py-3.5 px-4 text-sm text-slate-700 max-w-[200px]">
-                {row.url ? (
-                  <Link
-                    href={row.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline truncate block"
-                  >
-                    {row.url}
-                  </Link>
-                ) : row.description ? (
-                  <span className="line-clamp-1 block" title={row.description}>
-                    {row.description}
-                  </span>
-                ) : (
-                  <span>{row.subtitle || '-'}</span>
-                )}
-              </TableCell>
-
-              {showPrice && (
-                <TableCell className="py-3.5 px-4 text-sm text-slate-700">
-                  {row.price ? `R$ ${row.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : '-'}
-                </TableCell>
-              )}
-
-              <TableCell className="py-3.5 px-4">
-                <span
-                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium ${row.status
-                    ? "bg-emerald-50 text-emerald-700"
-                    : "bg-rose-50 text-rose-700"
-                    }`}
+              {fieldsToDisplay.map((field, index) => (
+                <TableCell
+                  key={`${row.id}-${field}`}
+                  className={`py-3.5 px-4 text-sm ${field === 'id' || field === 'title'
+                    ? 'font-medium text-slate-900'
+                    : 'text-slate-600'
+                    } ${field === 'url' ? 'max-w-[200px]' : ''}`}
                 >
-                  {row.status ? "Ativo" : "Inativo"}
-                </span>
-              </TableCell>
+                  {renderCell(row, field)}
+                </TableCell>
+              ))}
+
               <TableCell className="py-3.5 px-4 text-right text-sm">
                 <div className="flex items-center justify-end gap-2">
                   {editUrl ? (

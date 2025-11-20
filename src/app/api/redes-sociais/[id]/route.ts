@@ -5,7 +5,8 @@ import { z } from "zod";
 
 const socialMediaPatchSchema = z.object({
   plataform: z.string().min(1, "A plataforma é obrigatória").optional(),
-  link: z.string().url("O link deve ser uma URL válida").optional(),
+  link: z.string().url("O link deve ser uma URL válida").optional().or(z.literal('')),
+  value: z.string().optional(),
   status: z.boolean().optional(),
 });
 
@@ -27,6 +28,7 @@ export async function PATCH(
     const dataToUpdate: any = {};
     if (parsed.plataform !== undefined) dataToUpdate.plataform = parsed.plataform;
     if (parsed.link !== undefined) dataToUpdate.link = parsed.link;
+    if (parsed.value !== undefined) dataToUpdate.value = parsed.value;
     if (parsed.status !== undefined) dataToUpdate.status = parsed.status;
 
     if (Object.keys(dataToUpdate).length === 0) {

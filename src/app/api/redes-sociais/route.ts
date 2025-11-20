@@ -5,7 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 const socialMediaSchema = z.object({
   plataform: z.string().min(1, "A plataforma é obrigatória"),
-  link: z.string().url("O link deve ser uma URL válida"),
+  link: z.string().url("O link deve ser uma URL válida").optional().or(z.literal('')),
+  value: z.string().optional(),
   status: z.boolean().optional().default(true),
 });
 
@@ -52,7 +53,8 @@ export async function POST(request: NextRequest) {
     const socialMedia = await prisma.socialMedia.create({
       data: {
         plataform: parsedBody.plataform,
-        link: parsedBody.link,
+        link: parsedBody.link || "",
+        value: parsedBody.value,
         status: parsedBody.status,
       },
     });

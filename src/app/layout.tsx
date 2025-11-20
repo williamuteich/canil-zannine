@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "./home/header/header";
 import { Footer } from "./home/footer/footer";
+import { getData } from "@/services/get-data.service";
+import type { SocialMedia } from "@/types/models";
 
 export const metadata: Metadata = {
   title: "Canil Zannine - Filhotes de Alta Qualidade",
@@ -11,17 +13,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let socialMedia: SocialMedia[] = [];
+
+  try {
+    socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");
+  } catch (error) {
+    console.error("Erro ao buscar redes sociais:", error);
+  }
+
   return (
     <html lang="en">
       <body>
         <Header />
         {children}
-        <Footer />
+        <Footer socialMedia={socialMedia} />
       </body>
     </html>
   );

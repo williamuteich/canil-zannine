@@ -38,14 +38,23 @@ export default async function RedesSociais() {
 									{ value: "twitter", label: "X (Twitter)" },
 									{ value: "linkedin", label: "LinkedIn" },
 									{ value: "whatsapp", label: "WhatsApp" },
+									{ value: "telefone", label: "Telefone" },
+									{ value: "email", label: "Email" },
 								],
 							},
 							{
 								name: "link",
 								label: "Link",
 								type: "url",
-								required: true,
+								required: false,
 								placeholder: "https://...",
+							},
+							{
+								name: "value",
+								label: "Valor/Texto (opcional)",
+								type: "text",
+								required: false,
+								placeholder: "Ex: (51) 99868-2733",
 							}
 						]}
 					/>

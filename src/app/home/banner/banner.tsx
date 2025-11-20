@@ -3,8 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
+import type { SocialMedia } from "@/types/models";
 
-export function Banner() {
+interface BannerProps {
+  socialMedia: SocialMedia[];
+}
+
+export function Banner({ socialMedia }: BannerProps) {
+  const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
+  const whatsappLink = whatsapp?.link || (whatsapp?.value ? `https://wa.me/${whatsapp.value.replace(/\D/g, '')}` : undefined);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -69,15 +77,17 @@ export function Banner() {
             variants={fadeUp}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <Link
-              href="https://wa.me/5599999999999"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] hover:bg-[#1EB656] text-white text-md font-semibold px-8 py-3 sm:px-10 sm:py-3 shadow-xl shadow-[#25D366]/40 transition-all duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#25D366] cursor-pointer"
-            >
-              <MessageCircle className="h-6 w-6" aria-hidden />
-              Fale conosco no WhatsApp
-            </Link>
+            {whatsapp && whatsappLink && (
+              <Link
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] hover:bg-[#1EB656] text-white text-md font-semibold px-8 py-3 sm:px-10 sm:py-3 shadow-xl shadow-[#25D366]/40 transition-all duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#25D366] cursor-pointer"
+              >
+                <MessageCircle className="h-6 w-6" aria-hidden />
+                Fale conosco no WhatsApp
+              </Link>
+            )}
           </motion.div>
         </motion.div>
       </div>

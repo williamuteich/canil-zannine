@@ -10,7 +10,8 @@ export interface InstaEmbed {
 export interface SocialMedia {
   id: string;
   plataform: string;
-  link: string;
+  link?: string;
+  value?: string;
   status: boolean;
   createdAt: string;
   updatedAt: string;

@@ -2,17 +2,24 @@ import Link from "next/link";
 import { ImageGallery } from "../components/ImageGallery";
 import { PuppyInfoPanel } from "../components/PuppyInfoPanel";
 import { getData } from "@/services/get-data.service";
-import { Puppy } from "@/types/models";
+import { Puppy, SocialMedia } from "@/types/models";
 
 export default async function FilhoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
   let puppy: Puppy | null = null;
+  let socialMedia: SocialMedia[] = [];
   const { id } = await params;
 
   try {
-    puppy = await getData<Puppy>(`/api/filhote/${id}`);
+    [puppy, socialMedia] = await Promise.all([
+      getData<Puppy>(`/api/filhote/${id}`),
+      getData<SocialMedia[]>("/api/redes-sociais")
+    ]);
   } catch (error) {
-    console.error("Erro ao buscar filhote:", error);
+    console.error("Erro ao buscar dados:", error);
   }
+
+  const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
+  const whatsappLink = whatsapp?.link || (whatsapp?.value ? `https://wa.me/${whatsapp.value.replace(/\D/g, '')}` : undefined);
 
   if (!puppy) {
     return (
@@ -57,6 +64,7 @@ export default async function FilhoteDetailPage({ params }: { params: Promise<{ 
                 description={puppy.description}
                 weight={puppy.weight || "Consultar"}
                 price={puppy.price}
+                whatsappLink={whatsappLink}
               />
             </div>
           </div>
