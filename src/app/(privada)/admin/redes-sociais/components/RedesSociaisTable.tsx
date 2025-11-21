@@ -1,4 +1,6 @@
+"use client"
 import { TableDemo } from "../../../components/dataTable";
+import { EditButton } from "../../../components/editButton";
 import type { RedesSociaisTableProps } from "@/types/models";
 
 export function RedesSociaisTable({ socialMedia }: RedesSociaisTableProps) {
@@ -37,8 +39,61 @@ export function RedesSociaisTable({ socialMedia }: RedesSociaisTableProps) {
     id: item.id,
     title: item.plataform,
     url: item.link,
-    status: item.status,
+    status: item.status ? "Ativo" : "Inativo",
   }));
 
-  return <TableDemo tableHead={tableHead} rows={tableRows} apiUrl="/api/redes-sociais" />;
+  const fields = [
+    {
+      name: "plataform",
+      label: "Plataforma",
+      type: "select" as const,
+      required: true,
+      options: [
+        { value: "instagram", label: "Instagram" },
+        { value: "facebook", label: "Facebook" },
+        { value: "tiktok", label: "TikTok" },
+        { value: "youtube", label: "YouTube" },
+        { value: "twitter", label: "X (Twitter)" },
+        { value: "linkedin", label: "LinkedIn" },
+        { value: "whatsapp", label: "WhatsApp" },
+        { value: "telefone", label: "Telefone" },
+        { value: "email", label: "Email" },
+      ],
+    },
+    {
+      name: "link",
+      label: "Link",
+      type: "url" as const,
+      required: false,
+      placeholder: "https://...",
+    },
+    {
+      name: "value",
+      label: "Valor/Texto (opcional)",
+      type: "text" as const,
+      required: false,
+      placeholder: "Ex: (51) 99868-2733",
+    }
+  ];
+
+  return (
+    <TableDemo
+      tableHead={tableHead}
+      rows={tableRows}
+      apiUrl="/api/redes-sociais"
+      renderEdit={(row) => {
+        const item = socialMedia.find(sm => sm.id === row.id);
+        return (
+          <EditButton
+            id={row.id}
+            title="Editar Rede Social"
+            description="Atualize os dados da rede social."
+            fields={fields}
+            apiUrl="/api/redes-sociais"
+            initialData={item}
+          />
+        );
+      }}
+    />
+  );
 }

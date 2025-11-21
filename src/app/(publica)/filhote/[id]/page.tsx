@@ -41,18 +41,12 @@ export default async function FilhoteDetailPage({ params }: { params: Promise<{ 
   ].filter(Boolean);
 
   return (
-    <div className="bg-[#faf8ed]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-8 pt-32 pb-10">
-        {puppy.status !== 'ativo' && (
-          <div className="mb-6 bg-red-50 border-2 border-red-200 rounded-xl p-4 text-center">
-            <p className="text-red-800 font-bold text-lg">⚠️ Este filhote já foi adotado ou não está mais disponível</p>
-          </div>
-        )}
-
-        <div className="bg-white rounded-2xl border border-[#febbd6] shadow-sm overflow-hidden">
-          <div className="flex flex-col lg:flex-row gap-8 p-6 lg:p-8">
+    <div className="min-h-screen bg-white">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="flex flex-col lg:flex-row gap-8 p-6 lg:p-10">
             <div className="lg:w-1/2">
-              <ImageGallery images={galleryImages} name={puppy.name} />
+              <ImageGallery images={galleryImages} name={puppy.name} status={puppy.status} />
             </div>
 
             <div className="lg:w-1/2">
@@ -65,6 +59,7 @@ export default async function FilhoteDetailPage({ params }: { params: Promise<{ 
                 weight={puppy.weight || "Consultar"}
                 price={puppy.price}
                 whatsappLink={whatsappLink}
+                status={puppy.status}
               />
             </div>
           </div>

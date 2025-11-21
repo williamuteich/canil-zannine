@@ -12,6 +12,44 @@ const socialMediaPatchSchema = z.object({
 
 const idSchema = z.string().min(1, "ID é obrigatório");
 
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id?: string }> }
+) {
+  try {
+    const { id } = await params;
+    const idValidated = idSchema.parse(id);
+
+    const socialMedia = await prisma.socialMedia.findUnique({
+      where: { id: idValidated },
+    });
+
+    if (!socialMedia) {
+      return NextResponse.json(
+        { error: "Rede social não encontrada" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      message: "Rede social carregada com sucesso",
+      data: socialMedia,
+    });
+  } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: error.issues.map(e => e.message) },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: "Falha ao buscar a rede social" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id?: string }> }

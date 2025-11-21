@@ -5,7 +5,10 @@
  */
 export async function getData<T>(url: string): Promise<T> {
   try {
-    const response = await fetch(process.env.NEXTAUTH_URL + url, {
+    const baseUrl = process.env.NEXTAUTH_URL || "";
+    const fullUrl = url.startsWith("http") ? url : (baseUrl ? `${baseUrl}${url}` : url);
+
+    const response = await fetch(fullUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -60,7 +60,8 @@ export function PuppyInfoPanel({
   price,
   priceOld,
   whatsappLink,
-}: PuppyInfoPanelProps & { whatsappLink?: string }) {
+  status = 'ativo',
+}: PuppyInfoPanelProps & { whatsappLink?: string; status?: string }) {
 
   const handleWhatsAppClick = (action: string) => {
     if (!whatsappLink) return;
@@ -70,70 +71,82 @@ export function PuppyInfoPanel({
   };
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
+    <div className="space-y-8">
+      <div className="space-y-4">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">{name}</h1>
-            <p className="text-sm font-medium text-gray-500 uppercase tracking-wide mt-1">{breed}</p>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">{name}</h1>
+            <p className="text-base font-semibold text-gray-500 uppercase tracking-wider mt-2">{breed}</p>
           </div>
-          <span className="text-2xl">{emoji}</span>
         </div>
-        <p className="text-gray-600 leading-relaxed">{description}</p>
-        <div className="h-1 w-12 bg-linear-to-r from-blue-500 to-purple-500 rounded-full" />
+        <p className="text-lg text-gray-700 leading-relaxed font-medium">{description}</p>
+        <div className="h-1.5 w-20 bg-linear-to-r from-[#b8860b] to-[#d35836] rounded-full" />
       </div>
 
-      <div className="flex items-baseline gap-2">
-        <span className="text-sm text-gray-500 font-medium">Valor:</span>
-        <span className="text-xl font-semibold text-gray-800">
+      <div className="flex items-baseline gap-3">
+        <span className="text-base text-gray-500 font-semibold uppercase tracking-wide">Valor:</span>
+        <span className="text-3xl font-bold text-gray-900">
           R$ {price.toLocaleString("pt-BR")}
         </span>
         {priceOld && (
-          <span className="text-sm text-gray-400 line-through ml-2">
+          <span className="text-lg text-gray-400 line-through decoration-2">
             R$ {priceOld.toLocaleString("pt-BR")}
           </span>
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 border border-blue-100">
-          <Calendar className="h-5 w-5 text-blue-600" />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-blue-50/80 border border-blue-100 hover:border-blue-200 transition-colors">
+          <div className="p-2 bg-blue-100 rounded-lg">
+            <Calendar className="h-6 w-6 text-blue-600" />
+          </div>
           <div>
-            <p className="text-xs text-blue-600 font-medium">Idade</p>
-            <p className="text-sm font-semibold text-gray-900">{age}</p>
+            <p className="text-xs text-blue-600 font-bold uppercase tracking-wide">Idade</p>
+            <p className="text-lg font-bold text-gray-900">{age}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-50 border border-purple-100">
-          <Dog className="h-5 w-5 text-purple-600" />
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-purple-50/80 border border-purple-100 hover:border-purple-200 transition-colors">
+          <div className="p-2 bg-purple-100 rounded-lg">
+            <Dog className="h-6 w-6 text-purple-600" />
+          </div>
           <div>
-            <p className="text-xs text-purple-600 font-medium">Peso</p>
-            <p className="text-sm font-semibold text-gray-900">{weight}</p>
+            <p className="text-xs text-purple-600 font-bold uppercase tracking-wide">Peso</p>
+            <p className="text-lg font-bold text-gray-900">{weight}</p>
           </div>
         </div>
       </div>
 
-      <div className="space-y-3 pt-4">
-        <motion.button
-          onClick={() => handleWhatsAppClick("reserva")}
-          className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
-          whileHover={{ scale: 1.02, y: -1 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <Heart className="h-5 w-5" />
-          Reservar {name}
-        </motion.button>
+      {status === 'ativo' ? (
+        <div className="space-y-4 pt-6">
+          <motion.button
+            onClick={() => handleWhatsAppClick("reserva")}
+            className="w-full bg-linear-to-r from-[#b8860b] to-[#d35836] hover:from-[#d4a017] hover:to-[#e67e66] text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Heart className="h-6 w-6 fill-white/20" />
+            <span className="text-lg">Quero Reservar {name}</span>
+          </motion.button>
 
-        <motion.button
-          onClick={() => handleWhatsAppClick("mais informações")}
-          className="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-900 font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
-          whileHover={{ scale: 1.02, y: -1 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <Phone className="h-5 w-5" />
-          Falar sobre {name}
-        </motion.button>
-      </div>
+          <motion.button
+            onClick={() => handleWhatsAppClick("mais informações")}
+            className="w-full bg-white border-2 border-gray-100 hover:border-[#d35836]/30 text-gray-700 hover:text-[#d35836] font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-sm hover:shadow-md cursor-pointer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Phone className="h-6 w-6" />
+            <span className="text-lg">Falar sobre {name}</span>
+          </motion.button>
+        </div>
+      ) : (
+        <div className="pt-6">
+          <div className="bg-gray-50 border-2 border-dashed border-gray-200 text-gray-500 font-medium py-6 px-6 rounded-2xl text-center opacity-75">
+            <p className="text-xl font-bold mb-2">🏠 Já encontrei um lar</p>
+            <p className="text-base">Este filhote não está mais disponível para reserva.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

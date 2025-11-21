@@ -1,4 +1,6 @@
+"use client"
 import { TableDemo } from "../../../components/dataTable";
+import { EditButton } from "../../../components/editButton";
 import type { InstagramTableProps } from "@/types/models";
 
 export function InstagramTable({ embeds }: InstagramTableProps) {
@@ -33,12 +35,46 @@ export function InstagramTable({ embeds }: InstagramTableProps) {
     );
   }
 
-  const tableRows = embeds.map((embed) => ({
-    id: embed.id,
-    title: embed.title,
-    url: embed.link,
-    status: embed.status,
-  }));
+  const fields = [
+    {
+      name: "title",
+      label: "Título",
+      type: "text" as const,
+      required: true,
+      placeholder: "Ex: Novo filhote chegou!",
+    },
+    {
+      name: "link",
+      label: "Link do Instagram",
+      type: "url" as const,
+      required: true,
+      placeholder: "https://instagram.com/p/...",
+    }
+  ];
 
-  return <TableDemo tableHead={tableHead} rows={tableRows} apiUrl="/api/instagram" />;
+  return (
+    <TableDemo
+      tableHead={tableHead}
+      rows={embeds.map(embed => ({
+        id: embed.id,
+        title: embed.title,
+        url: embed.link,
+        status: embed.status ? "Ativo" : "Inativo",
+      }))}
+      apiUrl="/api/instagram"
+      renderEdit={(row) => {
+        const embed = embeds.find(e => e.id === row.id);
+        return (
+          <EditButton
+            id={row.id}
+            title="Editar Post do Instagram"
+            description="Atualize os dados do post do Instagram."
+            fields={fields}
+            apiUrl="/api/instagram"
+            initialData={embed}
+          />
+        );
+      }}
+    />
+  );
 }

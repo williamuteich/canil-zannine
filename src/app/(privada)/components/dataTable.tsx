@@ -17,12 +17,14 @@ export function TableDemo({
   apiUrl,
   editUrl,
   showPrice = true,
+  renderEdit,
 }: {
   tableHead: string[]
   rows: tableRow[]
   apiUrl: string
   editUrl?: string
   showPrice?: boolean
+  renderEdit?: (row: tableRow) => React.ReactNode
 }) {
   const renderCell = (row: tableRow, field: keyof tableRow) => {
     const value = row[field];
@@ -67,14 +69,37 @@ export function TableDemo({
     }
 
     if (field === 'status') {
-      return (
-        <span
-          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium ${value ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
-            }`}
-        >
-          {value ? "Ativo" : "Inativo"}
-        </span>
-      );
+      if (typeof value === 'boolean') {
+        return (
+          <span
+            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium ${value ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
+              }`}
+          >
+            {value ? "Ativo" : "Inativo"}
+          </span>
+        );
+      }
+
+      if (typeof value === 'string') {
+        const statusColors = {
+          'ativo': 'bg-emerald-50 text-emerald-700',
+          'inativo': 'bg-rose-50 text-rose-700',
+          'pedding': 'bg-yellow-50 text-yellow-700',
+        };
+        const statusLabels = {
+          'ativo': 'Ativo',
+          'inativo': 'Inativo',
+          'pedding': 'Pendente',
+        };
+
+        return (
+          <span
+            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium ${statusColors[value as keyof typeof statusColors] || 'bg-gray-50 text-gray-700'}`}
+          >
+            {statusLabels[value as keyof typeof statusLabels] || value}
+          </span>
+        );
+      }
     }
 
     return value !== undefined ? String(value) : '';
@@ -145,6 +170,8 @@ export function TableDemo({
                         Editar
                       </button>
                     </Link>
+                  ) : renderEdit ? (
+                    renderEdit(row)
                   ) : (
                     <button className="cursor-pointer rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-[11px] font-medium text-slate-700 hover:bg-slate-50">
                       Editar

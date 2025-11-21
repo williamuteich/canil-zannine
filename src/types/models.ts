@@ -51,7 +51,7 @@ export type tableRow = {
   subtitle?: string
   description?: string
   price?: number
-  status: boolean
+  status: string
 }
 
 export interface DeleteButtonProps {
@@ -119,4 +119,31 @@ export interface AddButtonProps {
 export interface ImageGalleryProps {
   images: string[];
   name: string;
+  status?: string;
+}
+
+export interface EditButtonProps {
+  id: string
+  title: string
+  description: string
+  fields: FieldConfig[]
+  apiUrl: string
+  initialData?: Record<string, any>
+}
+
+export interface PuppyImage {
+  id: string;
+  url: string;
+}
+
+export interface PuppyData {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  age?: string;
+  weight?: string;
+  status?: string;
+  primaryImage: string;
+  images?: PuppyImage[];
 }

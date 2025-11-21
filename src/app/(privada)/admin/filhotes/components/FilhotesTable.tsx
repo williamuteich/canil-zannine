@@ -41,7 +41,7 @@ export function FilhotesTable({ filhotes }: FilhotesTableProps) {
     weight: filhote.weight,
     description: filhote.description,
     price: filhote.price,
-    status: filhote.status === 'ativo',
+    status: filhote.status,
   }));
 
   return <TableDemo tableHead={tableHead} rows={tableRows} apiUrl="/api/filhote" editUrl="/admin/filhotes/edit" showPrice={true} />;
