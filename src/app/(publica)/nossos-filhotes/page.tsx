@@ -27,8 +27,8 @@ async function FilhotesData({ page }: { page: number }) {
 
   try {
     const result = await getData<PaginatedResponse<Puppy>>(`/api/filhote?page=${page}&limit=${limit}&status=ativo`);
-    puppies = result.data;
-    pagination = result.pagination;
+    puppies = result?.data || [];
+    pagination = result?.pagination || pagination;
   } catch (error) {
     console.error("Erro ao buscar filhotes:", error);
   }
