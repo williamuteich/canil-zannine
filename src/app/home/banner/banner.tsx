@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { BannerUI } from "./banner-ui";
+import { BannerUI } from "./components/banner-ui";
 import BannerWhatsApp from "./banner-whatsapp";
 
 function Banner() {

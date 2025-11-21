@@ -1,7 +1,7 @@
 import { getData } from "@/services/get-data.service";
 import type { SocialMedia } from "@/types/models";
 import { cacheLife } from "next/cache";
-import { BannerButton } from "./banner-button";
+import { BannerButton } from "./components/banner-button";
 
 async function BannerWhatsApp() {
   'use cache'

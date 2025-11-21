@@ -1,170 +1,38 @@
-"use client";
+import { Suspense } from "react";
+import { ContatoUI } from "./components/contato-ui";
+import ContatoData from "./contato-data";
 
-import { motion } from "framer-motion";
-import { MessageCircle, MapPin, Phone, Mail } from "lucide-react";
-import { IconWhatsapp } from "./components/iconWhatsapp";
-import type { SocialMedia } from "@/types/models";
-
-interface ContatoProps {
-  socialMedia: SocialMedia[];
-}
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-  },
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-  },
-};
-
-export function Contato({ socialMedia }: ContatoProps) {
-  const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
-  const telefone = socialMedia.find(sm => sm.plataform.toLowerCase() === 'telefone' && sm.status);
-  const email = socialMedia.find(sm => sm.plataform.toLowerCase() === 'email' && sm.status);
-
-  const whatsappLink = whatsapp?.link || (whatsapp?.value ? `https://wa.me/${whatsapp.value.replace(/\D/g, '')}` : undefined);
-
-  const contactInfo = [
-    {
-      icon: MapPin,
-      title: "Localização",
-      content: "São Paulo, SP",
-      description: "Atendemos toda região"
-    },
-    ...(telefone?.value ? [{
-      icon: Phone,
-      title: "Telefone",
-      content: telefone.value,
-      description: "Horário comercial"
-    }] : []),
-    ...(email?.value ? [{
-      icon: Mail,
-      title: "Email",
-      content: email.value,
-      description: "Respondemos rapidamente"
-    }] : []),
-  ];
-
-  const handleWhatsAppClick = () => {
-    if (whatsappLink) {
-      const message = "Olá! Gostaria de mais informações sobre os filhotes.";
-      const url = `${whatsappLink}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
-    }
-  };
-
+function Contato() {
   return (
-    <section id="contato" className="relative py-16 md:py-24 overflow-hidden">
-      <div className="absolute inset-0 -z-20 bg-linear-to-br from-[#fef9e7] via-[#ffe4de] to-[#e8ebe0] opacity-60" />
-      <div className="absolute inset-0 -z-30 bg-[#faf8f5]" />
-
-      <div className="absolute top-1/3 -right-12 w-60 h-60 rounded-full bg-[#e67e66]/25 blur-3xl" />
-      <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-[#b5be9a]/25 blur-3xl" />
-
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          className="max-w-4xl mx-auto"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={containerVariants}
-        >
-          <motion.div
-            className="text-center mb-12"
-            variants={fadeUp}
-          >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 bg-linear-to-r from-[#b8860b] to-[#d35836] bg-clip-text text-transparent">
-              Entre em Contato
-            </h2>
-            <p className="text-base sm:text-lg text-[#57534e] max-w-2xl mx-auto px-2">
-              Estamos prontos para ajudar você a encontrar seu novo melhor amigo!
-            </p>
-          </motion.div>
-
-          {whatsapp && (
-            <motion.div
-              className="bg-linear-to-br from-[#faf8f5] to-[#f5f0e8] rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-[#ebe3d5] mb-8"
-              variants={scaleIn}
-            >
+    <ContatoUI
+      dynamicContent={
+        <Suspense fallback={
+          <div className="space-y-8">
+            <div className="bg-linear-to-br from-[#faf8f5] to-[#f5f0e8] rounded-2xl lg:rounded-3xl p-6 md:p-8 shadow-lg border border-[#ebe3d5] animate-pulse">
               <div className="text-center mb-6">
-                <motion.div
-                  className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <MessageCircle className="h-8 w-8 text-white" />
-                </motion.div>
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
-                  Atendimento via WhatsApp
-                </h3>
-                <p className="text-gray-600">
-                  Tire suas dúvidas, veja mais fotos dos filhotes e agende sua visita!
-                </p>
+                <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4" />
+                <div className="h-6 bg-gray-200 rounded w-64 mx-auto mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-80 mx-auto max-w-full" />
               </div>
-
-              <motion.button
-                onClick={handleWhatsAppClick}
-                className="w-full bg-green-500 hover:bg-green-600 text-white text-lg font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group cursor-pointer"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <MessageCircle className="h-6 w-6" />
-                Chamar no WhatsApp Agora
-              </motion.button>
-            </motion.div>
-          )}
-
-          <motion.div
-            className="grid md:grid-cols-3 gap-6"
-            variants={containerVariants}
-          >
-            {contactInfo.map((item, index) => (
-              <motion.div
-                key={item.title}
-                variants={fadeUp}
-                className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 group"
-                whileHover={{ y: -5 }}
-              >
-                <motion.div
-                  className="w-12 h-12 bg-linear-to-br from-[#d4a017] to-[#e67e66] rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
-                  whileHover={{ rotate: 5 }}
-                >
-                  <item.icon className="h-6 w-6 text-white" />
-                </motion.div>
-                <h4 className="font-semibold text-gray-900 text-center mb-2">
-                  {item.title}
-                </h4>
-                <p className="text-gray-900 text-center font-medium text-lg mb-1">
-                  {item.content}
-                </p>
-                <p className="text-gray-500 text-sm text-center">
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {whatsapp && <IconWhatsapp onClick={handleWhatsAppClick} />}
-    </section>
+              <div className="h-14 bg-gray-200 rounded-xl" />
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="bg-white rounded-xl p-6 shadow-md border border-gray-100 animate-pulse">
+                  <div className="w-12 h-12 bg-gray-200 rounded-lg mx-auto mb-4" />
+                  <div className="h-4 bg-gray-200 rounded w-24 mx-auto mb-2" />
+                  <div className="h-5 bg-gray-200 rounded w-32 mx-auto mb-1" />
+                  <div className="h-3 bg-gray-200 rounded w-28 mx-auto" />
+                </div>
+              ))}
+            </div>
+          </div>
+        }>
+          <ContatoData />
+        </Suspense>
+      }
+    />
   );
 }
+
+export default Contato;
