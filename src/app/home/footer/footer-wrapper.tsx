@@ -17,7 +17,13 @@ const getSocialIcon = (platform: string) => {
   return icons[platform.toLowerCase()] || MessageCircle;
 };
 
+import { cacheLife, cacheTag } from "next/cache";
+
 export async function FooterWrapper() {
+  'use cache'
+  cacheTag('social-media')
+  cacheLife('days')
+
   let socialMedia: SocialMedia[] = [];
   try {
     socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");

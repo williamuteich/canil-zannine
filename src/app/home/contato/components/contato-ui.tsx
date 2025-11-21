@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { MapPin } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,19 +21,12 @@ const fadeUp = {
   },
 };
 
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-  },
-};
-
 interface ContatoUIProps {
-  dynamicContent?: React.ReactNode;
+  whatsappSlot?: React.ReactNode;
+  infoSlot?: React.ReactNode;
 }
 
-export function ContatoUI({ dynamicContent }: ContatoUIProps) {
+export function ContatoUI({ whatsappSlot, infoSlot }: ContatoUIProps) {
   return (
     <section id="contato" className="relative py-16 md:py-24 overflow-hidden">
       <div className="absolute inset-0 -z-20 bg-linear-to-br from-[#fef9e7] via-[#ffe4de] to-[#e8ebe0] opacity-60" />
@@ -61,7 +55,38 @@ export function ContatoUI({ dynamicContent }: ContatoUIProps) {
             </p>
           </motion.div>
 
-          {dynamicContent}
+          {whatsappSlot}
+
+          <motion.div
+            className="grid md:grid-cols-3 gap-6"
+            variants={containerVariants}
+          >
+            <motion.div
+              variants={fadeUp}
+              className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 group"
+              whileHover={{ y: -5 }}
+            >
+              <div className="block">
+                <motion.div
+                  className="w-12 h-12 bg-linear-to-br from-[#d4a017] to-[#e67e66] rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300"
+                  whileHover={{ rotate: 5 }}
+                >
+                  <MapPin className="h-6 w-6 text-white" />
+                </motion.div>
+                <h4 className="font-semibold text-gray-900 text-center mb-2">
+                  Localização
+                </h4>
+                <p className="text-gray-900 text-center font-medium text-lg mb-1">
+                  São Paulo, SP
+                </p>
+                <p className="text-gray-500 text-sm text-center">
+                  Atendemos toda região
+                </p>
+              </div>
+            </motion.div>
+
+            {infoSlot}
+          </motion.div>
         </motion.div>
       </div>
     </section>

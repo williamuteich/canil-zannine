@@ -1,39 +1,41 @@
 import { getData } from "@/services/get-data.service";
 import type { SocialMedia } from "@/types/models";
-import { cacheLife } from "next/cache";
-import { ContatoDynamic } from "./components/contato-dynamic";
+import { cacheLife, cacheTag } from "next/cache";
+import { ContatoWhatsAppUI, ContatoInfoUI } from "./components/contato-dynamic";
 
-async function ContatoData() {
+async function getSocialMediaData() {
   'use cache'
-
+  cacheTag('social-media')
   cacheLife('days')
-
-  let whatsappNumero: string | undefined;
-  let telefone: string | undefined;
-  let email: string | undefined;
-
-  try {
-    const socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");
-
-    const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
-    if (whatsapp?.value) {
-      whatsappNumero = whatsapp.value.replace(/\D/g, '');
-    }
-
-    const telefoneData = socialMedia.find(sm => sm.plataform.toLowerCase() === 'telefone' && sm.status);
-    if (telefoneData?.value) {
-      telefone = telefoneData.value;
-    }
-
-    const emailData = socialMedia.find(sm => sm.plataform.toLowerCase() === 'email' && sm.status);
-    if (emailData?.value) {
-      email = emailData.value;
-    }
-  } catch (error) {
-    console.error("Erro ao buscar dados de contato:", error);
-  }
-
-  return <ContatoDynamic whatsappNumero={whatsappNumero} telefone={telefone} email={email} />;
+  return await getData<SocialMedia[]>("/api/redes-sociais");
 }
 
-export default ContatoData;
+export async function ContatoWhatsAppData() {
+  try {
+    const socialMedia = await getSocialMediaData();
+    const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
+    const whatsappNumero = whatsapp?.value?.replace(/\D/g, '');
+
+    return <ContatoWhatsAppUI whatsappNumero={whatsappNumero} />;
+  } catch (error) {
+    console.error("Erro ao buscar WhatsApp:", error);
+    return null;
+  }
+}
+
+export async function ContatoInfoData() {
+  try {
+    const socialMedia = await getSocialMediaData();
+
+    const getVal = (platform: string) =>
+      socialMedia.find(sm => sm.plataform.toLowerCase() === platform && sm.status)?.value;
+
+    const telefone = getVal('telefone');
+    const email = getVal('email');
+
+    return <ContatoInfoUI telefone={telefone} email={email} />;
+  } catch (error) {
+    console.error("Erro ao buscar Info:", error);
+    return null;
+  }
+}
