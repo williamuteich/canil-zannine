@@ -1,5 +1,5 @@
 export async function updateData<T>(url: string, data: Record<string, any>): Promise<{ data: T; status: number }> {
-  const baseUrl = process.env.NEXTAUTH_URL
+  const baseUrl = typeof window === 'undefined' ? process.env.NEXTAUTH_URL : '';
 
   const fullUrl = url.startsWith("http") ? url : `${baseUrl}${url}`;
 
