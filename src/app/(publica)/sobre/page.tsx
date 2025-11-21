@@ -24,11 +24,11 @@ const staggerContainer = {
 
 export default function SobrePage() {
   return (
-    <div className="bg-[#faf8f5] min-h-screen relative overflow-hidden">
+    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
       <div className="fixed inset-0 -z-20 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-multiply" />
       <div className="fixed inset-0 -z-20 bg-linear-to-b from-white/80 via-transparent to-transparent" />
 
-      <section className="relative pt-40 pb-20 px-4">
+      <section className="relative px-4 mb-32">
         <div className="container mx-auto max-w-4xl text-center">
           <motion.div
             initial="hidden"
@@ -54,16 +54,11 @@ export default function SobrePage() {
                 Criando laços de amor e companheirismo. Mais do que um canil, somos uma família dedicada à excelência.
               </p>
             </motion.div>
-
-            <motion.div
-              variants={fadeInUp}
-              className="w-px h-24 bg-linear-to-b from-gray-300 to-transparent mx-auto mt-12"
-            />
           </motion.div>
         </div>
       </section>
 
-      <section className="py-20 px-4">
+      <section className="px-4 mb-10">
         <div className="container mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-12 gap-12 items-start">
             <div className="lg:col-span-5 lg:sticky lg:top-32">
@@ -84,7 +79,6 @@ export default function SobrePage() {
                     <div className="absolute inset-0 ring-1 ring-inset ring-black/5" />
                   </div>
 
-                  {/* Polaroid Caption */}
                   <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-center">
                     <div className="text-center">
                       <h2 className="font-handwriting text-2xl font-bold text-gray-800 font-serif">
@@ -102,7 +96,7 @@ export default function SobrePage() {
               </motion.div>
             </div>
 
-            <div className="lg:col-span-7 lg:pl-12 space-y-12">
+            <div className="lg:col-span-7 lg:pl-12 space-y-12 pt-15">
               <motion.div
                 initial="hidden"
                 whileInView="visible"

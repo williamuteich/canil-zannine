@@ -30,7 +30,7 @@ export default function Login() {
     <main>
       <Header />
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-linear-to-br from-[#fef9e7] via-[#ffe4de] to-[#e8ebe0]">
-        <div className="relative z-10 w-full px-8 pt-28 pb-24 sm:pt-32 sm:pb-28 lg:pt-36 lg:pb-36">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
           <div className="max-w-[1400px] mx-auto">
             <div className="mx-auto max-w-md sm:max-w-lg">
               <div className="bg-[#faf8f5]/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-[#ebe3d5] p-6 sm:p-8">
