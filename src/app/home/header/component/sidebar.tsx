@@ -12,7 +12,7 @@ import Image from "next/image";
 export function MobileSidebar() {
   const navigationLinks = [
     { href: "/#inicio", label: "Inicio", icon: Home },
-    { href: "/#filhotes", label: "Nossos Filhotes", icon: Heart },
+    { href: "/nossos-filhotes", label: "Nossos Filhotes", icon: Heart },
     { href: "/#contato", label: "Contato", icon: MessageCircle },
     { href: "/#sobre", label: "Sobre", icon: Info },
   ];
