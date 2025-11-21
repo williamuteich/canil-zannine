@@ -12,49 +12,6 @@ import { motion, type Variants } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 
-const puppies = [
-  {
-    id: 1,
-    name: "Bella",
-    age: "3 meses",
-    breed: "Chihuahua Pelo Curto",
-    description: "Fêmea adorável, carinhosa e brincalhona",
-    image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=300&fit=crop&auto=format",
-    emoji: "❤️",
-    available: true,
-  },
-  {
-    id: 2,
-    name: "Max",
-    age: "2 meses",
-    breed: "Chihuahua Pelo Longo",
-    description: "Macho ativo e muito inteligente",
-    image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=300&fit=crop",
-    emoji: "❤️",
-    available: true,
-  },
-  {
-    id: 3,
-    name: "Luna",
-    age: "4 meses",
-    breed: "Chihuahua Tricolor",
-    description: "Fêmea dócil e amorosa",
-    image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&h=300&fit=crop",
-    emoji: "❤️",
-    available: true,
-  },
-  {
-    id: 4,
-    name: "Thor",
-    age: "3 meses",
-    breed: "Chihuahua Pelo Curto",
-    description: "Macho corajoso e protetor",
-    image: "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400&h=300&fit=crop",
-    emoji: "❤️",
-    available: true,
-  },
-];
-
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -169,16 +126,21 @@ export function PuppiesCarousel() {
               {puppies.map((puppy, index) => (
                 <CarouselItem key={puppy.id} className="pl-1 sm:pl-2 md:pl-4 basis-1/2 xl:basis-1/3">
                   <motion.div
-                    className="p-1 sm:p-2 h-full"
+                    className="p-4 h-full"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
                     variants={cardVariants}
                     custom={index}
                   >
-                    <div className="rounded-lg sm:rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-500 bg-white h-full group flex flex-col relative">
-
-                      <div className="relative aspect-4/3 overflow-hidden shrink-0 z-10">
+                    <Link
+                      href={`/filhote/${puppy.id}`}
+                      className="group relative block bg-white p-4 pb-16 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:rotate-1 rotate-0 h-full"
+                      style={{
+                        transform: `rotate(${index % 2 === 0 ? '1deg' : '-1deg'})`,
+                      }}
+                    >
+                      <div className="relative aspect-4/5 w-full overflow-hidden bg-gray-100 shadow-inner">
                         <motion.img
                           src={puppy.primaryImage || '/placeholder-puppy.jpg'}
                           alt={`Filhote ${puppy.name}`}
@@ -188,67 +150,38 @@ export function PuppiesCarousel() {
                           loading="lazy"
                         />
 
-                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-6 text-center z-20">
+                          <p className="text-white text-sm leading-relaxed mb-6 line-clamp-4 font-medium">
+                            {puppy.description}
+                          </p>
+
+                          <span className="bg-white text-gray-900 px-6 py-2 rounded-full font-bold text-sm uppercase tracking-wide hover:bg-gray-100 transition-colors flex items-center gap-2">
+                            Ver Detalhes
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M5 12h14" />
+                              <path d="m12 5 7 7-7 7" />
+                            </svg>
+                          </span>
+                        </div>
 
                         {puppy.status === 'ativo' && (
-                          <div className="absolute top-1 right-1 bg-[#3dc7c4]/90 backdrop-blur-sm text-white px-1.5 py-1 rounded-full text-[10px] font-bold shadow-lg uppercase tracking-wide">
+                          <div className="absolute top-3 right-3 bg-green-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg uppercase tracking-wide z-10">
                             Disponível
                           </div>
                         )}
+                      </div>
 
-                        <div className="absolute inset-0 flex items-end justify-center p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out bg-black/40 backdrop-blur-[2px]">
-                          <p className="text-white text-sm text-center font-medium line-clamp-4 drop-shadow-md">
-                            {puppy.description}
+                      <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-center">
+                        <div className="text-center">
+                          <h2 className="font-handwriting text-2xl font-bold text-gray-800 group-hover:text-pink-600 transition-colors font-serif">
+                            {puppy.name}
+                          </h2>
+                          <p className="text-xs text-gray-500 font-medium uppercase tracking-widest mt-1">
+                            {puppy.breed || "Chihuahua"}
                           </p>
                         </div>
                       </div>
-
-                      <div className="p-5 flex-1 flex flex-col relative bg-white z-10">
-                        <h2 className="text-xl font-bold text-gray-800 group-hover:text-[#d35836] transition-colors duration-300 mb-3">
-                          {puppy.name}
-                        </h2>
-
-                        {(puppy.age || puppy.weight) && (
-                          <div className="flex flex-col gap-1">
-                            {puppy.age && (
-                              <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600 shrink-0">
-                                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-                                  <line x1="16" x2="16" y1="2" y2="6" />
-                                  <line x1="8" x2="8" y1="2" y2="6" />
-                                  <line x1="3" x2="21" y1="10" y2="10" />
-                                </svg>
-                                <span className="text-sm font-semibold text-blue-700">{puppy.age}</span>
-                              </div>
-                            )}
-                            {puppy.weight && (
-                              <div className="flex items-center gap-2 bg-purple-50 px-3 py-2 rounded-lg border border-purple-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600 shrink-0">
-                                  <circle cx="11" cy="4" r="2" />
-                                  <circle cx="18" cy="8" r="2" />
-                                  <circle cx="20" cy="16" r="2" />
-                                  <path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
-                                </svg>
-                                <span className="text-sm font-semibold text-purple-700">{puppy.weight}</span>
-                              </div>
-                            )}
-                          </div>
-                        )}
-
-                        <div className="w-full h-px bg-gray-100 my-3" />
-
-                        <Link
-                          href={`/filhote/${puppy.id}`}
-                          className="w-full bg-linear-to-r from-[#b8860b] to-[#d35836] hover:from-[#d4a017] hover:to-[#e67e66] text-white py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 mt-auto shadow-md hover:shadow-lg hover:-translate-y-0.5"
-                        >
-                          <span>Ver Detalhes</span>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M5 12h14" />
-                            <path d="m12 5 7 7-7 7" />
-                          </svg>
-                        </Link>
-                      </div>
-                    </div>
+                    </Link>
                   </motion.div>
                 </CarouselItem>
               ))}
