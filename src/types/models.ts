@@ -160,3 +160,7 @@ export interface PuppyData {
   primaryImage: string;
   images?: PuppyImage[];
 }
+
+export interface BannerContentProps {
+  whatsappLink?: string;
+}

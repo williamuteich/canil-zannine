@@ -1,10 +1,10 @@
-import { Banner } from "./home/banner/banner";
 import { PuppiesCarousel } from "./home/carousel/carousel";
 import { Contato } from "./home/contato/contato";
 import { HomeSobre } from "./home/sobre/sobre";
 import InstagramReels from "./home/reels/reels";
 import { getData } from "@/services/get-data.service";
 import type { SocialMedia } from "@/types/models";
+import Banner from "./home/banner/banner";
 
 export default async function Home() {
   let socialMedia: SocialMedia[] = [];
@@ -17,7 +17,7 @@ export default async function Home() {
 
   return (
     <main>
-      <Banner socialMedia={socialMedia} />
+      <Banner />
       <PuppiesCarousel />
       <HomeSobre />
       <InstagramReels />

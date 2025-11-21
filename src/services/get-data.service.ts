@@ -1,8 +1,10 @@
+'use cache'
+
 /**
  * Função genérica para fazer requisições GET
  * @param url - URL da API para fazer a requisição
  * @returns Promise com os dados ou erro
- */
+*/
 export async function getData<T>(url: string): Promise<T> {
   try {
     const baseUrl = process.env.NEXTAUTH_URL || "";
@@ -28,6 +30,7 @@ export async function getData<T>(url: string): Promise<T> {
     }
 
     return result;
+
   } catch (error) {
     if (error instanceof TypeError) {
       throw new Error('Erro de conexão. Verifique sua internet ou se a API está rodando.');
