@@ -122,6 +122,8 @@ export async function DELETE(
       where: { id: idValidated },
     });
 
+    revalidateTag('instagram', 'max');
+
     return NextResponse.json({
       message: "Link deletado com sucesso",
     });

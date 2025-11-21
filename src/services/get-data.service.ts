@@ -1,5 +1,3 @@
-'use cache'
-
 /**
  * Função genérica para fazer requisições GET
  * @param url - URL da API para fazer a requisição

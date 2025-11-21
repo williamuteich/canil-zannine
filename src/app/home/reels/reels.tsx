@@ -1,8 +1,13 @@
 import { getData } from "@/services/get-data.service";
 import type { InstaEmbed } from "@/types/models";
 import ShowInstaEmbeds from "./components/showInstaEmbeds";
+import { cacheLife, cacheTag } from "next/cache";
 
 async function getInstaData() {
+    'use cache'
+    cacheTag('instagram');
+    cacheLife('hours');
+
     try {
         const posts = await getData<InstaEmbed[]>('/api/instagram');
         return {

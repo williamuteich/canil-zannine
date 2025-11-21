@@ -24,7 +24,6 @@ export async function InstagramContent({ page, search }: InstagramContentProps) 
     total: 0,
     totalPages: 0,
   };
-  let timestamp = '';
 
   try {
     const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
@@ -34,7 +33,6 @@ export async function InstagramContent({ page, search }: InstagramContentProps) 
     const result = await response.json();
     embeds = result.data;
     pagination = result.pagination;
-    timestamp = result.timestamp;
   } catch (error) {
     console.error('Erro ao carregar embeds do Instagram:', error);
   }
@@ -46,11 +44,6 @@ export async function InstagramContent({ page, search }: InstagramContentProps) 
         <p className="text-base text-slate-600">
           Tela de gerenciamento das publicações do Instagram. Aqui você pode visualizar e organizar os registros.
         </p>
-        {timestamp && (
-          <p className="text-sm text-slate-500 italic">
-            API respondida em: {timestamp}
-          </p>
-        )}
       </div>
 
       <InstagramSearch />

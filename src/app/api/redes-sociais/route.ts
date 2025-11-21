@@ -2,6 +2,7 @@ import { z } from "zod";
 import { unauthorizedResponse, verifyAuth } from "@/lib/auth-utils";
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 
 const socialMediaSchema = z.object({
   plataform: z.string().min(1, "A plataforma é obrigatória"),
@@ -58,6 +59,8 @@ export async function POST(request: NextRequest) {
         status: parsedBody.status,
       },
     });
+
+    revalidateTag('social-media', 'max');
 
     return NextResponse.json(
       {

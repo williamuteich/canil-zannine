@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { verifyAuth, unauthorizedResponse } from "@/lib/auth-utils";
 import { z } from "zod";
+import { revalidateTag } from "next/cache";
 
 const socialMediaPatchSchema = z.object({
   plataform: z.string().min(1, "A plataforma é obrigatória").optional(),
@@ -81,6 +82,8 @@ export async function PATCH(
       data: dataToUpdate,
     });
 
+    revalidateTag('social-media', 'max');
+
     return NextResponse.json({
       message: "Rede social atualizada com sucesso",
       data: updated,
@@ -120,6 +123,8 @@ export async function DELETE(
     await prisma.socialMedia.delete({
       where: { id: idValidated },
     });
+
+    revalidateTag('social-media', 'max');
 
     return NextResponse.json({
       message: "Rede social deletada com sucesso",
