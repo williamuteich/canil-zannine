@@ -1,15 +1,20 @@
 import { Puppy, PaginatedResponse } from "@/types/models";
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
+import { cacheLife, cacheTag } from "next/cache";
 import { PaginationDemo } from "@/app/(privada)/components/pagination";
+import { getData } from "@/services/get-data.service";
 
 interface NossosFilhotesPageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
-export default async function NossosFilhotesPage({ searchParams }: NossosFilhotesPageProps) {
-  const resolvedParams = await searchParams;
-  const page = parseInt(resolvedParams.page || '1');
+async function FilhotesData({ page }: { page: number }) {
+  'use cache'
+  cacheTag('filhotes');
+  cacheLife('hours');
+
   const limit = 12;
 
   let puppies: Puppy[] = [];
@@ -21,11 +26,7 @@ export default async function NossosFilhotesPage({ searchParams }: NossosFilhote
   };
 
   try {
-    const response = await fetch(
-      `${process.env.NEXTAUTH_URL}api/filhote?page=${page}&limit=${limit}&status=ativo`,
-      { cache: 'no-store' }
-    );
-    const result: PaginatedResponse<Puppy> = await response.json();
+    const result = await getData<PaginatedResponse<Puppy>>(`/api/filhote?page=${page}&limit=${limit}&status=ativo`);
     puppies = result.data;
     pagination = result.pagination;
   } catch (error) {
@@ -114,5 +115,24 @@ export default async function NossosFilhotesPage({ searchParams }: NossosFilhote
         )}
       </div>
     </div>
+  );
+}
+
+async function FilhotesPageData({ searchParams }: NossosFilhotesPageProps) {
+  const resolvedParams = await searchParams;
+  const page = parseInt(resolvedParams.page || '1');
+
+  return <FilhotesData page={page} />;
+}
+
+export default function NossosFilhotesPage({ searchParams }: NossosFilhotesPageProps) {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+      </div>
+    }>
+      <FilhotesPageData searchParams={searchParams} />
+    </Suspense>
   );
 }

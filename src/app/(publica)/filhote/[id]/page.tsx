@@ -1,13 +1,23 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
 import { ImageGallery } from "../components/ImageGallery";
 import { PuppyInfoPanel } from "../components/PuppyInfoPanel";
 import { getData } from "@/services/get-data.service";
 import { Puppy, SocialMedia } from "@/types/models";
 
-export default async function FilhoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export async function generateStaticParams() {
+  return [{ id: '_' }];
+}
+
+async function FilhoteData({ id }: { id: string }) {
+
+  if (id === '_') {
+    notFound();
+  }
+
   let puppy: Puppy | null = null;
   let socialMedia: SocialMedia[] = [];
-  const { id } = await params;
 
   try {
     [puppy, socialMedia] = await Promise.all([
@@ -66,5 +76,19 @@ export default async function FilhoteDetailPage({ params }: { params: Promise<{ 
         </div>
       </div>
     </div>
+  );
+}
+
+export default async function FilhoteDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
+      </div>
+    }>
+      <FilhoteData id={id} />
+    </Suspense>
   );
 }

@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { writeFile } from "fs/promises";
+import { revalidateTag } from "next/cache";
 
 const puppySchema = z.object({
     name: z.string().min(1, "O título é obrigatório"),
@@ -126,6 +127,8 @@ export async function POST(request: NextRequest) {
                 }
             }
         }
+
+        revalidateTag('filhotes', 'max');
 
         return NextResponse.json(
             {

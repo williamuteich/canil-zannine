@@ -2,6 +2,7 @@ import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { writeFile, unlink } from "fs/promises";
+import { revalidateTag } from "next/cache";
 
 const saveFile = async (file: File) => {
   const UPLOAD_DIR = path.join(process.cwd(), 'public', 'filhote');
@@ -138,6 +139,8 @@ export async function PATCH(
       }
     }
 
+    revalidateTag('filhotes', 'max');
+
     return NextResponse.json({
       message: "Filhote atualizado com sucesso",
       data: updated,
@@ -172,6 +175,8 @@ export async function DELETE(
     await prisma.puppy.delete({
       where: { id },
     });
+
+    revalidateTag('filhotes', 'max');
 
     return NextResponse.json({
       message: "Filhote deletado com sucesso",
