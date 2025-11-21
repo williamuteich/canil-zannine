@@ -74,17 +74,31 @@ export default function SobrePage() {
                 transition={{ duration: 1 }}
                 className="relative"
               >
-                <div className="relative aspect-4/5 rounded-sm overflow-hidden shadow-2xl">
-                  <img
-                    src="https://static.wixstatic.com/media/0baaed_96c8e3a618934942b6053d08187d8d02~mv2.jpg/v1/fill/w_840,h_1080,al_c,q_85,usm_0.66_1.00_1,enc_auto/_DSC0476.jpg"
-                    alt="Bianca Cogo"
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
-                  />
-                  <div className="absolute inset-0 ring-1 ring-inset ring-white/10" />
+                <div className="relative bg-white p-4 pb-16 shadow-xl transform -rotate-2 hover:rotate-0 transition-all duration-500">
+                  <div className="relative aspect-4/5 w-full overflow-hidden bg-gray-100 shadow-inner">
+                    <img
+                      src="https://static.wixstatic.com/media/0baaed_96c8e3a618934942b6053d08187d8d02~mv2.jpg/v1/fill/w_840,h_1080,al_c,q_85,usm_0.66_1.00_1,enc_auto/_DSC0476.jpg"
+                      alt="Bianca Cogo"
+                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
+                    />
+                    <div className="absolute inset-0 ring-1 ring-inset ring-black/5" />
+                  </div>
+
+                  {/* Polaroid Caption */}
+                  <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-center">
+                    <div className="text-center">
+                      <h2 className="font-handwriting text-2xl font-bold text-gray-800 font-serif">
+                        Bianca Cogo
+                      </h2>
+                      <p className="text-xs text-gray-500 font-medium uppercase tracking-widest mt-1">
+                        Veterinária & Criadora
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-pink-100 -z-10 rounded-full opacity-50 blur-2xl" />
-                <div className="absolute -top-6 -right-6 w-32 h-32 bg-blue-100 -z-10 rounded-full opacity-50 blur-2xl" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-pink-200/50 -z-10 rounded-full blur-3xl" />
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-200/50 -z-10 rounded-full blur-3xl" />
               </motion.div>
             </div>
 
