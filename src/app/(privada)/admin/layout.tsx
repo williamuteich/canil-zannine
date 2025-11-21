@@ -1,5 +1,7 @@
 import Link from "next/link"
 import Sidebar from "../components/sidebar"
+import { LogoutDashboard } from "../components/logoutButton"
+import { HomeIcon } from "lucide-react"
 
 export default function AdminLayout({
     children,
@@ -18,16 +20,22 @@ export default function AdminLayout({
                                 <p className="text-sm text-slate-300">Controle do Sistema</p>
                             </div>
                         </div>
-
-                        <Link
-                            href="/"
-                            className="rounded-md border border-slate-500 bg-slate-700/80 px-4 py-2 text-sm font-medium text-white 
+                        <div className="flex items-center gap-3">
+                            <Link
+                                href="/"
+                                className="flex items-center gap-2 rounded-md border border-slate-500 bg-slate-700/80 px-4 py-2 text-sm font-medium text-white 
                             transition-colors hover:bg-slate-600/90 hover:border-slate-400
                             focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-800"
-                        >
-                            Ver site
-                        </Link>
+                            >
+                                <HomeIcon className="w-4 h-4" />
+                                Ver site
+                            </Link>
+                            <div className="hidden md:block">
+                                <LogoutDashboard />
+                            </div>
+                        </div>
                     </div>
+
                 </header>
 
                 <main className="flex-1">

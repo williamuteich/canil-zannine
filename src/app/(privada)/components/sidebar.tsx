@@ -10,6 +10,7 @@ import {
 import { Menu, Home, PawPrint, Instagram, Globe } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { LogoutDashboard } from "./logoutButton"
 
 export default function Sidebar() {
     const pathname = usePathname()
@@ -58,6 +59,10 @@ export default function Sidebar() {
                 <nav className="space-y-1 flex-1 overflow-y-auto p-4 scrollbar-dark">
                     {renderLinks()}
                 </nav>
+
+                <div className="p-4 border-t border-slate-700">
+                    <LogoutDashboard className="flex items-center gap-3 px-3 py-3 rounded-lg w-full text-sm font-medium text-gray-300 hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors cursor-pointer" />
+                </div>
             </SheetContent>
         </Sheet>
     )

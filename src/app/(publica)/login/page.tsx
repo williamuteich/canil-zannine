@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { Header } from "@/app/home/header/header";
-import { Footer } from "@/app/home/footer/footer";
 import { Lock, Mail, LogIn } from "lucide-react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
