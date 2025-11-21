@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { verifyAuth, unauthorizedResponse } from "@/lib/auth-utils";
 import { z } from "zod";
+import { revalidateTag } from "next/cache";
 
 const instaEmbedPatchSchema = z.object({
   title: z.string().min(1, "O título é obrigatório").optional(),
@@ -78,6 +79,8 @@ export async function PATCH(
       where: { id: idValidated },
       data: dataToUpdate,
     });
+
+    revalidateTag('instagram', 'max');
 
     return NextResponse.json({
       message: "Link atualizado com sucesso",
