@@ -1,14 +1,36 @@
 import { InstagramSearch } from "../../components/searchItem";
-import { getData } from "@/services/get-data.service";
 import { InstagramTable } from "./components/InstagramTable";
-import type { InstaEmbed } from "@/types/models";
+import type { InstaEmbed, PaginatedResponse } from "@/types/models";
 import { AddButton } from "../../components/addButton";
+import { PaginationDemo } from "../../components/pagination";
 
-export default async function Instagram() {
+interface InstagramPageProps {
+  searchParams: Promise<{ page?: string; search?: string }>;
+}
+
+export default async function Instagram({ searchParams }: InstagramPageProps) {
+  const resolvedParams = await searchParams;
+  const page = parseInt(resolvedParams.page || '1');
+  const search = resolvedParams.search || '';
+  const limit = 8;
+
   let embeds: InstaEmbed[] = [];
-  
+  let pagination = {
+    page: 1,
+    limit,
+    total: 0,
+    totalPages: 0,
+  };
+
   try {
-    embeds = await getData<InstaEmbed[]>('/api/instagram');
+    const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+    const response = await fetch(
+      `${process.env.NEXTAUTH_URL}api/instagram?page=${page}&limit=${limit}${searchParam}`,
+      { cache: 'no-store' }
+    );
+    const result: PaginatedResponse<InstaEmbed> = await response.json();
+    embeds = result.data;
+    pagination = result.pagination;
   } catch (error) {
     console.error('Erro ao carregar embeds do Instagram:', error);
   }
@@ -25,6 +47,14 @@ export default async function Instagram() {
       <InstagramSearch />
 
       <InstagramTable embeds={embeds} />
+
+      {!search && (
+        <PaginationDemo
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          className="mt-6"
+        />
+      )}
 
       <div className="mt-6 flex justify-end">
         <AddButton

@@ -17,6 +17,19 @@ export interface SocialMedia {
   updatedAt: string;
 }
 
+export interface PaginationMetadata {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface PaginatedResponse<T> {
+  message: string;
+  data: T[];
+  pagination: PaginationMetadata;
+}
+
 export interface RedesSociaisTableProps {
   socialMedia: SocialMedia[];
 }

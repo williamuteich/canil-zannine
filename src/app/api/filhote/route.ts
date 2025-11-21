@@ -25,13 +25,46 @@ const saveFile = async (file: File) => {
 
 export async function GET(request: NextRequest) {
     try {
-        const puppies = await prisma.puppy.findMany({
-            orderBy: { createdAt: "desc" },
-        });
+        const searchParams = request.nextUrl.searchParams;
+        const page = parseInt(searchParams.get('page') || '1');
+        const limit = parseInt(searchParams.get('limit') || '12');
+        const status = searchParams.get('status');
+        const search = searchParams.get('search');
+
+        const skip = (page - 1) * limit;
+
+        const where: any = {};
+        if (status) {
+            where.status = status;
+        }
+        if (search) {
+            where.OR = [
+                { name: { contains: search } },
+                { description: { contains: search } },
+            ];
+        }
+
+        const [puppies, total] = await Promise.all([
+            prisma.puppy.findMany({
+                where,
+                orderBy: { createdAt: "desc" },
+                skip,
+                take: limit,
+            }),
+            prisma.puppy.count({ where }),
+        ]);
+
+        const totalPages = Math.ceil(total / limit);
 
         return NextResponse.json({
             message: "Dados dos filhotes carregados com sucesso",
             data: puppies,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages,
+            },
         });
     } catch (error) {
         console.error(error);

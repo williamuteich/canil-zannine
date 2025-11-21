@@ -11,13 +11,42 @@ const instaEmbedSchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
-    const instaEmbeds = await prisma.instaEmbed.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+    const searchParams = request.nextUrl.searchParams;
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '8');
+    const search = searchParams.get('search');
+
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+    if (search) {
+      where.OR = [
+        { title: { contains: search } },
+        { link: { contains: search } },
+      ];
+    }
+
+    const [instaEmbeds, total] = await Promise.all([
+      prisma.instaEmbed.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.instaEmbed.count({ where }),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
 
     return NextResponse.json({
       message: "Links carregados com sucesso",
       data: instaEmbeds,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages,
+      },
     });
   } catch (error) {
     console.error(error);

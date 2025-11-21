@@ -1,14 +1,36 @@
 import { InstagramSearch } from "../../components/searchItem";
-import { getData } from "@/services/get-data.service";
 import { FilhotesTable } from "./components/FilhotesTable";
 import Link from "next/link";
-import { Filhote } from "@/types/models";
+import { Filhote, PaginatedResponse } from "@/types/models";
+import { PaginationDemo } from "../../components/pagination";
 
-export default async function FilhotesPage() {
+interface FilhotesPageProps {
+    searchParams: Promise<{ page?: string; search?: string }>;
+}
+
+export default async function FilhotesPage({ searchParams }: FilhotesPageProps) {
+    const resolvedParams = await searchParams;
+    const page = parseInt(resolvedParams.page || '1');
+    const search = resolvedParams.search || '';
+    const limit = 8;
+
     let filhotes: Filhote[] = [];
+    let pagination = {
+        page: 1,
+        limit,
+        total: 0,
+        totalPages: 0,
+    };
 
     try {
-        filhotes = await getData<Filhote[]>('/api/filhote');
+        const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+        const response = await fetch(
+            `${process.env.NEXTAUTH_URL}api/filhote?page=${page}&limit=${limit}${searchParam}`,
+            { cache: 'no-store' }
+        );
+        const result: PaginatedResponse<Filhote> = await response.json();
+        filhotes = result.data;
+        pagination = result.pagination;
     } catch (error) {
         console.error('Erro ao carregar filhotes:', error);
     }
@@ -22,9 +44,17 @@ export default async function FilhotesPage() {
                 </p>
             </div>
 
-            <InstagramSearch />
+            <InstagramSearch placeholder="Buscar filhotes" />
 
             <FilhotesTable filhotes={filhotes} />
+
+            {!search && (
+                <PaginationDemo
+                    currentPage={pagination.page}
+                    totalPages={pagination.totalPages}
+                    className="mt-6"
+                />
+            )}
 
             <div className="mt-6 flex justify-end">
                 <Link href="/admin/filhotes/add">
