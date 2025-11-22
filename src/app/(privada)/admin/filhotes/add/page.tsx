@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, X, DollarSign, FileText, Tag } from 'lucide-react';
 import Link from 'next/link';
@@ -17,6 +17,17 @@ export default function AdicionarFilhote() {
     const [weight, setWeight] = useState('');
     const [imagens, setImagens] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+
+    useEffect(() => {
+        setNome('');
+        setDescricao('');
+        setPrice('');
+        setAge('');
+        setWeight('');
+        setImagens([]);
+        setPreviewUrls([]);
+        setLoading(false);
+    }, []);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(event.target.files || []);

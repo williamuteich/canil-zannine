@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Canil Zannine - Filhotes de Alta Qualidade",
   description: "Canil Zannine - Filhotes de alta qualidade, saúde e temperamento excepcionais. Encontre seu novo melhor amigo conosco!",
   icons: {
-    icon: "/images/logo.png",
+    icon: "/imagens/logo.png",
   },
 };
 
