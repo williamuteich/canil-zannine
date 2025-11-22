@@ -34,6 +34,7 @@ export function BannerUI({ whatsappButton }: BannerUIProps) {
           alt="Filhotes adoráveis"
           className="object-cover opacity-45"
           fill
+          quality={30}
         />
         <div className="absolute inset-0 bg-linear-to-br from-[#FFF7F0]/80 via-[#F9D7EB]/85 to-[#B6F1FF]/80" />
       </div>

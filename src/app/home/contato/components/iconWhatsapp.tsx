@@ -34,7 +34,7 @@ export function IconWhatsapp({ onClick }: { onClick: () => void }) {
             <button
               type="button"
               onClick={() => setMessageVisible(false)}
-              className="absolute right-1.5 top-1.5 h-4 w-4 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 flex items-center justify-center text-[10px] font-bold leading-none cursor-pointer shadow-sm"
+              className="absolute cursor-pointer right-1.5 top-1.5 h-4 w-4 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700 flex items-center justify-center text-[10px] font-bold leading-none shadow-sm"
               aria-label="Fechar aviso do WhatsApp"
             >
               ×
@@ -46,7 +46,7 @@ export function IconWhatsapp({ onClick }: { onClick: () => void }) {
 
       <motion.button
         onClick={onClick}
-        className="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl w-14 h-14 md:w-18 md:h-18 flex items-center justify-center"
+        className="bg-green-500 cursor-pointer hover:bg-green-600 text-white rounded-full shadow-2xl w-14 h-14 md:w-18 md:h-18 flex items-center justify-center"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         aria-label="Abrir atendimento via WhatsApp"

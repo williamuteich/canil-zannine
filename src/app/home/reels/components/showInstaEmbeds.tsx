@@ -37,6 +37,14 @@ export default function ShowInstaEmbeds({ posts, instagramUrl }: ShowInstaEmbeds
             if (window.instgrm) {
                 try {
                     window.instgrm.Embeds.process();
+                    setTimeout(() => {
+                        const iframes = document.querySelectorAll('iframe.instagram-media');
+                        iframes.forEach((iframe, index) => {
+                            if (!iframe.getAttribute('title')) {
+                                iframe.setAttribute('title', `Instagram Post ${index + 1}`);
+                            }
+                        });
+                    }, 1500);
                 } catch (error) {
                     console.error('Erro ao processar embeds:', error);
                 }

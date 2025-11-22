@@ -123,9 +123,9 @@ export function ContatoInfoUI({ telefone, email }: ContatoInfoUIProps) {
             >
               <item.icon className="h-6 w-6 text-white" />
             </motion.div>
-            <h4 className="font-semibold text-gray-900 text-center mb-2">
+            <h3 className="font-semibold text-gray-900 text-center mb-2">
               {item.title}
-            </h4>
+            </h3>
             <p className="text-gray-900 text-center font-medium text-lg mb-1">
               {item.content}
             </p>
