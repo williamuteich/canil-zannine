@@ -3,7 +3,7 @@
 import { getServerSession } from "next-auth";
 import { auth } from "@/lib/auth-config";
 import prisma from "@/lib/db";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 
 const socialMediaSchema = z.object({
@@ -49,6 +49,7 @@ export async function createSocialMedia(data: any) {
       },
     });
 
+    updateTag('social-media');
     revalidatePath("/admin/redes-sociais");
 
     return { success: true, data: socialMedia };
@@ -84,6 +85,7 @@ export async function updateSocialMedia(id: string, data: any) {
     });
 
     revalidatePath("/admin/redes-sociais");
+    updateTag('social-media');
 
     return { success: true, data: updated };
   } catch (error: any) {
@@ -105,6 +107,7 @@ export async function deleteSocialMedia(id: string) {
     });
 
     revalidatePath("/admin/redes-sociais");
+    updateTag('social-media');
 
     return { success: true };
   } catch (error: any) {

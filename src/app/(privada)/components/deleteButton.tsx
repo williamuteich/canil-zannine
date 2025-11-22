@@ -11,7 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { DeleteButtonProps } from "@/types/models"
-import { deleteData } from "@/services/delete-data.service"
+
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -27,9 +27,7 @@ export function DeleteButton({ id, apiUrl, serverAction }: DeleteButtonProps) {
         await serverAction(id)
         setOpen(false)
       } else {
-        await deleteData(`${apiUrl}/${id}`)
-        setOpen(false)
-        router.refresh()
+        console.error("Server action not provided")
       }
     } catch (error) {
       console.error("Erro ao deletar:", error)

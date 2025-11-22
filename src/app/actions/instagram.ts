@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { auth } from "@/lib/auth-config";
 import prisma from "@/lib/db";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 
 const instaEmbedSchema = z.object({
   title: z.string().min(1, "O título é obrigatório"),
@@ -36,6 +36,7 @@ export async function createInstagram(data: any) {
       },
     });
 
+    updateTag('instagram');
     revalidatePath("/admin/instagram");
 
     return { success: true, data: instaEmbed };
@@ -69,6 +70,7 @@ export async function updateInstagram(id: string, data: any) {
       data: dataToUpdate,
     });
 
+    updateTag('instagram');
     revalidatePath("/admin/instagram");
 
     return { success: true, data: updated };
@@ -90,6 +92,7 @@ export async function deleteInstagram(id: string) {
       where: { id },
     });
 
+    updateTag('instagram');
     revalidatePath("/admin/instagram");
 
     return { success: true };

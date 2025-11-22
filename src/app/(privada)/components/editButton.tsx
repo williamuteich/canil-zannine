@@ -13,8 +13,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState, useEffect } from "react"
-import { updateData } from "@/services/update-data.service"
-import { getData } from "@/services/get-data.service"
 import { useRouter } from "next/navigation"
 import { EditButtonProps } from "@/types/models"
 import { Pencil } from "lucide-react"
@@ -22,32 +20,15 @@ import { Pencil } from "lucide-react"
 export function EditButton({ id, title, description, fields, apiUrl, initialData, serverAction }: EditButtonProps) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [fetching, setFetching] = useState(false)
   const [error, setError] = useState<string>("")
   const [data, setData] = useState<Record<string, any>>(initialData || {})
   const router = useRouter()
 
   useEffect(() => {
-    if (open && !initialData && id) {
-      fetchData()
-    } else if (open && initialData) {
+    if (open && initialData) {
       setData(initialData)
     }
-  }, [open, id, initialData])
-
-  const fetchData = async () => {
-    setFetching(true)
-    setError("")
-    try {
-      const fetchedData = await getData<any>(`${apiUrl}/${id}`)
-      setData(fetchedData)
-    } catch (error) {
-      console.error("Erro ao buscar dados:", error)
-      setError("Erro ao carregar dados para edição.")
-    } finally {
-      setFetching(false)
-    }
-  }
+  }, [open, initialData])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -55,30 +36,24 @@ export function EditButton({ id, title, description, fields, apiUrl, initialData
     setError("")
 
     const formData = new FormData(e.currentTarget)
-    const data: Record<string, any> = {}
+    const formValues: Record<string, any> = {}
 
     fields.forEach(field => {
       if (field.type === "number") {
         const value = formData.get(field.name)
-        data[field.name] = value ? Number(value) : null
+        formValues[field.name] = value ? Number(value) : null
       } else {
-        data[field.name] = formData.get(field.name) || ""
+        formValues[field.name] = formData.get(field.name) || ""
       }
     })
 
     try {
       if (serverAction) {
-        await serverAction(id, data)
+        await serverAction(id, formValues)
         setOpen(false)
-        // No need to router.refresh() if the server action does revalidatePath, 
-        // but it doesn't hurt to ensure client state is synced if needed.
-        // However, revalidatePath on server should handle it.
       } else {
-        const response = await updateData(`${apiUrl}/${id}`, data)
-        if (response.status === 200 || response.status === 204) {
-          setOpen(false)
-          router.refresh()
-        }
+        console.error("Server action not provided")
+        setError("Erro interno: Ação do servidor não fornecida.")
       }
     } catch (error) {
       console.error("Erro ao atualizar:", error)
@@ -120,44 +95,38 @@ export function EditButton({ id, title, description, fields, apiUrl, initialData
               </div>
             )}
 
-            {fetching ? (
-              <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900"></div>
-              </div>
-            ) : (
-              fields.map((field) => (
-                <div key={field.name} className="grid gap-3">
-                  <Label htmlFor={field.name}>
-                    {field.label}
-                    {field.required && <span className="text-red-500 ml-1">*</span>}
-                  </Label>
+            {fields.map((field) => (
+              <div key={field.name} className="grid gap-3">
+                <Label htmlFor={field.name}>
+                  {field.label}
+                  {field.required && <span className="text-red-500 ml-1">*</span>}
+                </Label>
 
-                  {field.type === "select" ? (
-                    <select
-                      id={field.name}
-                      name={field.name}
-                      required={field.required}
-                      defaultValue={data[field.name] || ""}
-                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                      <option value="">Selecione...</option>
-                      {field.options?.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                      ))}
-                    </select>
-                  ) : (
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      type={field.type}
-                      required={field.required}
-                      placeholder={field.placeholder}
-                      defaultValue={data[field.name] || ""}
-                    />
-                  )}
-                </div>
-              ))
-            )}
+                {field.type === "select" ? (
+                  <select
+                    id={field.name}
+                    name={field.name}
+                    required={field.required}
+                    defaultValue={data[field.name] || ""}
+                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <option value="">Selecione...</option>
+                    {field.options?.map(opt => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    type={field.type}
+                    required={field.required}
+                    placeholder={field.placeholder}
+                    defaultValue={data[field.name] || ""}
+                  />
+                )}
+              </div>
+            ))}
           </div>
 
           <DialogFooter className="flex justify-end gap-3">
@@ -173,7 +142,7 @@ export function EditButton({ id, title, description, fields, apiUrl, initialData
             </DialogClose>
             <Button
               type="submit"
-              disabled={loading || fetching}
+              disabled={loading}
               className={`bg-green-600 text-white hover:bg-green-700 focus:ring-2 focus:ring-green-500 ${loading ? "opacity-70 cursor-not-allowed" : "cursor-pointer"
                 }`}
             >

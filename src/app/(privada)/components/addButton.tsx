@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import { postData } from "@/services/post-data.service"
+
 import { useRouter } from "next/navigation"
 import { AddButtonProps } from "@/types/models"
 
@@ -46,13 +46,8 @@ export function AddButton({ title, description, buttonLabel, fields, apiUrl, ser
                 e.currentTarget?.reset()
                 setOpen(false)
             } else {
-                const response = await postData(apiUrl, data)
-                e.currentTarget?.reset()
-                setOpen(false)
-
-                if (response.status === 201 || response.status === 200) {
-                    router.refresh()
-                }
+                console.error("Server action not provided")
+                setError("Erro interno: Ação do servidor não fornecida.")
             }
         } catch (error) {
             console.error("Erro ao salvar:", error)
