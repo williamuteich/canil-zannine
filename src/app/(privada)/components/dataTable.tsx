@@ -86,12 +86,12 @@ export function TableDemo({
         const statusColors = {
           'ativo': 'bg-emerald-50 text-emerald-700',
           'inativo': 'bg-rose-50 text-rose-700',
-          'pedding': 'bg-yellow-50 text-yellow-700',
+          'entregue': 'bg-blue-50 text-blue-700',
         };
         const statusLabels = {
           'ativo': 'Ativo',
           'inativo': 'Inativo',
-          'pedding': 'Pendente',
+          'entregue': 'Entregue',
         };
 
         return (

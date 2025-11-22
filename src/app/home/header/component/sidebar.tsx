@@ -13,6 +13,7 @@ export function MobileSidebar() {
   const navigationLinks = [
     { href: "/", label: "Inicio", icon: Home },
     { href: "/nossos-filhotes", label: "Nossos Filhotes", icon: Heart },
+    { href: "/filhotes-entregues", label: "Filhotes Entregues", icon: Heart },
     { href: "/#contato", label: "Contato", icon: MessageCircle },
     { href: "/sobre", label: "Sobre", icon: Info },
   ];

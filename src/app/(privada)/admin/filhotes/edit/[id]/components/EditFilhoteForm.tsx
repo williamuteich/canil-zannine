@@ -222,7 +222,7 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
             >
               <option value="ativo">Ativo</option>
               <option value="inativo">Inativo</option>
-              <option value="pedding">Pendente</option>
+              <option value="entregue">Entregue</option>
             </select>
           </div>
 

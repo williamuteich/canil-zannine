@@ -13,7 +13,7 @@ const puppySchema = z.object({
     price: z.number().min(0, "O preço deve ser um número positivo"),
     age: z.string().optional(),
     weight: z.string().optional(),
-    status: z.enum(["pedding", "ativo", "inativo"]).optional().default("ativo"),
+    status: z.enum(["entregue", "ativo", "inativo"]).optional().default("ativo"),
     primaryImage: z.string().min(1, "A imagem principal é obrigatória"),
     images: z.array(z.string().min(1, "A URL da imagem é obrigatória")).optional(),
 });
