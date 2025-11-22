@@ -1,7 +1,9 @@
 "use client"
 import { TableDemo } from "../../../components/dataTable";
 import { EditButton } from "../../../components/editButton";
+import { DeleteButton } from "../../../components/deleteButton";
 import type { InstagramTableProps } from "@/types/models";
+import { updateInstagram, deleteInstagram } from "@/app/actions/instagram";
 
 export function InstagramTable({ embeds }: InstagramTableProps) {
   const tableHead = ["Id", "Title", "Url", "Status", "Ação"];
@@ -72,9 +74,17 @@ export function InstagramTable({ embeds }: InstagramTableProps) {
             fields={fields}
             apiUrl="/api/instagram"
             initialData={embed}
+            serverAction={updateInstagram}
           />
         );
       }}
+      renderDelete={(row) => (
+        <DeleteButton
+          id={row.id}
+          apiUrl="/api/instagram"
+          serverAction={deleteInstagram}
+        />
+      )}
     />
   );
 }

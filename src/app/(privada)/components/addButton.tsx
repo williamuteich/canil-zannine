@@ -17,7 +17,7 @@ import { postData } from "@/services/post-data.service"
 import { useRouter } from "next/navigation"
 import { AddButtonProps } from "@/types/models"
 
-export function AddButton({ title, description, buttonLabel, fields, apiUrl }: AddButtonProps) {
+export function AddButton({ title, description, buttonLabel, fields, apiUrl, serverAction }: AddButtonProps) {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string>("")
@@ -41,12 +41,18 @@ export function AddButton({ title, description, buttonLabel, fields, apiUrl }: A
         })
 
         try {
-            const response = await postData(apiUrl, data)
-            e.currentTarget?.reset()
-            setOpen(false)
+            if (serverAction) {
+                await serverAction(data)
+                e.currentTarget?.reset()
+                setOpen(false)
+            } else {
+                const response = await postData(apiUrl, data)
+                e.currentTarget?.reset()
+                setOpen(false)
 
-            if (response.status === 201 || response.status === 200) {
-                router.refresh()
+                if (response.status === 201 || response.status === 200) {
+                    router.refresh()
+                }
             }
         } catch (error) {
             console.error("Erro ao salvar:", error)

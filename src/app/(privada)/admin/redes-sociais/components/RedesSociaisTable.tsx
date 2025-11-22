@@ -1,7 +1,9 @@
 "use client"
 import { TableDemo } from "../../../components/dataTable";
 import { EditButton } from "../../../components/editButton";
+import { DeleteButton } from "../../../components/deleteButton";
 import type { RedesSociaisTableProps } from "@/types/models";
+import { updateSocialMedia, deleteSocialMedia } from "@/app/actions/social-media";
 
 export function RedesSociaisTable({ socialMedia }: RedesSociaisTableProps) {
   const tableHead = ["Id", "Plataforma", "Link", "Status", "Ação"];
@@ -91,9 +93,17 @@ export function RedesSociaisTable({ socialMedia }: RedesSociaisTableProps) {
             fields={fields}
             apiUrl="/api/redes-sociais"
             initialData={item}
+            serverAction={updateSocialMedia}
           />
         );
       }}
+      renderDelete={(row) => (
+        <DeleteButton
+          id={row.id}
+          apiUrl="/api/redes-sociais"
+          serverAction={deleteSocialMedia}
+        />
+      )}
     />
   );
 }

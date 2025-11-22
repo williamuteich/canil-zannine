@@ -70,6 +70,7 @@ export type tableRow = {
 export interface DeleteButtonProps {
   id: string
   apiUrl: string
+  serverAction?: (id: string) => Promise<any>
 }
 
 export interface ShowInstaEmbedsProps {
@@ -127,6 +128,7 @@ export interface AddButtonProps {
   buttonLabel: string
   fields: FieldConfig[]
   apiUrl: string
+  serverAction?: (data: any) => Promise<any>
 }
 
 export interface ImageGalleryProps {
@@ -142,6 +144,7 @@ export interface EditButtonProps {
   fields: FieldConfig[]
   apiUrl: string
   initialData?: Record<string, any>
+  serverAction?: (id: string, data: any) => Promise<any>
 }
 
 export interface PuppyImage {

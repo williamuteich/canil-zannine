@@ -18,6 +18,7 @@ export function TableDemo({
   editUrl,
   showPrice = true,
   renderEdit,
+  renderDelete,
 }: {
   tableHead: string[]
   rows: tableRow[]
@@ -25,6 +26,7 @@ export function TableDemo({
   editUrl?: string
   showPrice?: boolean
   renderEdit?: (row: tableRow) => React.ReactNode
+  renderDelete?: (row: tableRow) => React.ReactNode
 }) {
   const renderCell = (row: tableRow, field: keyof tableRow) => {
     const value = row[field];
@@ -177,7 +179,7 @@ export function TableDemo({
                       Editar
                     </button>
                   )}
-                  <DeleteButton id={row.id} apiUrl={apiUrl} />
+                  {renderDelete ? renderDelete(row) : <DeleteButton id={row.id} apiUrl={apiUrl} />}
                 </div>
               </TableCell>
             </TableRow>

@@ -9,7 +9,6 @@ export async function updateData<T>(url: string, data: Record<string, any>): Pro
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-    cache: "no-store",
   });
 
   if (!response.ok) {

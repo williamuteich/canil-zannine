@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation"
 import { EditButtonProps } from "@/types/models"
 import { Pencil } from "lucide-react"
 
-export function EditButton({ id, title, description, fields, apiUrl, initialData }: EditButtonProps) {
+export function EditButton({ id, title, description, fields, apiUrl, initialData, serverAction }: EditButtonProps) {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(false)
@@ -67,11 +67,18 @@ export function EditButton({ id, title, description, fields, apiUrl, initialData
     })
 
     try {
-      const response = await updateData(`${apiUrl}/${id}`, data)
-
-      if (response.status === 200 || response.status === 204) {
+      if (serverAction) {
+        await serverAction(id, data)
         setOpen(false)
-        router.refresh()
+        // No need to router.refresh() if the server action does revalidatePath, 
+        // but it doesn't hurt to ensure client state is synced if needed.
+        // However, revalidatePath on server should handle it.
+      } else {
+        const response = await updateData(`${apiUrl}/${id}`, data)
+        if (response.status === 200 || response.status === 204) {
+          setOpen(false)
+          router.refresh()
+        }
       }
     } catch (error) {
       console.error("Erro ao atualizar:", error)

@@ -20,7 +20,7 @@ export function MobileSidebar() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="md:hidden p-2.5 rounded-lg hover:bg-pink-50 transition-all duration-300 active:scale-95 cursor-pointer">
+        <button aria-label="Abrir menu de navegação" className="md:hidden p-2.5 rounded-lg hover:bg-pink-50 transition-all duration-300 active:scale-95 cursor-pointer">
           <Menu className="w-6 h-6 text-gray-700" />
         </button>
       </SheetTrigger>

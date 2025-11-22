@@ -4,6 +4,7 @@ import { InstagramTable } from "./InstagramTable";
 import { PaginationDemo } from "@/app/(privada)/components/pagination";
 import { AddButton } from "@/app/(privada)/components/addButton";
 import { cacheLife, cacheTag } from "next/cache";
+import { createInstagram } from "@/app/actions/instagram";
 
 interface InstagramContentProps {
   page: number;
@@ -80,6 +81,7 @@ export async function InstagramContent({ page, search }: InstagramContentProps) 
               placeholder: "https://instagram.com/p/...",
             }
           ]}
+          serverAction={createInstagram}
         />
       </div>
     </div>

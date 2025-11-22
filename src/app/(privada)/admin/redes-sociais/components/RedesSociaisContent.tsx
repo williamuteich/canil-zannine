@@ -3,6 +3,7 @@ import { getData } from "@/services/get-data.service";
 import type { SocialMedia } from "@/types/models";
 import { RedesSociaisTable } from "./RedesSociaisTable";
 import { cacheLife, cacheTag } from "next/cache";
+import { createSocialMedia } from "@/app/actions/social-media";
 
 export async function RedesSociaisContent() {
   "use cache";
@@ -68,6 +69,7 @@ export async function RedesSociaisContent() {
                 placeholder: "Ex: (51) 99868-2733",
               }
             ]}
+            serverAction={createSocialMedia}
           />
         </div>
       </div>
