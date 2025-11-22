@@ -12,7 +12,7 @@ async function getSocialMediaData() {
 
 export async function ContatoWhatsAppData() {
   try {
-    const socialMedia = await getSocialMediaData();
+    const socialMedia = await getSocialMediaData() || [];
     const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
     const whatsappNumero = whatsapp?.value?.replace(/\D/g, '');
 
@@ -25,7 +25,7 @@ export async function ContatoWhatsAppData() {
 
 export async function ContatoInfoData() {
   try {
-    const socialMedia = await getSocialMediaData();
+    const socialMedia = await getSocialMediaData() || [];
 
     const getVal = (platform: string) =>
       socialMedia.find(sm => sm.plataform.toLowerCase() === platform && sm.status)?.value;

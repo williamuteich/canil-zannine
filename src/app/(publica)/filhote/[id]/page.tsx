@@ -28,7 +28,7 @@ async function FilhoteData({ id }: { id: string }) {
     console.error("Erro ao buscar dados:", error);
   }
 
-  const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
+  const whatsapp = (socialMedia || []).find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
   const whatsappLink = whatsapp?.link || (whatsapp?.value ? `https://wa.me/${whatsapp.value.replace(/\D/g, '')}` : undefined);
 
   if (!puppy) {

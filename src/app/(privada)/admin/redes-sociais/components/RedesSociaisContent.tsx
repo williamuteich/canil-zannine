@@ -11,10 +11,10 @@ export async function RedesSociaisContent() {
 
   let socialMedia: SocialMedia[] = [];
 
-  try {
-    socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");
-  } catch (error) {
-    console.error("Erro ao buscar redes sociais:", error);
+  socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");
+
+  if (!socialMedia) {
+    socialMedia = [];
   }
 
   return (

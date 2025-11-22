@@ -9,7 +9,7 @@ async function BannerWhatsApp() {
   cacheLife('days')
 
   try {
-    const socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");
+    const socialMedia = await getData<SocialMedia[]>("/api/redes-sociais") || [];
     const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
 
     if (whatsapp?.value) {

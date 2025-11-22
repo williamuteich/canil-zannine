@@ -5,7 +5,7 @@
 */
 export async function getData<T>(url: string): Promise<T> {
   try {
-    const baseUrl = process.env.NEXTAUTH_URL || "";
+    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
     const fullUrl = url.startsWith("http") ? url : (baseUrl ? `${baseUrl}${url}` : url);
 
     const response = await fetch(fullUrl, {
@@ -27,13 +27,17 @@ export async function getData<T>(url: string): Promise<T> {
       return result.data;
     }
 
+    if (!result) {
+      return result as T;
+    }
+
     return result;
 
   } catch (error) {
-    if (error instanceof TypeError) {
-      throw new Error('Erro de conexão. Verifique sua internet ou se a API está rodando.');
+    if (process.env.NEXT_PHASE !== 'phase-production-build') {
+      console.error(`Erro ao buscar ${url}:`, error);
     }
 
-    throw error;
+    return null as unknown as T;
   }
 }
