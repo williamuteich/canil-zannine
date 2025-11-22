@@ -36,21 +36,12 @@ export async function FilhotesContent({ page, search, limit }: FilhotesContentPr
     console.error('Erro ao carregar filhotes:', error);
   }
 
-  const timestamp = new Date().toLocaleString('pt-BR', {
-    timeZone: 'America/Sao_Paulo',
-    dateStyle: 'short',
-    timeStyle: 'medium'
-  });
-
   return (
     <div className="space-y-7">
       <div className="space-y-1.5">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Filhotes</h1>
         <p className="text-base text-slate-600">
           Tela de gerenciamento dos filhotes cadastrados. Aqui você pode visualizar e organizar os registros.
-        </p>
-        <p className="text-sm text-slate-500 italic">
-          Última atualização da API: {timestamp}
         </p>
       </div>
 

@@ -9,21 +9,14 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Product" (
+CREATE TABLE "Puppy" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
-    "breed" TEXT NOT NULL,
-    "gender" TEXT NOT NULL,
-    "color" TEXT,
-    "ageMonths" INTEGER,
-    "weight" REAL,
-    "vaccinated" BOOLEAN NOT NULL DEFAULT false,
-    "dewormed" BOOLEAN NOT NULL DEFAULT false,
-    "about" TEXT NOT NULL,
-    "characteristics" TEXT,
-    "careInstructions" TEXT,
-    "history" TEXT,
-    "status" BOOLEAN NOT NULL DEFAULT true,
+    "description" TEXT NOT NULL,
+    "price" REAL NOT NULL,
+    "age" TEXT,
+    "weight" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'ativo',
     "primaryImage" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
@@ -33,8 +26,8 @@ CREATE TABLE "Product" (
 CREATE TABLE "ProductImage" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "url" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    CONSTRAINT "ProductImage_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "puppyId" TEXT NOT NULL,
+    CONSTRAINT "ProductImage_puppyId_fkey" FOREIGN KEY ("puppyId") REFERENCES "Puppy" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -42,6 +35,17 @@ CREATE TABLE "InstaEmbed" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
     "link" TEXT NOT NULL,
+    "status" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "SocialMedia" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "plataform" TEXT NOT NULL,
+    "link" TEXT,
+    "value" TEXT,
     "status" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL

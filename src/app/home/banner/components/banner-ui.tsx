@@ -30,7 +30,7 @@ export function BannerUI({ whatsappButton }: BannerUIProps) {
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-linear-to-br from-[#FFF7F0] via-[#F9D7EB] to-[#B6F1FF]">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/filhote/imageBanner.jpg"
+          src="/imagens/imageBanner.jpg"
           alt="Filhotes adoráveis"
           className="object-cover opacity-45"
           fill

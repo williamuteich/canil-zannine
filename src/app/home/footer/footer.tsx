@@ -23,7 +23,7 @@ export function Footer() {
             <div className="lg:col-span-2 flex flex-col justify-center items-center md:block">
               <div className="flex items-center space-x-4 mb-4 justify-center md:justify-start">
                 <Image
-                  src="/filhote/logo.png"
+                  src="/imagens/logo.png"
                   alt="Logo"
                   width={70}
                   height={70}

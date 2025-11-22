@@ -17,7 +17,7 @@ export function Header() {
       <div className="max-w-[1400px] mx-auto px-8 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-4">
           <Image
-            src="/filhote/logo.png"
+            src="/images/logo.png"
             alt="Logo"
             width={70}
             height={70}

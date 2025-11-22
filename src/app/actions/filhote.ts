@@ -1,22 +1,19 @@
 'use server'
 
-import { getServerSession } from "next-auth";
-import { auth } from "@/lib/auth-config";
+import { cookies } from 'next/headers';
 import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function createFilhote(formData: FormData) {
-  const session = await getServerSession(auth);
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   try {
     const apiUrl = `${process.env.NEXTAUTH_URL}api/filhote`;
+    const cookieStore = await cookies();
 
     const response = await fetch(apiUrl, {
       method: 'POST',
       body: formData,
+      headers: {
+        'Cookie': cookieStore.toString(),
+      },
     });
 
     if (!response.ok) {
@@ -37,18 +34,16 @@ export async function createFilhote(formData: FormData) {
 }
 
 export async function updateFilhote(id: string, formData: FormData) {
-  const session = await getServerSession(auth);
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   try {
     const apiUrl = `${process.env.NEXTAUTH_URL}api/filhote/${id}`;
+    const cookieStore = await cookies();
 
     const response = await fetch(apiUrl, {
       method: 'PATCH',
       body: formData,
+      headers: {
+        'Cookie': cookieStore.toString(),
+      },
     });
 
     if (!response.ok) {
@@ -67,17 +62,15 @@ export async function updateFilhote(id: string, formData: FormData) {
 }
 
 export async function deleteFilhote(id: string) {
-  const session = await getServerSession(auth);
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
   try {
     const apiUrl = `${process.env.NEXTAUTH_URL}api/filhote/${id}`;
+    const cookieStore = await cookies();
 
     const response = await fetch(apiUrl, {
       method: 'DELETE',
+      headers: {
+        'Cookie': cookieStore.toString(),
+      },
     });
 
     if (!response.ok) {

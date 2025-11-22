@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { writeFile } from "fs/promises";
 import { revalidateTag } from "next/cache";
+import { randomUUID } from "crypto";
 
 const puppySchema = z.object({
     name: z.string().min(1, "O título é obrigatório"),
@@ -18,10 +19,15 @@ const puppySchema = z.object({
 });
 
 const saveFile = async (file: File) => {
-    const UPLOAD_DIR = path.join(process.cwd(), 'public', 'filhote');
+    const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'filhotes');
     const buffer = await file.arrayBuffer();
-    const filePath = path.join(UPLOAD_DIR, file.name);
+
+    const ext = path.extname(file.name);
+    const newFileName = `${randomUUID()}${ext}`;
+    const filePath = path.join(UPLOAD_DIR, newFileName);
+
     await writeFile(filePath, Buffer.from(buffer));
+    return newFileName;
 };
 
 export async function GET(request: NextRequest) {
@@ -91,8 +97,22 @@ export async function POST(request: NextRequest) {
         const primaryImage = formData.get('primaryImage')
         const images = formData.getAll('images')
 
-        const primaryImageName = primaryImage instanceof File ? primaryImage.name : String(primaryImage)
-        const imagesNames = images.map(img => img instanceof File ? img.name : String(img))
+        let primaryImageName = '';
+        if (primaryImage instanceof File) {
+            primaryImageName = await saveFile(primaryImage);
+        } else {
+            primaryImageName = String(primaryImage);
+        }
+
+        const imagesNames: string[] = [];
+        for (const img of images) {
+            if (img instanceof File) {
+                const savedName = await saveFile(img);
+                imagesNames.push(savedName);
+            } else {
+                imagesNames.push(String(img));
+            }
+        }
 
         const rawData = {
             name,
@@ -110,23 +130,11 @@ export async function POST(request: NextRequest) {
             data: {
                 ...parsedBody,
                 images: {
-                    create: parsedBody.images?.map(filename => ({ url: `/filhote/${filename}` })) || [],
+                    create: parsedBody.images?.map(filename => ({ url: `/uploads/filhotes/${filename}` })) || [],
                 },
-                primaryImage: `/filhote/${parsedBody.primaryImage}`,
+                primaryImage: `/uploads/filhotes/${parsedBody.primaryImage}`,
             },
         });
-
-        if (primaryImage instanceof File) {
-            await saveFile(primaryImage);
-        }
-
-        if (images) {
-            for (const img of images) {
-                if (img instanceof File) {
-                    await saveFile(img);
-                }
-            }
-        }
 
         revalidateTag('filhotes', 'max');
 

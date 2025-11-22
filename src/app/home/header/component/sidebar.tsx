@@ -33,7 +33,7 @@ export function MobileSidebar() {
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-linear-to-br from-pink-100 to-pink-200 flex items-center justify-center shadow-md border border-pink-200">
               <Image
-                src="/filhote/logo.png"
+                src="/images/logo.png"
                 alt="Logo"
                 width={48}
                 height={48}

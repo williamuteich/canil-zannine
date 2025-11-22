@@ -3,12 +3,18 @@ import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { writeFile, unlink } from "fs/promises";
 import { revalidateTag } from "next/cache";
+import { randomUUID } from "crypto";
 
 const saveFile = async (file: File) => {
-  const UPLOAD_DIR = path.join(process.cwd(), 'public', 'filhote');
+  const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'filhotes');
   const buffer = await file.arrayBuffer();
-  const filePath = path.join(UPLOAD_DIR, file.name);
+
+  const ext = path.extname(file.name);
+  const newFileName = `${randomUUID()}${ext}`;
+  const filePath = path.join(UPLOAD_DIR, newFileName);
+
   await writeFile(filePath, Buffer.from(buffer));
+  return newFileName;
 };
 
 export async function GET(
@@ -85,8 +91,8 @@ export async function PATCH(
     if (status) dataToUpdate.status = String(status);
 
     if (newPrimaryImageFile instanceof File) {
-      await saveFile(newPrimaryImageFile);
-      dataToUpdate.primaryImage = `/filhote/${newPrimaryImageFile.name}`;
+      const savedFileName = await saveFile(newPrimaryImageFile);
+      dataToUpdate.primaryImage = `/uploads/filhotes/${savedFileName}`;
     } else if (primaryImage && primaryImage !== 'undefined' && primaryImage !== 'null') {
       dataToUpdate.primaryImage = String(primaryImage);
     }
@@ -107,7 +113,7 @@ export async function PATCH(
       try {
         const fileName = img.url.split('/').pop();
         if (fileName) {
-          const filePath = path.join(process.cwd(), 'public', 'filhote', fileName);
+          const filePath = path.join(process.cwd(), 'public', 'uploads', 'filhotes', fileName);
           await unlink(filePath);
         }
       } catch (error) {
@@ -124,9 +130,9 @@ export async function PATCH(
 
       for (const img of newImages) {
         if (img instanceof File) {
-          await saveFile(img);
+          const savedFileName = await saveFile(img);
           imagesToCreate.push({
-            url: `/filhote/${img.name}`,
+            url: `/uploads/filhotes/${savedFileName}`,
             puppyId: id,
           });
         }
@@ -163,6 +169,7 @@ export async function DELETE(
 
     const puppy = await prisma.puppy.findUnique({
       where: { id },
+      include: { images: true },
     });
 
     if (!puppy) {
@@ -170,6 +177,28 @@ export async function DELETE(
         { error: "Filhote não encontrado" },
         { status: 404 }
       );
+    }
+
+    try {
+      const primaryFileName = puppy.primaryImage.split('/').pop();
+      if (primaryFileName) {
+        const filePath = path.join(process.cwd(), 'public', 'uploads', 'filhotes', primaryFileName);
+        await unlink(filePath);
+      }
+    } catch (error) {
+      console.error('Erro ao deletar imagem principal:', error);
+    }
+
+    for (const img of puppy.images) {
+      try {
+        const fileName = img.url.split('/').pop();
+        if (fileName) {
+          const filePath = path.join(process.cwd(), 'public', 'uploads', 'filhotes', fileName);
+          await unlink(filePath);
+        }
+      } catch (error) {
+        console.error('Erro ao deletar imagem da galeria:', error);
+      }
     }
 
     await prisma.puppy.delete({
