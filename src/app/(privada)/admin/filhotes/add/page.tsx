@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, X, DollarSign, FileText, Tag } from 'lucide-react';
 import Link from 'next/link';
-import { postMedia } from '@/services/post-media.service';
+import { createFilhote } from '@/app/actions/filhote';
 import Image from 'next/image';
 
 export default function AdicionarFilhote() {
@@ -59,7 +59,7 @@ export default function AdicionarFilhote() {
         }
 
         try {
-            await postMedia('/api/filhote', formData);
+            await createFilhote(formData);
             router.push('/admin/filhotes');
         } catch (error: any) {
             console.error('Erro ao adicionar filhote:', error);

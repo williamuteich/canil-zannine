@@ -1,5 +1,7 @@
 import { FilhotesTableProps } from "@/types/models";
 import { TableDemo } from "../../../components/dataTable";
+import { deleteFilhote } from "@/app/actions/filhote";
+import { DeleteButton } from "../../../components/deleteButton";
 
 export function FilhotesTable({ filhotes }: FilhotesTableProps) {
   const tableHead = ["Imagem", "Nome", "Idade", "Peso", "Descrição", "Preço", "Status", "Ação"];
@@ -44,5 +46,16 @@ export function FilhotesTable({ filhotes }: FilhotesTableProps) {
     status: filhote.status,
   }));
 
-  return <TableDemo tableHead={tableHead} rows={tableRows} apiUrl="/api/filhote" editUrl="/admin/filhotes/edit" showPrice={true} />;
+  return (
+    <TableDemo
+      tableHead={tableHead}
+      rows={tableRows}
+      apiUrl="/api/filhote"
+      editUrl="/admin/filhotes/edit"
+      showPrice={true}
+      renderDelete={(row) => (
+        <DeleteButton id={row.id} serverAction={deleteFilhote} apiUrl="" />
+      )}
+    />
+  );
 }

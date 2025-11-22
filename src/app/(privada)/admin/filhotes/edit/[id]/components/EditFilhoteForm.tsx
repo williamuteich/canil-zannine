@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, X, DollarSign, FileText, Tag, Trash2, Star } from 'lucide-react';
 import Link from 'next/link';
-import { patchMedia } from '@/services/patch-media.service';
+import { updateFilhote } from '@/app/actions/filhote';
 import Image from 'next/image';
 import { PuppyData, PuppyImage } from '@/types/models';
 
@@ -97,7 +97,7 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
         formData.append('images', image, image.name);
       });
 
-      await patchMedia(`/api/filhote/${id}`, formData);
+      await updateFilhote(id, formData);
       router.refresh();
       router.push('/admin/filhotes');
     } catch (error: any) {
