@@ -33,6 +33,7 @@ async function FilhoteData({ id }: { id: string }) {
     if (puppyData) {
       puppy = {
         ...puppyData,
+        comentario: puppyData.comentario ?? undefined,
         age: puppyData.age ?? 'Consultar',
         weight: puppyData.weight ?? 'Consultar',
       };

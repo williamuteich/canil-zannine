@@ -23,6 +23,7 @@ async function CarouselData() {
       ...puppy,
       age: puppy.age ?? 'N/A',
       weight: puppy.weight ?? 'N/A',
+      comentario: puppy.comentario ?? undefined,
     }));
 
     return <PuppiesCarouselUI puppies={puppies} />;

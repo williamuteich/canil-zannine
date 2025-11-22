@@ -32,6 +32,7 @@ async function EditFilhoteData({ params }: EditFilhotePageProps) {
         ...result,
         age: result.age ?? undefined,
         weight: result.weight ?? undefined,
+        comentario: result.comentario ?? undefined,
       };
     }
   } catch (error) {

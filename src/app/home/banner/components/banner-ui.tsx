@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
+import bannerImage from "@/assets/imageBanner.jpg";
 
 interface BannerUIProps {
   whatsappButton?: React.ReactNode;
@@ -30,7 +31,7 @@ export function BannerUI({ whatsappButton }: BannerUIProps) {
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-linear-to-br from-[#FFF7F0] via-[#F9D7EB] to-[#B6F1FF]">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/imagens/imageBanner.jpg"
+          src={bannerImage}
           alt="Filhotes adoráveis"
           className="object-cover opacity-45"
           fill

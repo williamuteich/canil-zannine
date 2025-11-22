@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { cacheLife, cacheTag } from "next/cache";
 import { PaginationDemo } from "@/app/(privada)/components/pagination";
 import prisma from "@/lib/db";
+import { DeliveredPuppyCard } from "./components/DeliveredPuppyCard";
 
 interface FilhotesEntreguesPageProps {
   searchParams: Promise<{ page?: string }>;
@@ -40,6 +41,7 @@ async function FilhotesData({ page }: { page: number }) {
 
     puppies = result.map(puppy => ({
       ...puppy,
+      comentario: puppy.comentario ?? undefined,
       age: puppy.age ?? 'N/A',
       weight: puppy.weight ?? 'N/A',
     }));
@@ -75,54 +77,17 @@ async function FilhotesData({ page }: { page: number }) {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-10 px-2 sm:px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-10 px-2 sm:px-4">
               {displayPuppies.map((puppy, index) => (
-                <Link
+                <div
                   key={puppy.id}
-                  href={`/filhote/${puppy.id}`}
-                  className="group relative bg-white p-4 pb-16 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:rotate-1 rotate-0"
+                  className="transform hover:-translate-y-2 transition-transform duration-500"
                   style={{
                     transform: `rotate(${index % 2 === 0 ? '1deg' : '-1deg'})`,
                   }}
                 >
-                  <div className="relative aspect-4/5 w-full overflow-hidden bg-gray-100 shadow-inner">
-                    <Image
-                      src={puppy.primaryImage || '/placeholder-puppy.jpg'}
-                      alt={puppy.name}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-6 text-center">
-                      <p className="text-white text-sm leading-relaxed mb-6 line-clamp-4 font-medium">
-                        {puppy.description}
-                      </p>
-
-                      <span className="bg-white text-gray-900 px-6 py-2 rounded-full font-bold text-sm uppercase tracking-wide hover:bg-gray-100 transition-colors flex items-center gap-2">
-                        Ver Detalhes
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M5 12h14" />
-                          <path d="m12 5 7 7-7 7" />
-                        </svg>
-                      </span>
-                    </div>
-
-                    <div className="absolute top-3 right-3 bg-blue-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg uppercase tracking-wide z-10">
-                      Entregue
-                    </div>
-                  </div>
-
-                  <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-center">
-                    <div className="text-center">
-                      <h2 className="font-handwriting text-2xl font-bold text-gray-800 group-hover:text-pink-600 transition-colors font-serif">
-                        {puppy.name}
-                      </h2>
-                      <p className="text-xs text-gray-500 font-medium uppercase tracking-widest mt-1">
-                        Chihuahua
-                      </p>
-                    </div>
-                  </div>
-                </Link>
+                  <DeliveredPuppyCard puppy={puppy} />
+                </div>
               ))}
             </div>
 

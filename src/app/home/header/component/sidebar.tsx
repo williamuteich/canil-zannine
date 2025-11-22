@@ -7,7 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
+import logoImage from "@/assets/logo.png";
 
 export function MobileSidebar() {
   const navigationLinks = [
@@ -33,11 +33,11 @@ export function MobileSidebar() {
           <SheetTitle className="sr-only">Menu de navegação do Canil Zannine</SheetTitle>
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-linear-to-br from-pink-100 to-pink-200 flex items-center justify-center shadow-md border border-pink-200">
-              <Image
-                src="/imagens/logo.png"
+              <img
+                src={logoImage.src}
                 alt="Logo"
-                width={48}
-                height={48}
+                width="48"
+                height="48"
                 className="rounded-full"
               />
             </div>

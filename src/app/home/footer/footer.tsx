@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FooterWrapper } from "./footer-wrapper";
 import { FooterVisibility } from "./footer-visibility";
+import logoImage from "@/assets/logo.png";
 
 export function Footer() {
   return (
@@ -22,11 +22,11 @@ export function Footer() {
 
             <div className="lg:col-span-2 flex flex-col justify-center items-center md:block">
               <div className="flex items-center space-x-4 mb-4 justify-center md:justify-start">
-                <Image
-                  src="/imagens/logo.png"
+                <img
+                  src={logoImage.src}
                   alt="Logo"
-                  width={70}
-                  height={70}
+                  width="70"
+                  height="70"
                 />
               </div>
               <p className="text-white/80 text-justify leading-relaxed mb-4 max-w-sm sm:max-w-md lg:max-w-lg">

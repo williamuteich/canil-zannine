@@ -10,6 +10,7 @@ import { randomUUID } from "crypto";
 const puppySchema = z.object({
     name: z.string().min(1, "O título é obrigatório"),
     description: z.string().min(1, "A descrição é obrigatória"),
+    comentario: z.string().optional(),
     price: z.number().min(0, "O preço deve ser um número positivo"),
     age: z.string().optional(),
     weight: z.string().optional(),
@@ -19,7 +20,7 @@ const puppySchema = z.object({
 });
 
 const saveFile = async (file: File) => {
-    const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'filhotes');
+    const UPLOAD_DIR = path.join(process.cwd(), 'src', 'assets', 'filhotes');
     const buffer = await file.arrayBuffer();
 
     const ext = path.extname(file.name);
@@ -130,9 +131,9 @@ export async function POST(request: NextRequest) {
             data: {
                 ...parsedBody,
                 images: {
-                    create: parsedBody.images?.map(filename => ({ url: `/uploads/filhotes/${filename}` })) || [],
+                    create: parsedBody.images?.map(filename => ({ url: `/assets/filhotes/${filename}` })) || [],
                 },
-                primaryImage: `/uploads/filhotes/${parsedBody.primaryImage}`,
+                primaryImage: `/assets/filhotes/${parsedBody.primaryImage}`,
             },
         });
 

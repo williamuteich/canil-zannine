@@ -6,7 +6,7 @@ import { revalidateTag } from "next/cache";
 import { randomUUID } from "crypto";
 
 const saveFile = async (file: File) => {
-  const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'filhotes');
+  const UPLOAD_DIR = path.join(process.cwd(), 'src', 'assets', 'filhotes');
   const buffer = await file.arrayBuffer();
 
   const ext = path.extname(file.name);
@@ -73,6 +73,7 @@ export async function PATCH(
 
     const name = formData.get('name');
     const description = formData.get('description');
+    const comentario = formData.get('comentario');
     const price = formData.get('price');
     const age = formData.get('age');
     const weight = formData.get('weight');
@@ -85,6 +86,7 @@ export async function PATCH(
     const dataToUpdate: any = {};
     if (name) dataToUpdate.name = String(name);
     if (description) dataToUpdate.description = String(description);
+    if (comentario !== null) dataToUpdate.comentario = String(comentario) || null;
     if (price) dataToUpdate.price = Number(price);
     if (age) dataToUpdate.age = String(age);
     if (weight) dataToUpdate.weight = String(weight);
@@ -92,7 +94,7 @@ export async function PATCH(
 
     if (newPrimaryImageFile instanceof File) {
       const savedFileName = await saveFile(newPrimaryImageFile);
-      dataToUpdate.primaryImage = `/uploads/filhotes/${savedFileName}`;
+      dataToUpdate.primaryImage = `/assets/filhotes/${savedFileName}`;
     } else if (primaryImage && primaryImage !== 'undefined' && primaryImage !== 'null') {
       dataToUpdate.primaryImage = String(primaryImage);
     }
@@ -113,7 +115,7 @@ export async function PATCH(
       try {
         const fileName = img.url.split('/').pop();
         if (fileName) {
-          const filePath = path.join(process.cwd(), 'public', 'uploads', 'filhotes', fileName);
+          const filePath = path.join(process.cwd(), 'src', 'assets', 'filhotes', fileName);
           await unlink(filePath);
         }
       } catch (error) {
@@ -132,7 +134,7 @@ export async function PATCH(
         if (img instanceof File) {
           const savedFileName = await saveFile(img);
           imagesToCreate.push({
-            url: `/uploads/filhotes/${savedFileName}`,
+            url: `/assets/filhotes/${savedFileName}`,
             puppyId: id,
           });
         }
@@ -182,7 +184,7 @@ export async function DELETE(
     try {
       const primaryFileName = puppy.primaryImage.split('/').pop();
       if (primaryFileName) {
-        const filePath = path.join(process.cwd(), 'public', 'uploads', 'filhotes', primaryFileName);
+        const filePath = path.join(process.cwd(), 'src', 'assets', 'filhotes', primaryFileName);
         await unlink(filePath);
       }
     } catch (error) {
@@ -193,7 +195,7 @@ export async function DELETE(
       try {
         const fileName = img.url.split('/').pop();
         if (fileName) {
-          const filePath = path.join(process.cwd(), 'public', 'uploads', 'filhotes', fileName);
+          const filePath = path.join(process.cwd(), 'src', 'assets', 'filhotes', fileName);
           await unlink(filePath);
         }
       } catch (error) {

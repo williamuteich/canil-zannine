@@ -1,9 +1,9 @@
 "use client";
-import Image from "next/image";
 import { MobileSidebar } from "./component/sidebar";
 import { HeaderLinks } from "./component/headerLinks";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import logoImage from "@/assets/logo.png";
 
 export function Header() {
   const pathname = usePathname();
@@ -16,11 +16,11 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-gray-50 backdrop-blur-md border-b border-[hsl(333,95%,89%)]/30 shadow-md">
       <div className="max-w-[1400px] mx-auto px-8 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-4">
-          <Image
-            src="/imagens/logo.png"
+          <img
+            src={logoImage.src}
             alt="Logo"
-            width={70}
-            height={70}
+            width="70"
+            height="70"
           />
 
           <div className="flex flex-col">

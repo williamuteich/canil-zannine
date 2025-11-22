@@ -40,6 +40,7 @@ async function FilhotesData({ page }: { page: number }) {
 
     puppies = result.map(puppy => ({
       ...puppy,
+      comentario: puppy.comentario ?? undefined,
       age: puppy.age ?? 'N/A',
       weight: puppy.weight ?? 'N/A',
     }));

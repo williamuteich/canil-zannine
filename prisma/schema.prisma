@@ -28,6 +28,7 @@ model Puppy {
   id          String  @id @default(uuid())
   name        String
   description String
+  comentario  String?
   price       Float
   age         String?
   weight      String?

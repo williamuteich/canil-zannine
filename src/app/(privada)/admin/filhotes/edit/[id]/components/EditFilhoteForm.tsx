@@ -18,6 +18,7 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
   const [loading, setLoading] = useState(false);
   const [nome, setNome] = useState(initialData.name);
   const [descricao, setDescricao] = useState(initialData.description);
+  const [comentario, setComentario] = useState(initialData.comentario || '');
   const [price, setPrice] = useState(initialData.price.toString());
   const [age, setAge] = useState(initialData.age || '');
   const [weight, setWeight] = useState(initialData.weight || '');
@@ -73,12 +74,19 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (status === 'entregue' && !comentario.trim()) {
+      alert('Comentário é obrigatório para filhotes entregues');
+      return;
+    }
+
     setLoading(true);
 
     try {
       const formData = new FormData();
       formData.append('name', nome);
       formData.append('description', descricao);
+      if (comentario) formData.append('comentario', comentario);
       formData.append('price', price);
       if (age) formData.append('age', age);
       if (weight) formData.append('weight', weight);
@@ -225,6 +233,27 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
               <option value="entregue">Entregue</option>
             </select>
           </div>
+
+          {status === 'entregue' && (
+            <div className="space-y-2 bg-blue-50 p-4 rounded-md border border-blue-200">
+              <label htmlFor="comentario" className="block text-sm font-medium text-slate-700">
+                <span className="text-red-500">*</span> Comentário (obrigatório para filhotes entregues)
+              </label>
+              <textarea
+                id="comentario"
+                name="comentario"
+                value={comentario}
+                onChange={(e) => setComentario(e.target.value)}
+                required={status === 'entregue'}
+                rows={3}
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent resize-none"
+                placeholder="Ex: Encontrou um lar maravilhoso com uma família amorosa..."
+              />
+              <p className="text-xs text-slate-500">
+                Este comentário será exibido na página de filhotes entregues
+              </p>
+            </div>
+          )}
 
           {primaryImage && (
             <div className="space-y-2">

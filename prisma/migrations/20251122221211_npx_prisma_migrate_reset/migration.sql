@@ -13,6 +13,7 @@ CREATE TABLE "Puppy" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "comentario" TEXT,
     "price" REAL NOT NULL,
     "age" TEXT,
     "weight" TEXT,

@@ -94,6 +94,7 @@ export interface Puppy {
   name: string;
   slug?: string;
   description: string;
+  comentario?: string;
   price: number;
   age?: string;
   weight?: string;
@@ -156,6 +157,7 @@ export interface PuppyData {
   id: string;
   name: string;
   description: string;
+  comentario?: string;
   price: number;
   age?: string;
   weight?: string;
