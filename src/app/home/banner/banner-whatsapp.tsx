@@ -1,7 +1,6 @@
-import { getData } from "@/services/get-data.service";
-import type { SocialMedia } from "@/types/models";
 import { cacheLife, cacheTag } from "next/cache";
 import { BannerButton } from "./components/banner-button";
+import prisma from "@/lib/db";
 
 async function BannerWhatsApp() {
   'use cache'
@@ -9,7 +8,10 @@ async function BannerWhatsApp() {
   cacheLife('days')
 
   try {
-    const socialMedia = await getData<SocialMedia[]>("/api/redes-sociais") || [];
+    const socialMedia = await prisma.socialMedia.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+
     const whatsapp = socialMedia.find(sm => sm.plataform.toLowerCase() === 'whatsapp' && sm.status);
 
     if (whatsapp?.value) {

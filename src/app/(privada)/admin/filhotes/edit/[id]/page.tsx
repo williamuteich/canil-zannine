@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { getData } from "@/services/get-data.service";
 import { PuppyData } from "@/types/models";
 import EditFilhoteForm from "./components/EditFilhoteForm";
+import prisma from "@/lib/db";
 
 export async function generateStaticParams() {
   return [{ id: '_' }];
@@ -22,7 +22,18 @@ async function EditFilhoteData({ params }: EditFilhotePageProps) {
   let puppyData: PuppyData | null = null;
 
   try {
-    puppyData = await getData<PuppyData>(`/api/filhote/${id}`);
+    const result = await prisma.puppy.findUnique({
+      where: { id },
+      include: { images: true }
+    });
+
+    if (result) {
+      puppyData = {
+        ...result,
+        age: result.age ?? undefined,
+        weight: result.weight ?? undefined,
+      };
+    }
   } catch (error) {
     console.error('Erro ao carregar filhote:', error);
   }

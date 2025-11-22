@@ -1,9 +1,10 @@
-import { Puppy, PaginatedResponse } from "@/types/models";
+import { Puppy } from "@/types/models";
 import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
 import { cacheLife, cacheTag } from "next/cache";
 import { PaginationDemo } from "@/app/(privada)/components/pagination";
+import prisma from "@/lib/db";
 
 interface NossosFilhotesPageProps {
   searchParams: Promise<{ page?: string }>;
@@ -15,6 +16,7 @@ async function FilhotesData({ page }: { page: number }) {
   cacheLife('hours');
 
   const limit = 12;
+  const skip = (page - 1) * limit;
 
   let puppies: Puppy[] = [];
   let pagination = {
@@ -25,14 +27,30 @@ async function FilhotesData({ page }: { page: number }) {
   };
 
   try {
-    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/filhote?page=${page}&limit=${limit}&status=ativo`);
+    const [result, total] = await Promise.all([
+      prisma.puppy.findMany({
+        where: { status: 'ativo' },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+        include: { images: true }
+      }),
+      prisma.puppy.count({ where: { status: 'ativo' } })
+    ]);
 
-    if (!response.ok) throw new Error('Falha ao buscar filhotes');
+    puppies = result.map(puppy => ({
+      ...puppy,
+      age: puppy.age ?? 'N/A',
+      weight: puppy.weight ?? 'N/A',
+    }));
 
-    const result: PaginatedResponse<Puppy> = await response.json();
-    puppies = result.data || [];
-    pagination = result.pagination || pagination;
+    const totalPages = Math.ceil(total / limit);
+    pagination = {
+      page,
+      limit,
+      total,
+      totalPages,
+    };
   } catch (error) {
     console.error("Erro ao buscar filhotes:", error);
   }

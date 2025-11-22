@@ -1,9 +1,9 @@
 import { AddButton } from "../../../components/addButton";
-import { getData } from "@/services/get-data.service";
 import type { SocialMedia } from "@/types/models";
 import { RedesSociaisTable } from "./RedesSociaisTable";
 import { cacheLife, cacheTag } from "next/cache";
 import { createSocialMedia } from "@/app/actions/social-media";
+import prisma from "@/lib/db";
 
 export async function RedesSociaisContent() {
   "use cache";
@@ -12,10 +12,20 @@ export async function RedesSociaisContent() {
 
   let socialMedia: SocialMedia[] = [];
 
-  socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");
+  try {
+    const result = await prisma.socialMedia.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
 
-  if (!socialMedia) {
-    socialMedia = [];
+    socialMedia = result.map(sm => ({
+      ...sm,
+      link: sm.link ?? undefined,
+      value: sm.value ?? undefined,
+      createdAt: sm.createdAt.toISOString(),
+      updatedAt: sm.updatedAt.toISOString(),
+    }));
+  } catch (error) {
+    console.error('Erro ao buscar redes sociais:', error);
   }
 
   return (

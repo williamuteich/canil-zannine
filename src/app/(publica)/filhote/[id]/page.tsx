@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { ImageGallery } from "../components/ImageGallery";
 import { PuppyInfoPanel } from "../components/PuppyInfoPanel";
-import { getData } from "@/services/get-data.service";
 import { Puppy, SocialMedia } from "@/types/models";
+import prisma from "@/lib/db";
 
 export async function generateStaticParams() {
   return [{ id: '_' }];
@@ -20,10 +20,31 @@ async function FilhoteData({ id }: { id: string }) {
   let socialMedia: SocialMedia[] = [];
 
   try {
-    [puppy, socialMedia] = await Promise.all([
-      getData<Puppy>(`/api/filhote/${id}`),
-      getData<SocialMedia[]>("/api/redes-sociais")
+    const [puppyData, socialMediaData] = await Promise.all([
+      prisma.puppy.findUnique({
+        where: { id },
+        include: { images: true }
+      }),
+      prisma.socialMedia.findMany({
+        orderBy: { createdAt: 'desc' }
+      })
     ]);
+
+    if (puppyData) {
+      puppy = {
+        ...puppyData,
+        age: puppyData.age ?? 'Consultar',
+        weight: puppyData.weight ?? 'Consultar',
+      };
+    }
+
+    socialMedia = socialMediaData.map(sm => ({
+      ...sm,
+      link: sm.link ?? undefined,
+      value: sm.value ?? undefined,
+      createdAt: sm.createdAt.toISOString(),
+      updatedAt: sm.updatedAt.toISOString(),
+    }));
   } catch (error) {
     console.error("Erro ao buscar dados:", error);
   }

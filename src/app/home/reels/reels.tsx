@@ -1,7 +1,6 @@
-import { getData } from "@/services/get-data.service";
-import type { InstaEmbed } from "@/types/models";
 import ShowInstaEmbeds from "./components/showInstaEmbeds";
 import { cacheLife, cacheTag } from "next/cache";
+import prisma from "@/lib/db";
 
 async function getInstaData() {
     'use cache'
@@ -9,7 +8,17 @@ async function getInstaData() {
     cacheLife('hours');
 
     try {
-        const posts = await getData<InstaEmbed[]>('/api/instagram');
+        const result = await prisma.instaEmbed.findMany({
+            where: { status: true },
+            orderBy: { createdAt: 'desc' }
+        });
+
+        const posts = result.map(post => ({
+            ...post,
+            createdAt: post.createdAt.toISOString(),
+            updatedAt: post.updatedAt.toISOString(),
+        }));
+
         return {
             posts: posts || [],
         };

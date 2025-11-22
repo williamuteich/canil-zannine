@@ -1,7 +1,7 @@
 import { Facebook, Instagram, Twitter, Linkedin, MessageCircle, Youtube, Phone, Mail } from "lucide-react";
 import Link from "next/link";
-import { getData } from "@/services/get-data.service";
 import type { SocialMedia } from "@/types/models";
+import prisma from "@/lib/db";
 
 const getSocialIcon = (platform: string) => {
   const icons: Record<string, typeof Facebook> = {
@@ -26,10 +26,20 @@ export async function FooterWrapper() {
 
   let socialMedia: SocialMedia[] = [];
 
-  socialMedia = await getData<SocialMedia[]>("/api/redes-sociais");
+  try {
+    const result = await prisma.socialMedia.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
 
-  if (!socialMedia) {
-    socialMedia = [];
+    socialMedia = result.map(sm => ({
+      ...sm,
+      link: sm.link ?? undefined,
+      value: sm.value ?? undefined,
+      createdAt: sm.createdAt.toISOString(),
+      updatedAt: sm.updatedAt.toISOString(),
+    }));
+  } catch (error) {
+    console.error('Erro ao buscar redes sociais:', error);
   }
 
   const activeSocialMedia = socialMedia.filter(sm => sm.status);
