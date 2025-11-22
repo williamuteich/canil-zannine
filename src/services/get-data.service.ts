@@ -33,8 +33,11 @@ export async function getData<T>(url: string): Promise<T> {
 
     return result;
 
-  } catch (error) {
-    if (process.env.NEXT_PHASE !== 'phase-production-build') {
+  } catch (error: any) {
+    const isBuild = process.env.NEXT_PHASE === 'phase-production-build';
+    const isHangingPromise = error?.digest === 'HANGING_PROMISE_REJECTION';
+
+    if (!isBuild && !isHangingPromise) {
       console.error(`Erro ao buscar ${url}:`, error);
     }
 

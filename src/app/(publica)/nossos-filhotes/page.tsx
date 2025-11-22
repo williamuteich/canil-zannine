@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { cacheLife, cacheTag } from "next/cache";
 import { PaginationDemo } from "@/app/(privada)/components/pagination";
-import { getData } from "@/services/get-data.service";
 
 interface NossosFilhotesPageProps {
   searchParams: Promise<{ page?: string }>;
@@ -26,9 +25,14 @@ async function FilhotesData({ page }: { page: number }) {
   };
 
   try {
-    const result = await getData<PaginatedResponse<Puppy>>(`/api/filhote?page=${page}&limit=${limit}&status=ativo`);
-    puppies = result?.data || [];
-    pagination = result?.pagination || pagination;
+    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/filhote?page=${page}&limit=${limit}&status=ativo`);
+
+    if (!response.ok) throw new Error('Falha ao buscar filhotes');
+
+    const result: PaginatedResponse<Puppy> = await response.json();
+    puppies = result.data || [];
+    pagination = result.pagination || pagination;
   } catch (error) {
     console.error("Erro ao buscar filhotes:", error);
   }

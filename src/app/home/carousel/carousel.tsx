@@ -12,8 +12,8 @@ async function CarouselData() {
   let puppies: Puppy[] = [];
 
   try {
-    const result = await getData<PaginatedResponse<Puppy>>('/api/filhote');
-    const data = result?.data || [];
+    const result = await getData<Puppy[]>('/api/filhote');
+    const data = result || [];
     puppies = data.filter((p: Puppy) => p.status === 'ativo');
   } catch (error) {
     console.error('Erro ao buscar filhotes:', error);

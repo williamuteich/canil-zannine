@@ -98,6 +98,7 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
       });
 
       await patchMedia(`/api/filhote/${id}`, formData);
+      router.refresh();
       router.push('/admin/filhotes');
     } catch (error: any) {
       console.error('Erro ao atualizar filhote:', error);

@@ -49,6 +49,7 @@ export function IconWhatsapp({ onClick }: { onClick: () => void }) {
         className="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl w-14 h-14 md:w-18 md:h-18 flex items-center justify-center"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
+        aria-label="Abrir atendimento via WhatsApp"
         animate={{
           scale: [1, 1.05, 1],
           boxShadow: [
