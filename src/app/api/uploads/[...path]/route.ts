@@ -20,6 +20,7 @@ export async function GET(
       'gif': 'image/gif',
       'webp': 'image/webp',
       'svg': 'image/svg+xml',
+      'avif': 'image/avif',
     }[ext || ''] || 'application/octet-stream';
 
     return new NextResponse(fileBuffer, {
