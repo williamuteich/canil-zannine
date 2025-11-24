@@ -5,14 +5,6 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   images: {
     qualities: [25, 30, 50, 75],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'yycibbwwnwebxxbbkxzc.supabase.co',
-        port: '',
-        pathname: '/storage/v1/object/public/**',
-      },
-    ],
   },
 };
 

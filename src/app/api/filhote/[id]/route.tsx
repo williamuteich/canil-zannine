@@ -1,7 +1,24 @@
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import path from "path";
+import { writeFile, unlink } from "fs/promises";
 import { revalidateTag } from "next/cache";
-import { uploadImage, deleteImage, isSupabaseUrl } from "@/lib/storage";
+import { randomUUID } from "crypto";
+
+const saveFile = async (file: File) => {
+  const UPLOAD_DIR = path.join(process.cwd(), 'cannineImage', 'filhotes');
+  const { mkdir } = await import('fs/promises');
+  await mkdir(UPLOAD_DIR, { recursive: true });
+
+  const buffer = await file.arrayBuffer();
+
+  const ext = path.extname(file.name);
+  const newFileName = `${randomUUID()}${ext}`;
+  const filePath = path.join(UPLOAD_DIR, newFileName);
+
+  await writeFile(filePath, Buffer.from(buffer));
+  return newFileName;
+};
 
 export async function GET(
   request: NextRequest,
@@ -79,12 +96,8 @@ export async function PATCH(
     if (status) dataToUpdate.status = String(status);
 
     if (newPrimaryImageFile instanceof File) {
-      if (puppy.primaryImage && isSupabaseUrl(puppy.primaryImage)) {
-        await deleteImage(puppy.primaryImage);
-      }
-      // Upload da nova imagem
-      const url = await uploadImage(newPrimaryImageFile, 'filhotes');
-      dataToUpdate.primaryImage = url;
+      const savedFileName = await saveFile(newPrimaryImageFile);
+      dataToUpdate.primaryImage = `/api/uploads/filhotes/${savedFileName}`;
     } else if (primaryImage && primaryImage !== 'undefined' && primaryImage !== 'null') {
       dataToUpdate.primaryImage = String(primaryImage);
     }
@@ -103,11 +116,13 @@ export async function PATCH(
 
     for (const img of imagesToDelete) {
       try {
-        if (isSupabaseUrl(img.url)) {
-          await deleteImage(img.url);
+        const fileName = img.url.split('/').pop();
+        if (fileName) {
+          const filePath = path.join(process.cwd(), 'cannineImage', 'filhotes', fileName);
+          await unlink(filePath);
         }
       } catch (error) {
-        console.error('Erro ao deletar imagem:', error);
+        console.error('Erro ao deletar arquivo:', error);
       }
 
       await prisma.productImage.delete({
@@ -120,9 +135,9 @@ export async function PATCH(
 
       for (const img of newImages) {
         if (img instanceof File) {
-          const url = await uploadImage(img, 'filhotes');
+          const savedFileName = await saveFile(img);
           imagesToCreate.push({
-            url,
+            url: `/api/uploads/filhotes/${savedFileName}`,
             puppyId: id,
           });
         }
@@ -170,8 +185,10 @@ export async function DELETE(
     }
 
     try {
-      if (puppy.primaryImage && isSupabaseUrl(puppy.primaryImage)) {
-        await deleteImage(puppy.primaryImage);
+      const primaryFileName = puppy.primaryImage.split('/').pop();
+      if (primaryFileName) {
+        const filePath = path.join(process.cwd(), 'cannineImage', 'filhotes', primaryFileName);
+        await unlink(filePath);
       }
     } catch (error) {
       console.error('Erro ao deletar imagem principal:', error);
@@ -179,8 +196,10 @@ export async function DELETE(
 
     for (const img of puppy.images) {
       try {
-        if (isSupabaseUrl(img.url)) {
-          await deleteImage(img.url);
+        const fileName = img.url.split('/').pop();
+        if (fileName) {
+          const filePath = path.join(process.cwd(), 'cannineImage', 'filhotes', fileName);
+          await unlink(filePath);
         }
       } catch (error) {
         console.error('Erro ao deletar imagem da galeria:', error);

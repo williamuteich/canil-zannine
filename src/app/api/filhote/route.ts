@@ -2,8 +2,10 @@ import { z } from "zod";
 import { unauthorizedResponse, verifyAuth } from "@/lib/auth-utils";
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import path from "path";
+import { writeFile } from "fs/promises";
 import { revalidateTag } from "next/cache";
-import { uploadImage } from "@/lib/storage";
+import { randomUUID } from "crypto";
 
 const puppySchema = z.object({
     name: z.string().min(1, "O título é obrigatório"),
@@ -16,6 +18,22 @@ const puppySchema = z.object({
     primaryImage: z.string().min(1, "A imagem principal é obrigatória"),
     images: z.array(z.string().min(1, "A URL da imagem é obrigatória")).optional(),
 });
+
+const saveFile = async (file: File) => {
+    const UPLOAD_DIR = path.join(process.cwd(), 'cannineImage', 'filhotes');
+
+    const { mkdir } = await import('fs/promises');
+    await mkdir(UPLOAD_DIR, { recursive: true });
+
+    const buffer = await file.arrayBuffer();
+
+    const ext = path.extname(file.name);
+    const newFileName = `${randomUUID()}${ext}`;
+    const filePath = path.join(UPLOAD_DIR, newFileName);
+
+    await writeFile(filePath, Buffer.from(buffer));
+    return newFileName;
+};
 
 export async function GET(request: NextRequest) {
     try {
@@ -84,21 +102,20 @@ export async function POST(request: NextRequest) {
         const primaryImage = formData.get('primaryImage')
         const images = formData.getAll('images')
 
-        // Upload da imagem principal
-        let primaryImageUrl = '';
+        let primaryImageName = '';
         if (primaryImage instanceof File) {
-            primaryImageUrl = await uploadImage(primaryImage, 'filhotes');
+            primaryImageName = await saveFile(primaryImage);
         } else {
-            primaryImageUrl = String(primaryImage);
+            primaryImageName = String(primaryImage);
         }
 
-        const imagesUrls: string[] = [];
+        const imagesNames: string[] = [];
         for (const img of images) {
             if (img instanceof File) {
-                const url = await uploadImage(img, 'filhotes');
-                imagesUrls.push(url);
+                const savedName = await saveFile(img);
+                imagesNames.push(savedName);
             } else {
-                imagesUrls.push(String(img));
+                imagesNames.push(String(img));
             }
         }
 
@@ -108,8 +125,8 @@ export async function POST(request: NextRequest) {
             price,
             age: age ? String(age) : undefined,
             weight: weight ? String(weight) : undefined,
-            primaryImage: primaryImageUrl,
-            images: imagesUrls
+            primaryImage: primaryImageName,
+            images: imagesNames
         }
 
         const parsedBody = puppySchema.parse(rawData);
@@ -118,8 +135,9 @@ export async function POST(request: NextRequest) {
             data: {
                 ...parsedBody,
                 images: {
-                    create: parsedBody.images?.map((url: string) => ({ url })) || [],
+                    create: parsedBody.images?.map(filename => ({ url: `/api/uploads/filhotes/${filename}` })) || [],
                 },
+                primaryImage: `/api/uploads/filhotes/${parsedBody.primaryImage}`,
             },
         });
 

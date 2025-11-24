@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     const { path } = await params;
-    const filePath = join(process.cwd(), 'src', 'assets', ...path);
+    const filePath = join(process.cwd(), 'cannineImage', ...path);
 
     const fileBuffer = await readFile(filePath);
 
@@ -19,13 +19,16 @@ export async function GET(
       'png': 'image/png',
       'gif': 'image/gif',
       'webp': 'image/webp',
+      'svg': 'image/svg+xml',
     }[ext || ''] || 'application/octet-stream';
 
     return new NextResponse(fileBuffer, {
       status: 200,
       headers: {
         'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
       },
     });
   } catch (error) {
