@@ -10,6 +10,8 @@ const publicRoutes = [
   { path: "/politica-de-cookies", type: "next" },
   { path: "/politica-de-privacidade", type: "next" },
   { path: "/nossos-filhotes", type: "next" },
+  { path: "/recuperar-senha", type: "next" },
+  { path: "/redefinir-senha", type: "next" },
 ] as const;
 
 const dynamicPublicRoutes = [
