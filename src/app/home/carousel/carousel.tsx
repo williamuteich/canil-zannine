@@ -1,12 +1,8 @@
 import { Suspense } from "react";
 import { PuppiesCarouselUI } from "./carousel-ui";
 import prisma from "@/lib/db";
-import { cacheLife, cacheTag } from "next/cache";
 
 async function CarouselData() {
-  'use cache'
-  cacheTag('filhotes');
-  cacheLife('hours');
 
   try {
     const result = await prisma.puppy.findMany({

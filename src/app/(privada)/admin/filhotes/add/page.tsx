@@ -10,6 +10,7 @@ import Image from 'next/image';
 export default function AdicionarFilhote() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
     const [price, setPrice] = useState('');
@@ -17,6 +18,8 @@ export default function AdicionarFilhote() {
     const [weight, setWeight] = useState('');
     const [imagens, setImagens] = useState<File[]>([]);
     const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 10MB
 
     useEffect(() => {
         setNome('');
@@ -27,10 +30,20 @@ export default function AdicionarFilhote() {
         setImagens([]);
         setPreviewUrls([]);
         setLoading(false);
+        setError('');
     }, []);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(event.target.files || []);
+        setError('');
+
+        const invalidFiles = files.filter(file => file.size > MAX_FILE_SIZE);
+        if (invalidFiles.length > 0) {
+            setError(`Algumas imagens excedem o limite de 5MB: ${invalidFiles.map(f => f.name).join(', ')}`);
+            event.target.value = '';
+            return;
+        }
+
         setImagens(files);
 
         const urls = files.map(file => URL.createObjectURL(file));
@@ -53,6 +66,31 @@ export default function AdicionarFilhote() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setLoading(true);
+        setError('');
+
+        if (!nome.trim()) {
+            setError('O nome do filhote é obrigatório');
+            setLoading(false);
+            return;
+        }
+
+        if (!descricao.trim()) {
+            setError('A descrição é obrigatória');
+            setLoading(false);
+            return;
+        }
+
+        if (!price || Number(price) <= 0) {
+            setError('O preço deve ser maior que zero');
+            setLoading(false);
+            return;
+        }
+
+        if (imagens.length === 0) {
+            setError('É necessário adicionar pelo menos uma imagem');
+            setLoading(false);
+            return;
+        }
 
         const formData = new FormData();
         formData.append('name', nome);
@@ -73,7 +111,11 @@ export default function AdicionarFilhote() {
             await createFilhote(formData);
             router.push('/admin/filhotes');
         } catch (error: any) {
-            console.error('Erro ao adicionar filhote:', error);
+            if (error.message?.includes('Body exceeded') || error.digest?.includes('Body exceeded')) {
+                setError('O tamanho total das imagens excede o limite permitido pelo servidor. Tente enviar menos imagens ou imagens menores (máx 5MB cada).');
+            } else {
+                setError(error.message || 'Erro ao adicionar filhote. Por favor, tente novamente.');
+            }
         } finally {
             setLoading(false);
         }
@@ -87,6 +129,12 @@ export default function AdicionarFilhote() {
                     Preencha os dados do novo filhote para cadastrá-lo no sistema.
                 </p>
             </div>
+
+            {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <p className="text-sm text-red-600">{error}</p>
+                </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 space-y-6">
@@ -187,6 +235,7 @@ export default function AdicionarFilhote() {
                                     <p className="mb-2 text-sm text-slate-500">
                                         <span className="font-semibold">Clique para fazer upload</span> ou arraste as imagens
                                     </p>
+                                    <p className="text-xs text-slate-500">Máximo 10MB por imagem</p>
                                     <p className="text-xs text-slate-500">A primeira imagem será a principal</p>
                                 </div>
                                 <input

@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
             },
         });
 
-        revalidateTag('filhotes', 'max');
+        revalidateTag('filhotes', 'hours');
 
         return NextResponse.json(
             {

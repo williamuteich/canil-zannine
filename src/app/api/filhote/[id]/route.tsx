@@ -150,7 +150,7 @@ export async function PATCH(
       }
     }
 
-    revalidateTag('filhotes', 'max');
+    revalidateTag('filhotes', 'hours');
 
     return NextResponse.json({
       message: "Filhote atualizado com sucesso",
@@ -210,7 +210,7 @@ export async function DELETE(
       where: { id },
     });
 
-    revalidateTag('filhotes', 'max');
+    revalidateTag('filhotes', 'hours');
 
     return NextResponse.json({
       message: "Filhote deletado com sucesso",

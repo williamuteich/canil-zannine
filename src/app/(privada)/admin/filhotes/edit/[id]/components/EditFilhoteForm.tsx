@@ -16,6 +16,7 @@ interface EditFilhoteFormProps {
 export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [nome, setNome] = useState(initialData.name);
   const [descricao, setDescricao] = useState(initialData.description);
   const [comentario, setComentario] = useState(initialData.comentario || '');
@@ -30,6 +31,8 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
   const [newPrimaryImage, setNewPrimaryImage] = useState<File | null>(null);
   const [newPrimaryPreview, setNewPrimaryPreview] = useState<string>('');
 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 10MB
+
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '');
     const numericValue = Number(value) / 100;
@@ -38,6 +41,16 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
 
   const handleNewImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
+    setError('');
+
+    const invalidFiles = files.filter(file => file.size > MAX_FILE_SIZE);
+    if (invalidFiles.length > 0) {
+      console.log("Validação falhou: arquivos maiores que 5MB detectados", invalidFiles.map(f => f.name));
+      setError(`Algumas imagens excedem o limite de 5MB: ${invalidFiles.map(f => f.name).join(', ')}`);
+      event.target.value = '';
+      return;
+    }
+
     setNewImages(prev => [...prev, ...files]);
 
     const urls = files.map(file => URL.createObjectURL(file));
@@ -62,6 +75,15 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
   const handlePrimaryImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setError('');
+
+      if (file.size > MAX_FILE_SIZE) {
+        console.log("Validação falhou: imagem principal maior que 5MB", file.name);
+        setError(`A imagem ${file.name} excede o limite de 5MB`);
+        event.target.value = '';
+        return;
+      }
+
       setNewPrimaryImage(file);
       setNewPrimaryPreview(URL.createObjectURL(file));
     }
@@ -74,9 +96,25 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setError('');
+
+    if (!nome.trim()) {
+      setError('O nome do filhote é obrigatório');
+      return;
+    }
+
+    if (!descricao.trim()) {
+      setError('A descrição é obrigatória');
+      return;
+    }
+
+    if (!price || Number(price) <= 0) {
+      setError('O preço deve ser maior que zero');
+      return;
+    }
 
     if (status === 'entregue' && !comentario.trim()) {
-      alert('Comentário é obrigatório para filhotes entregues');
+      setError('Comentário é obrigatório para filhotes entregues');
       return;
     }
 
@@ -110,7 +148,12 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
       router.push('/admin/filhotes');
     } catch (error: any) {
       console.error('Erro ao atualizar filhote:', error);
-      alert('Erro ao atualizar filhote');
+      // Tenta identificar erro de limite de tamanho
+      if (error.message?.includes('Body exceeded') || error.digest?.includes('Body exceeded')) {
+        setError('O tamanho total das imagens excede o limite permitido pelo servidor. Tente enviar menos imagens ou imagens menores (máx 5MB cada).');
+      } else {
+        setError(error.message || 'Erro ao atualizar filhote. Por favor, tente novamente.');
+      }
     } finally {
       setLoading(false);
     }
@@ -129,6 +172,12 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
           Atualize as informações do filhote.
         </p>
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-sm text-red-600">{error}</p>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 space-y-6">
@@ -342,6 +391,7 @@ export default function EditFilhoteForm({ initialData, id }: EditFilhoteFormProp
                   <p className="mb-2 text-sm text-slate-500">
                     <span className="font-semibold">Clique para fazer upload</span> ou arraste as imagens
                   </p>
+                  <p className="text-xs text-slate-500">Máximo 5MB por imagem</p>
                   <p className="text-xs text-slate-500">Adicione quantas imagens quiser</p>
                 </div>
                 <input

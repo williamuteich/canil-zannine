@@ -1,7 +1,7 @@
 'use server'
 
 import { cookies } from 'next/headers';
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 
 export async function createFilhote(formData: FormData) {
   try {
@@ -18,13 +18,24 @@ export async function createFilhote(formData: FormData) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to create filhote");
+      let errorMessage = "Failed to create filhote";
+
+      if (errorData.error) {
+        if (Array.isArray(errorData.error)) {
+          errorMessage = errorData.error.map((e: any) => `${e.path}: ${e.message}`).join(', ');
+        } else {
+          errorMessage = typeof errorData.error === 'string' ? errorData.error : JSON.stringify(errorData.error);
+        }
+      }
+
+      throw new Error(errorMessage);
     }
 
     const result = await response.json();
 
-    revalidateTag('filhotes', 'max');
+    updateTag('filhotes');
     revalidatePath("/admin/filhotes");
+    revalidatePath("/");
 
     return { success: true, data: result.data };
   } catch (error: any) {
@@ -48,11 +59,22 @@ export async function updateFilhote(id: string, formData: FormData) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to update filhote");
+      let errorMessage = "Failed to update filhote";
+
+      if (errorData.error) {
+        if (Array.isArray(errorData.error)) {
+          errorMessage = errorData.error.map((e: any) => `${e.path}: ${e.message}`).join(', ');
+        } else {
+          errorMessage = typeof errorData.error === 'string' ? errorData.error : JSON.stringify(errorData.error);
+        }
+      }
+
+      throw new Error(errorMessage);
     }
 
-    revalidateTag('filhotes', 'max');
+    updateTag('filhotes');
     revalidatePath("/admin/filhotes");
+    revalidatePath("/");
 
     return { success: true };
   } catch (error: any) {
@@ -78,8 +100,9 @@ export async function deleteFilhote(id: string) {
       throw new Error(errorData.error || "Failed to delete filhote");
     }
 
-    revalidateTag('filhotes', 'max');
+    updateTag('filhotes');
     revalidatePath("/admin/filhotes");
+    revalidatePath("/");
 
     return { success: true };
   } catch (error: any) {
