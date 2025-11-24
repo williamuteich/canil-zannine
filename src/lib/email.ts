@@ -16,7 +16,7 @@ export async function sendPasswordResetEmail(
   email: string,
   resetToken: string
 ) {
-  const resetUrl = `${process.env.NEXTAUTH_URL}/redefinir-senha?token=${resetToken}`;
+  const resetUrl = `${process.env.NEXTAUTH_URL}/redefinir-senha/${resetToken}`;
 
   const htmlContent = `
     <!DOCTYPE html>

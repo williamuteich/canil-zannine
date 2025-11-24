@@ -11,11 +11,11 @@ const publicRoutes = [
   { path: "/politica-de-privacidade", type: "next" },
   { path: "/nossos-filhotes", type: "next" },
   { path: "/recuperar-senha", type: "next" },
-  { path: "/redefinir-senha", type: "next" },
 ] as const;
 
 const dynamicPublicRoutes = [
   { base: "/filhote", type: "next" },
+  { base: "/redefinir-senha", type: "next" },
 ] as const;
 
 export async function proxy(request: NextRequest) {

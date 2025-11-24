@@ -169,3 +169,7 @@ export interface PuppyData {
 export interface BannerContentProps {
   whatsappLink?: string;
 }
+
+export interface PageProps {
+  params: Promise<{ token: string }>;
+}

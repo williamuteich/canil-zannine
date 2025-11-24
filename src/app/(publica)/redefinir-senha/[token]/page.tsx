@@ -3,21 +3,27 @@ import { redirect } from "next/navigation";
 import { Header } from "@/app/home/header/header";
 import prisma from "@/lib/db";
 import { hashToken } from "@/lib/crypto";
-import RedefinirSenhaClient from "./RedefinirSenhaClient";
+import RedefinirSenhaClient from "./components/RedefinirSenhaClient";
+import { connection } from "next/server";
+import { PageProps } from "@/types/models";
 
-interface PageProps {
-  searchParams: Promise<{ token?: string }>;
+export async function generateStaticParams() {
+  return [{ token: '_' }];
 }
 
-async function RedefinirSenhaData({ searchParams }: { searchParams: Promise<{ token?: string }> }) {
-  const params = await searchParams;
-  const token = params.token;
+async function RedefinirSenhaData({ params }: PageProps) {
+  const { token: rawToken } = await params;
 
-  if (!token) {
+  if (rawToken === '_') {
     redirect("/login");
   }
 
+  const token = decodeURIComponent(rawToken);
+
   const hashedToken = hashToken(token);
+
+  await connection();
+
   const user = await prisma.user.findFirst({
     where: {
       resetToken: hashedToken,
@@ -74,10 +80,10 @@ function LoadingSkeleton() {
   );
 }
 
-export default function RedefinirSenha({ searchParams }: PageProps) {
+export default function RedefinirSenha({ params }: PageProps) {
   return (
     <Suspense fallback={<LoadingSkeleton />}>
-      <RedefinirSenhaData searchParams={searchParams} />
+      <RedefinirSenhaData params={params} />
     </Suspense>
   );
 }
