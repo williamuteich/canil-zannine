@@ -43,8 +43,8 @@ export function DeliveredPuppyCard({ puppy }: DeliveredPuppyCardProps) {
 
             {allImages.length > 1 && (
               <>
-                <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 border-none h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity z-20" />
-                <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 border-none h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity z-20" />
+                <CarouselPrevious className="absolute cursor-pointer left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 border-none h-8 w-8 z-20" />
+                <CarouselNext className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 border-none h-8 w-8 z-20" />
               </>
             )}
           </Carousel>
@@ -55,7 +55,7 @@ export function DeliveredPuppyCard({ puppy }: DeliveredPuppyCardProps) {
             </p>
           </div>
 
-          <div className="absolute top-3 right-3 bg-blue-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg uppercase tracking-wide z-10 pointer-events-none">
+          <div className="absolute top-3 right-3 bg-blue-700 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg uppercase tracking-wide z-10 pointer-events-none">
             Entregue
           </div>
         </div>

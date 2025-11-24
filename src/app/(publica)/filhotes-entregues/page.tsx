@@ -4,6 +4,16 @@ import { cacheLife, cacheTag } from "next/cache";
 import { PaginationDemo } from "@/app/(privada)/components/pagination";
 import prisma from "@/lib/db";
 import { DeliveredPuppyCard } from "./components/DeliveredPuppyCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Filhotes Entregues",
+  description: "Veja os filhotes do Canil Zannine que já encontraram seus lares amorosos. Histórias felizes de nossos Chihuahuas com suas novas famílias.",
+  openGraph: {
+    title: "Filhotes Entregues | Canil Zannine",
+    description: "Veja os filhotes do Canil Zannine que já encontraram seus lares amorosos.",
+  }
+};
 
 interface FilhotesEntreguesPageProps {
   searchParams: Promise<{ page?: string }>;

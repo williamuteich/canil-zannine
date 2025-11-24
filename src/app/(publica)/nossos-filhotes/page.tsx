@@ -5,6 +5,16 @@ import { Suspense } from "react";
 import { cacheLife, cacheTag } from "next/cache";
 import { PaginationDemo } from "@/app/(privada)/components/pagination";
 import prisma from "@/lib/db";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nossos Filhotes",
+  description: "Conheça nossos filhotes de Chihuahua disponíveis. Criados com amor, saúde e excelente temperamento. Encontre seu novo companheiro aqui.",
+  openGraph: {
+    title: "Nossos Filhotes | Canil Zannine",
+    description: "Conheça nossos filhotes de Chihuahua disponíveis. Criados com amor, saúde e excelente temperamento.",
+  }
+};
 
 interface NossosFilhotesPageProps {
   searchParams: Promise<{ page?: string }>;

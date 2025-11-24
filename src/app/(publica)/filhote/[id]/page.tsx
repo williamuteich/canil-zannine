@@ -6,8 +6,57 @@ import { PuppyInfoPanel } from "../components/PuppyInfoPanel";
 import { Puppy, SocialMedia } from "@/types/models";
 import prisma from "@/lib/db";
 
+import { Metadata } from "next";
+
 export async function generateStaticParams() {
   return [{ id: '_' }];
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+
+  if (id === '_') {
+    return {
+      title: 'Filhote não encontrado',
+    };
+  }
+
+  const puppy = await prisma.puppy.findUnique({
+    where: { id },
+    include: { images: true }
+  });
+
+  if (!puppy) {
+    return {
+      title: 'Filhote não encontrado',
+      description: 'O filhote que você procura não foi encontrado.',
+    };
+  }
+
+  const title = `${puppy.name} | Canil Zannine`;
+  const description = `Conheça ${puppy.name}, um lindo Chihuahua ${puppy.age ? `de ${puppy.age}` : ''}. ${puppy.description.substring(0, 150)}...`;
+  const images = [puppy.primaryImage, ...(puppy.images?.map(img => img.url) || [])].filter(Boolean) as string[];
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: images.map(url => ({
+        url,
+        width: 800,
+        height: 600,
+        alt: puppy.name,
+      })),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: images.slice(0, 1),
+    },
+  };
 }
 
 async function FilhoteData({ id }: { id: string }) {
