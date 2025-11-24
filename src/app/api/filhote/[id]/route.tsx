@@ -1,21 +1,7 @@
 import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import { writeFile, unlink } from "fs/promises";
 import { revalidateTag } from "next/cache";
-import { randomUUID } from "crypto";
-
-const saveFile = async (file: File) => {
-  const UPLOAD_DIR = path.join(process.cwd(), 'src', 'assets', 'filhotes');
-  const buffer = await file.arrayBuffer();
-
-  const ext = path.extname(file.name);
-  const newFileName = `${randomUUID()}${ext}`;
-  const filePath = path.join(UPLOAD_DIR, newFileName);
-
-  await writeFile(filePath, Buffer.from(buffer));
-  return newFileName;
-};
+import { uploadImage, deleteImage, isSupabaseUrl } from "@/lib/storage";
 
 export async function GET(
   request: NextRequest,
@@ -93,8 +79,12 @@ export async function PATCH(
     if (status) dataToUpdate.status = String(status);
 
     if (newPrimaryImageFile instanceof File) {
-      const savedFileName = await saveFile(newPrimaryImageFile);
-      dataToUpdate.primaryImage = `/assets/filhotes/${savedFileName}`;
+      if (puppy.primaryImage && isSupabaseUrl(puppy.primaryImage)) {
+        await deleteImage(puppy.primaryImage);
+      }
+      // Upload da nova imagem
+      const url = await uploadImage(newPrimaryImageFile, 'filhotes');
+      dataToUpdate.primaryImage = url;
     } else if (primaryImage && primaryImage !== 'undefined' && primaryImage !== 'null') {
       dataToUpdate.primaryImage = String(primaryImage);
     }
@@ -113,13 +103,11 @@ export async function PATCH(
 
     for (const img of imagesToDelete) {
       try {
-        const fileName = img.url.split('/').pop();
-        if (fileName) {
-          const filePath = path.join(process.cwd(), 'src', 'assets', 'filhotes', fileName);
-          await unlink(filePath);
+        if (isSupabaseUrl(img.url)) {
+          await deleteImage(img.url);
         }
       } catch (error) {
-        console.error('Erro ao deletar arquivo:', error);
+        console.error('Erro ao deletar imagem:', error);
       }
 
       await prisma.productImage.delete({
@@ -132,9 +120,9 @@ export async function PATCH(
 
       for (const img of newImages) {
         if (img instanceof File) {
-          const savedFileName = await saveFile(img);
+          const url = await uploadImage(img, 'filhotes');
           imagesToCreate.push({
-            url: `/assets/filhotes/${savedFileName}`,
+            url,
             puppyId: id,
           });
         }
@@ -182,10 +170,8 @@ export async function DELETE(
     }
 
     try {
-      const primaryFileName = puppy.primaryImage.split('/').pop();
-      if (primaryFileName) {
-        const filePath = path.join(process.cwd(), 'src', 'assets', 'filhotes', primaryFileName);
-        await unlink(filePath);
+      if (puppy.primaryImage && isSupabaseUrl(puppy.primaryImage)) {
+        await deleteImage(puppy.primaryImage);
       }
     } catch (error) {
       console.error('Erro ao deletar imagem principal:', error);
@@ -193,10 +179,8 @@ export async function DELETE(
 
     for (const img of puppy.images) {
       try {
-        const fileName = img.url.split('/').pop();
-        if (fileName) {
-          const filePath = path.join(process.cwd(), 'src', 'assets', 'filhotes', fileName);
-          await unlink(filePath);
+        if (isSupabaseUrl(img.url)) {
+          await deleteImage(img.url);
         }
       } catch (error) {
         console.error('Erro ao deletar imagem da galeria:', error);

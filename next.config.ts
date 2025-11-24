@@ -5,19 +5,14 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   images: {
     qualities: [25, 30, 50, 75],
-    unoptimized: true,
-  },
-  async rewrites() {
-    return [
+    remotePatterns: [
       {
-        source: '/assets/:path*',
-        destination: '/api/uploads/:path*',
+        protocol: 'https',
+        hostname: 'yycibbwwnwebxxbbkxzc.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
       },
-      {
-        source: '/imagens/:path*',
-        destination: '/api/imagens/:path*',
-      },
-    ];
+    ],
   },
 };
 

@@ -1,6 +1,4 @@
 import { Puppy } from "@/types/models";
-import Link from "next/link";
-import Image from "next/image";
 import { Suspense } from "react";
 import { cacheLife, cacheTag } from "next/cache";
 import { PaginationDemo } from "@/app/(privada)/components/pagination";
