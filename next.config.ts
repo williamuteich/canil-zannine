@@ -11,6 +11,19 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '10mb',
     },
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Permissions-Policy',
+            value: ''
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -1,8 +1,10 @@
 import { Suspense } from "react";
 import { PuppiesCarouselUI } from "./carousel-ui";
 import prisma from "@/lib/db";
+import { cacheLife, cacheTag } from "next/cache";
 
 async function CarouselData() {
+  'use cache'
 
   try {
     const result = await prisma.puppy.findMany({
@@ -22,12 +24,16 @@ async function CarouselData() {
       comentario: puppy.comentario ?? undefined,
     }));
 
+    cacheTag('filhotes');
+    cacheLife('hours');
+
     return <PuppiesCarouselUI puppies={puppies} />;
   } catch (error) {
     console.error('Erro ao buscar filhotes:', error);
     return null;
   }
 }
+
 
 export function PuppiesCarousel() {
   return (
